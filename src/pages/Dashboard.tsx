@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { Button } from '../components/ui/Button';
-import type { Car as CarType } from '../store/useStore';
+import type { Car as CarType } from '../data/mockCars';
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
