@@ -310,7 +310,7 @@ export const useStore = create<AppState>()(
       login: (email, role = 'user') => {
         set({
           user: {
-            id: `user-${Math.random().toString(36).substring(2, 9)}`,
+            id: crypto.randomUUID(),
             name: email.split('@')[0].toUpperCase(),
             email: email,
             avatar: `https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150`,
@@ -334,7 +334,7 @@ export const useStore = create<AppState>()(
       addBooking: (newBooking) => {
         const booking: Booking = {
           ...newBooking,
-          id: `booking-${Math.random().toString(36).substring(2, 9)}`,
+          id: crypto.randomUUID(),
         };
         set((state) => ({
           bookings: [booking, ...state.bookings]
@@ -349,7 +349,7 @@ export const useStore = create<AppState>()(
       addCar: (carData) => set((state) => {
         const newCar: Car = {
           ...carData,
-          id: `car-${Math.random().toString(36).substring(2, 9)}`,
+          id: crypto.randomUUID(),
           rating: 5.0,
           reviewsCount: 0,
           reviews: [],

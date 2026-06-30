@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Environment, ContactShadows, Sparkles, useGLTF, Stats } from '@react-three/drei';
+import { Environment, ContactShadows, Sparkles, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 // --- GLTF/GLB Car Model ---
@@ -135,7 +135,7 @@ function Splashes() {
 
   useFrame(({ clock }) => {
     if (!meshRef.current) return;
-    meshRef.current.material.opacity = 0.15 + Math.sin(clock.getElapsedTime() * 3) * 0.1;
+    (meshRef.current.material as THREE.PointsMaterial).opacity = 0.15 + Math.sin(clock.getElapsedTime() * 3) * 0.1;
   });
 
   return (

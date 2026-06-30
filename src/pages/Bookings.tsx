@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, CreditCard, User, Mail, Phone, Shield, Check } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { Button } from '../components/ui/Button';
+import { calculateBookingCost, formatPrice } from '../lib/pricing';
 
 const steps = [
   { num: 1, label: 'Review' },
@@ -36,10 +37,7 @@ export const Bookings: React.FC = () => {
   }
 
   const days = Math.max(1, Math.ceil((new Date(returnD).getTime() - new Date(pickup).getTime()) / 86400000));
-  const subtotal = car.price * days;
-  const tripFee = Math.round(subtotal * 0.12);
-  const tax = Math.round(subtotal * 0.08);
-  const total = subtotal + tripFee + tax;
+  const { subtotal, tripFee, tax, total } = calculateBookingCost(car.price, days);
 
   const handleConfirm = () => {
     if (!user) { navigate('/auth'); return; }
@@ -74,7 +72,7 @@ export const Bookings: React.FC = () => {
               <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="bg-white border border-neutral-200/60 shadow-sm p-6 rounded-xl">
                 <h3 className="font-display text-sm font-bold text-neutral-800 uppercase tracking-wider mb-4">Review Your Booking</h3>
                 <div className="flex gap-4 mb-5 pb-4 border-b border-neutral-100">
-                  <img src={car.image} alt={car.name} className="car-img w-20 h-14 object-cover rounded-lg bg-neutral-100" />
+                  <img src={car.image} alt={car.name} className="w-20 h-14 object-cover rounded-lg bg-neutral-100" />
                   <div>
                     <p className="font-display text-xs text-accent-blue uppercase tracking-wider font-bold">{car.brand}</p>
                     <h4 className="font-display text-base font-bold text-neutral-800">{car.name}</h4>
@@ -85,7 +83,7 @@ export const Bookings: React.FC = () => {
                   <div className="flex justify-between"><span className="text-neutral-500">Pickup</span><span className="font-semibold text-neutral-800">{pickup}</span></div>
                   <div className="flex justify-between"><span className="text-neutral-500">Return</span><span className="font-semibold text-neutral-800">{returnD}</span></div>
                   <div className="flex justify-between"><span className="text-neutral-500">Duration</span><span className="font-semibold text-neutral-800">{days} day{days > 1 ? 's' : ''}</span></div>
-                  <div className="flex justify-between"><span className="text-neutral-500">Daily Rate</span><span className="font-semibold text-neutral-800">৳{car.price}</span></div>
+                  <div className="flex justify-between"><span className="text-neutral-500">Daily Rate</span><span className="font-semibold text-neutral-800">{formatPrice(car.price)}</span></div>
                 </div>
                 <Button variant="primary" className="w-full mt-6 rounded-lg" onClick={() => setStep(2)}>Continue</Button>
               </motion.div>
@@ -141,7 +139,7 @@ export const Bookings: React.FC = () => {
                 <div className="flex gap-3 mt-6">
                   <Button variant="ghost" onClick={() => setStep(2)} className="rounded-lg">Back</Button>
                   <Button variant="primary" className="flex-1 rounded-lg" onClick={handleConfirm}>
-                    Confirm — ${total}
+                    Confirm — {formatPrice(total)}
                   </Button>
                 </div>
               </motion.div>
@@ -164,7 +162,7 @@ export const Bookings: React.FC = () => {
             <div className="bg-white border border-neutral-200/60 shadow-sm p-5 rounded-xl sticky top-28">
               <h4 className="font-display text-xs font-bold text-neutral-800 uppercase tracking-wider mb-3">Price Summary</h4>
               <div className="flex gap-3 mb-4 pb-3 border-b border-neutral-100">
-                <img src={car.image} alt={car.name} className="car-img w-14 h-10 object-cover rounded bg-neutral-100" />
+                <img src={car.image} alt={car.name} className="w-14 h-10 object-cover rounded bg-neutral-100" />
                 <div>
                   <p className="font-display text-xs font-bold text-neutral-800">{car.name}</p>
                   <p className="text-[10px] text-neutral-500">{car.brand}</p>
@@ -172,12 +170,12 @@ export const Bookings: React.FC = () => {
               </div>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between text-neutral-500">
-                  <span>৳{car.price} × {days} day{days > 1 ? 's' : ''}</span>
-                  <span className="text-neutral-800 font-semibold">${subtotal}</span>
+                  <span>{formatPrice(car.price)} × {days} day{days > 1 ? 's' : ''}</span>
+                  <span className="text-neutral-800 font-semibold">{formatPrice(subtotal)}</span>
                 </div>
-                <div className="flex justify-between text-neutral-500"><span>Trip fee</span><span className="text-neutral-800 font-semibold">${tripFee}</span></div>
-                <div className="flex justify-between text-neutral-500"><span>Tax</span><span className="text-neutral-800 font-semibold">${tax}</span></div>
-                <div className="border-t border-neutral-100 pt-2 flex justify-between font-display text-sm font-bold text-neutral-900"><span>Total</span><span>${total}</span></div>
+                <div className="flex justify-between text-neutral-500"><span>Trip fee</span><span className="text-neutral-800 font-semibold">{formatPrice(tripFee)}</span></div>
+                <div className="flex justify-between text-neutral-500"><span>Tax</span><span className="text-neutral-800 font-semibold">{formatPrice(tax)}</span></div>
+                <div className="border-t border-neutral-100 pt-2 flex justify-between font-display text-sm font-bold text-neutral-900"><span>Total</span><span>{formatPrice(total)}</span></div>
               </div>
             </div>
           </div>

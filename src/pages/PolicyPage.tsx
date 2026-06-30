@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { useEffect } from 'react';
+import type { LucideIcon } from 'lucide-react';
 import { Shield, FileText, Cookie, RotateCcw, Lock, ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useParams, Link } from 'react-router-dom';
 
-const policies: Record<string, { title: string; icon: React.ElementType; sections: { heading: string; body: string }[] }> = {
+const policies: Record<string, { title: string; icon: LucideIcon; sections: { heading: string; body: string }[] }> = {
   privacy: {
     title: 'Privacy Policy',
     icon: Shield,
@@ -69,11 +70,10 @@ const policies: Record<string, { title: string; icon: React.ElementType; section
 
 export const PolicyPage: React.FC = () => {
   const { policyType } = useParams<{ policyType: string }>();
-  const policy = policies[policyType || ''];
+  const policy = policies[policyType as keyof typeof policies];
 
   useEffect(() => {
     if (policy) document.title = `${policy.title} — AETHER`;
-    window.scrollTo(0, 0);
   }, [policy]);
 
   if (!policy) {

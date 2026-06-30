@@ -1,9 +1,9 @@
-import React from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Star, MapPin, Users, Zap, Disc, Calendar, Shield, Check } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { Button } from '../components/ui/Button';
 import { CarViewer } from '../components/three/CarViewer';
+import { calculateBookingCost, formatPrice } from '../lib/pricing';
 
 export const Details: React.FC = () => {
   const { id } = useParams();
@@ -20,10 +20,7 @@ export const Details: React.FC = () => {
     );
   }
 
-  const subtotal = car.price * 3;
-  const tripFee = Math.round(subtotal * 0.12);
-  const tax = Math.round(subtotal * 0.08);
-  const total = subtotal + tripFee + tax;
+  const { subtotal, tripFee, tax, total } = calculateBookingCost(car.price, 3);
 
   return (
     <div className="pt-24 pb-20 bg-light-bg min-h-screen">
@@ -147,7 +144,7 @@ export const Details: React.FC = () => {
           <div className="lg:col-span-1">
             <div className="bg-white border border-neutral-200/60 shadow-sm p-6 rounded-xl sticky top-28">
               <div className="flex items-baseline gap-1 mb-4">
-                <span className="text-2xl font-bold text-neutral-900 font-display">৳{car.price}</span>
+                <span className="text-2xl font-bold text-neutral-900 font-display">{formatPrice(car.price)}</span>
                 <span className="text-xs text-neutral-500">/ day</span>
               </div>
               <span className="text-xs text-green-600 font-medium flex items-center gap-1 mb-5">
@@ -160,16 +157,16 @@ export const Details: React.FC = () => {
                   <div className="flex gap-2 text-xs text-neutral-600">
                     <span>3-day estimate</span>
                     <span className="text-neutral-300">|</span>
-                    <span className="font-semibold text-neutral-800">${subtotal}</span>
+                    <span className="font-semibold text-neutral-800">{formatPrice(subtotal)}</span>
                   </div>
                 </div>
               </div>
 
               <div className="space-y-2 text-sm border-t border-neutral-100 pt-4 mb-5">
-                <div className="flex justify-between text-neutral-500"><span>Subtotal (3 days)</span><span className="text-neutral-800 font-semibold">${subtotal}</span></div>
-                <div className="flex justify-between text-neutral-500"><span>Trip fee</span><span className="text-neutral-800 font-semibold">${tripFee}</span></div>
-                <div className="flex justify-between text-neutral-500"><span>Tax</span><span className="text-neutral-800 font-semibold">${tax}</span></div>
-                <div className="border-t border-neutral-100 pt-2 flex justify-between font-display text-sm font-bold text-neutral-900"><span>Total</span><span>${total}</span></div>
+                <div className="flex justify-between text-neutral-500"><span>Subtotal (3 days)</span><span className="text-neutral-800 font-semibold">{formatPrice(subtotal)}</span></div>
+                <div className="flex justify-between text-neutral-500"><span>Trip fee</span><span className="text-neutral-800 font-semibold">{formatPrice(tripFee)}</span></div>
+                <div className="flex justify-between text-neutral-500"><span>Tax</span><span className="text-neutral-800 font-semibold">{formatPrice(tax)}</span></div>
+                <div className="border-t border-neutral-100 pt-2 flex justify-between font-display text-sm font-bold text-neutral-900"><span>Total</span><span>{formatPrice(total)}</span></div>
               </div>
 
               <Button variant="primary" className="w-full rounded-lg mb-3" onClick={() => navigate(`/bookings/${car.id}`)}>
@@ -190,7 +187,7 @@ export const Details: React.FC = () => {
               <Link key={c.id} to={`/cars/${c.id}`}>
                 <div className="bg-white border border-neutral-200/60 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
                   <div className="h-36 bg-neutral-100 overflow-hidden">
-                    <img src={c.image} alt={c.name} className="car-img w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={c.image} alt={c.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   </div>
                   <div className="p-4">
                     <p className="font-display text-[9px] text-accent-blue uppercase tracking-widest font-bold mb-0.5">{c.brand}</p>
@@ -200,7 +197,7 @@ export const Details: React.FC = () => {
                         <Star size={11} className="text-accent-amber fill-accent-amber" />
                         <span>{c.rating.toFixed(2)}</span>
                       </div>
-                      <span className="text-sm font-bold text-neutral-800 font-display">${c.price}<span className="text-[10px] text-neutral-500 font-sans font-normal">/d</span></span>
+                      <span className="text-sm font-bold text-neutral-800 font-display">{formatPrice(c.price)}<span className="text-[10px] text-neutral-500 font-sans font-normal">/d</span></span>
                     </div>
                   </div>
                 </div>

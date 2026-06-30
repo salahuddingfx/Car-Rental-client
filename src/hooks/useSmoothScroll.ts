@@ -14,27 +14,22 @@ export const useSmoothScroll = () => {
       touchMultiplier: 1.5,
     });
 
-    // Update ScrollTrigger on scroll
     lenis.on('scroll', () => {
       ScrollTrigger.update();
     });
 
-    // Sync Lenis with GSAP ticker
     const updatePhysics = (time: number) => {
       lenis.raf(time * 1000);
     };
-    
+
     gsap.ticker.add(updatePhysics);
     gsap.ticker.lagSmoothing(0);
 
-    // Add global access to lenis if needed
-    (window as any).lenis = lenis;
+    (window as unknown as { lenis: Lenis }).lenis = lenis;
 
     return () => {
       lenis.destroy();
       gsap.ticker.remove(updatePhysics);
-      delete (window as any).lenis;
     };
   }, []);
 };
-export default useSmoothScroll;

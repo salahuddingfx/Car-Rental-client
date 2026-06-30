@@ -175,7 +175,7 @@ export const Navbar: React.FC = () => {
             {filteredCars.length > 0 ? filteredCars.map(car => (
               <div key={car.id} onClick={() => { navigate(`/cars/${car.id}`); setIsSearchOpen(false); setSearchQuery(''); }}
                 className="flex items-center gap-4 p-3 hover:bg-neutral-50 border border-transparent hover:border-neutral-200 transition-all rounded-lg cursor-pointer mb-2">
-                <img src={car.image} alt={car.name} className="car-img w-16 h-10 object-cover bg-neutral-100 rounded" />
+                <img src={car.image} alt={car.name} className="w-16 h-10 object-cover bg-neutral-100 rounded" />
                 <div className="flex-1"><p className="text-sm text-neutral-800 font-semibold">{car.name}</p><p className="text-[10px] text-neutral-500 uppercase tracking-wider">{car.brand} · {car.category} · {car.location}</p></div>
                 <span className="text-accent-blue font-bold text-sm font-display">৳{car.price}/day</span>
               </div>

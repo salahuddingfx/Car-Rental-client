@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Disc, Zap, Flame, User, Star, Fuel } from 'lucide-react';
+import { Heart, Disc, Zap, Flame, User, Star } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import type { Car } from '../../store/useStore';
 import { Button } from './Button';

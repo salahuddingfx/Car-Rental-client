@@ -1,7 +1,7 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, SlidersHorizontal, X, ChevronDown, Fuel, Zap, Gauge, ArrowUpDown } from 'lucide-react';
+import { Search, SlidersHorizontal, X, ChevronDown, Fuel, Zap } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { CarCard } from '../components/ui/CarCard';
 import { Button } from '../components/ui/Button';
