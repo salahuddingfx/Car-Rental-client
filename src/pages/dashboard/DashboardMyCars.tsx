@@ -30,6 +30,7 @@ export const DashboardMyCars = () => {
     setForm({ name: '', brand: '', category: 'Luxury', price: 0, image: '', fuel: 'Petrol', transmission: 'Automatic', seats: 5, power: '', speed: '', description: '', location: '', features: '' });
     setEditCarId(null);
     setShowAddForm(false);
+    setErrors({});
   };
 
   const validateCarForm = (): FormErrors => {
@@ -163,13 +164,15 @@ export const DashboardMyCars = () => {
                 </div>
                 <div>
                   <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Price/day (৳)</label>
-                  <input required type="number" value={form.price || ''} onChange={e => setForm({ ...form, price: Number(e.target.value) })}
+                  <input type="number" value={form.price || ''} onChange={e => setForm({ ...form, price: Number(e.target.value) })}
                     className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 rounded-lg outline-none focus:border-accent-blue" />
+                  {errors.price && <p className="text-[10px] text-red-500 mt-1">{errors.price}</p>}
                 </div>
                 <div>
                   <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Seats</label>
-                  <input required type="number" value={form.seats} onChange={e => setForm({ ...form, seats: Number(e.target.value) })}
+                  <input type="number" value={form.seats} onChange={e => setForm({ ...form, seats: Number(e.target.value) })}
                     className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 rounded-lg outline-none focus:border-accent-blue" />
+                  {errors.seats && <p className="text-[10px] text-red-500 mt-1">{errors.seats}</p>}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
@@ -209,6 +212,7 @@ export const DashboardMyCars = () => {
                 <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Image URL</label>
                 <input value={form.image} onChange={e => setForm({ ...form, image: e.target.value })}
                   className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 rounded-lg outline-none focus:border-accent-blue" />
+                {errors.image && <p className="text-[10px] text-red-500 mt-1">{errors.image}</p>}
               </div>
               <div>
                 <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Features (comma separated)</label>
