@@ -15,8 +15,8 @@ export const DashboardAnalytics = () => {
           { label: 'Total Bookings', value: `${allBookings.length}`, icon: Calendar, color: 'text-accent-amber' },
           { label: 'Revenue', value: `৳${totalRevenue}`, icon: DollarSign, color: 'text-green-500' },
           { label: 'Hosts', value: '5', icon: Users, color: 'text-purple-500' },
-        ].map((s, i) => (
-          <div key={i} className="bg-white border border-neutral-200/60 shadow-sm p-5 rounded-2xl relative overflow-hidden">
+        ].map((s) => (
+          <div key={s.label} className="bg-white border border-neutral-200/60 shadow-sm p-5 rounded-2xl relative overflow-hidden">
             <p className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1">{s.label}</p>
             <span className="text-xl font-bold text-neutral-900 font-display">{s.value}</span>
             <s.icon size={32} className={`absolute right-4 bottom-3 opacity-10 ${s.color}`} />

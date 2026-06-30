@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { MainLayout } from './components/layout/MainLayout';
 import { Home } from './pages/Home';
 import { ScrollToTop } from './components/ScrollToTop';
+import { IntroLoader } from './components/IntroLoader';
 
 const Listing = lazy(() => import('./pages/Listing').then(m => ({ default: m.Listing })));
 const Details = lazy(() => import('./pages/Details').then(m => ({ default: m.Details })));
@@ -10,6 +11,8 @@ const Bookings = lazy(() => import('./pages/Bookings').then(m => ({ default: m.B
 const Auth = lazy(() => import('./pages/Auth').then(m => ({ default: m.Auth })));
 const Dashboard = lazy(() => import('./pages/Dashboard').then(m => ({ default: m.Dashboard })));
 const PolicyPage = lazy(() => import('./pages/PolicyPage').then(m => ({ default: m.PolicyPage })));
+const About = lazy(() => import('./pages/About').then(m => ({ default: m.About })));
+const Contact = lazy(() => import('./pages/Contact').then(m => ({ default: m.Contact })));
 
 function PageLoader() {
   return (
@@ -25,6 +28,7 @@ function PageLoader() {
 function App() {
   return (
     <BrowserRouter>
+      <IntroLoader />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<MainLayout />}>
@@ -35,6 +39,8 @@ function App() {
           <Route path="auth" element={<Suspense fallback={<PageLoader />}><Auth /></Suspense>} />
           <Route path="dashboard" element={<Suspense fallback={<PageLoader />}><Dashboard /></Suspense>} />
           <Route path="host" element={<Suspense fallback={<PageLoader />}><Dashboard /></Suspense>} />
+          <Route path="about" element={<Suspense fallback={<PageLoader />}><About /></Suspense>} />
+          <Route path="contact" element={<Suspense fallback={<PageLoader />}><Contact /></Suspense>} />
           <Route path=":policyType" element={<Suspense fallback={<PageLoader />}><PolicyPage /></Suspense>} />
           <Route path="*" element={<Home />} />
         </Route>

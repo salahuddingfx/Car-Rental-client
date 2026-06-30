@@ -1,7 +1,8 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Star, MapPin, Users, Zap, Disc, Calendar, Shield, Check } from 'lucide-react';
+import { Star, MapPin, Users, Zap, Disc, Calendar, Shield, Check } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { Button } from '../components/ui/Button';
+import { Breadcrumbs } from '../components/Breadcrumbs';
 import { CarViewer } from '../components/three/CarViewer';
 import { calculateBookingCost, formatPrice } from '../lib/pricing';
 
@@ -25,9 +26,10 @@ export const Details: React.FC = () => {
   return (
     <div className="pt-24 pb-20 bg-light-bg min-h-screen">
       <div className="max-w-7xl mx-auto px-6">
-        <Link to="/cars" className="inline-flex items-center gap-2 text-xs font-semibold text-neutral-500 hover:text-neutral-800 uppercase tracking-wider mb-6 transition-colors">
-          <ArrowLeft size={14} /> Back to Fleet
-        </Link>
+        <Breadcrumbs items={[
+          { label: 'Fleet', href: '/cars' },
+          { label: car.name },
+        ]} />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-14">
           <div className="h-[420px] lg:h-[520px] rounded-xl overflow-hidden border border-neutral-200/60 bg-white shadow-sm">
@@ -60,8 +62,8 @@ export const Details: React.FC = () => {
                 { icon: Disc, label: 'Transmission', value: car.transmission },
                 { icon: Users, label: 'Seats', value: `${car.seats} Seats` },
                 { icon: Shield, label: 'Fuel', value: car.fuel },
-              ].map((f, i) => (
-                <div key={i} className="flex items-center gap-3 p-3 border border-neutral-200 bg-white rounded-lg shadow-sm">
+              ].map((f) => (
+                <div key={f.label} className="flex items-center gap-3 p-3 border border-neutral-200 bg-white rounded-lg shadow-sm">
                   <f.icon size={16} className="text-accent-blue shrink-0" />
                   <div>
                     <p className="text-[10px] text-neutral-400 uppercase tracking-wider font-display font-semibold">{f.label}</p>
@@ -75,8 +77,8 @@ export const Details: React.FC = () => {
               <div>
                 <h3 className="font-display text-xs font-bold text-neutral-800 uppercase tracking-widest mb-2.5">Premium Features</h3>
                 <div className="grid grid-cols-2 gap-2">
-                  {car.features.map((f, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm text-neutral-600">
+                  {car.features.map((f) => (
+                    <div key={f} className="flex items-center gap-2 text-sm text-neutral-600">
                       <Check size={14} className="text-accent-blue shrink-0" />
                       {f}
                     </div>

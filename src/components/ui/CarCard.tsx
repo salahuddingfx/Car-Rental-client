@@ -53,8 +53,8 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
             { icon: car.fuel === 'Electric' ? Zap : Flame, label: car.fuel === 'Electric' ? 'Electric' : car.fuel === 'Petrol' ? 'Petrol' : car.fuel },
             { icon: Disc, label: car.transmission === 'Automatic' ? 'Auto' : 'Manual' },
             { icon: User, label: `${car.seats} seats` },
-          ].map((f, i) => (
-            <div key={i} className="flex flex-col items-center gap-0.5">
+          ].map((f) => (
+            <div key={f.label} className="flex flex-col items-center gap-0.5">
               <f.icon size={13} className={car.fuel === 'Electric' ? 'text-accent-amber' : 'text-neutral-400'} />
               <span className="text-[10px] text-neutral-500 font-medium">{f.label}</span>
             </div>

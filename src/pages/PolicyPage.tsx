@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import type { LucideIcon } from 'lucide-react';
-import { Shield, FileText, Cookie, RotateCcw, Lock, ChevronRight } from 'lucide-react';
+import { Shield, FileText, Cookie, RotateCcw, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useParams, Link } from 'react-router-dom';
+import { Breadcrumbs } from '../components/Breadcrumbs';
 
 const policies: Record<string, { title: string; icon: LucideIcon; sections: { heading: string; body: string }[] }> = {
   privacy: {
@@ -13,7 +14,7 @@ const policies: Record<string, { title: string; icon: LucideIcon; sections: { he
       { heading: 'How We Use Your Information', body: 'Your information is used to process bookings, verify your identity, communicate with you about your reservations, improve our services, personalize your experience, and send marketing communications (with your consent). We may also use aggregated data for analytics and business optimization.' },
       { heading: 'Data Sharing', body: 'We do not sell your personal information. We may share your data with trusted third parties including payment processors, insurance providers, and vehicle owners strictly for booking fulfillment. All third parties are contractually obligated to protect your data.' },
       { heading: 'Data Security', body: 'We implement industry-standard encryption (SSL/TLS), secure payment gateways, and regular security audits to protect your personal information. Access to your data is restricted to authorized personnel only.' },
-      { heading: 'Your Rights', body: 'You have the right to access, correct, or delete your personal data at any time through your account settings. You may also request a copy of your data or withdraw consent for marketing communications. Contact us at privacy@aether.com for any data-related requests.' },
+      { heading: 'Your Rights', body: 'You have the right to access, correct, or delete your personal data at any time through your account settings. You may also request a copy of your data or withdraw consent for marketing communications. Contact us at privacy@apexride.com for any data-related requests.' },
       { heading: 'Cookie Policy', body: 'We use cookies and similar tracking technologies to enhance your browsing experience, analyze site traffic, and understand where our visitors come from. You can control cookie preferences through your browser settings.' },
       { heading: 'Updates to This Policy', body: 'We may update this Privacy Policy periodically. Changes will be posted on this page with an updated effective date. We encourage you to review this policy regularly to stay informed about how we protect your information.' },
     ],
@@ -22,12 +23,12 @@ const policies: Record<string, { title: string; icon: LucideIcon; sections: { he
     title: 'Terms of Service',
     icon: FileText,
     sections: [
-      { heading: 'Acceptance of Terms', body: 'By accessing or using AETHER Portal, you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, you may not use our services. These terms constitute a legally binding agreement between you and AETHER.' },
+      { heading: 'Acceptance of Terms', body: 'By accessing or using Apex Ride, you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, you may not use our services. These terms constitute a legally binding agreement between you and Apex Ride.' },
       { heading: 'Eligibility', body: 'You must be at least 21 years old and hold a valid driving license to rent a vehicle through our platform. You also represent that all information you provide is accurate and complete. We reserve the right to verify your identity and credentials.' },
       { heading: 'Booking and Payments', body: 'All bookings are subject to availability and confirmation. Prices displayed are in BDT and include applicable taxes unless stated otherwise. Full payment or a security deposit may be required at the time of booking. We accept major credit cards, debit cards, and mobile banking.' },
       { heading: 'Cancellation Policy', body: 'Cancellations made 48 hours or more before the pickup time are eligible for a full refund. Cancellations within 48 hours may incur a fee of up to 50% of the booking amount. No-shows will be charged the full booking amount.' },
       { heading: 'User Responsibilities', body: 'You agree to use the vehicles in accordance with all traffic laws and regulations. You are responsible for any traffic violations, tolls, or fines incurred during your rental period. Vehicles must be returned in the same condition as received, with normal wear and tear excepted.' },
-      { heading: 'Liability', body: 'AETHER Portal acts as a marketplace connecting renters with vehicle owners. We are not liable for direct, indirect, incidental, or consequential damages arising from your use of our services, to the fullest extent permitted by law.' },
+      { heading: 'Liability', body: 'Apex Ride acts as a marketplace connecting renters with vehicle owners. We are not liable for direct, indirect, incidental, or consequential damages arising from your use of our services, to the fullest extent permitted by law.' },
       { heading: 'Prohibited Activities', body: 'You may not use our platform for any unlawful purpose, including but not limited to fraud, misrepresentation, unauthorized commercial use, or interfering with the proper functioning of the service.' },
       { heading: 'Termination', body: 'We reserve the right to suspend or terminate your account at our sole discretion for violations of these terms, fraudulent activity, or any conduct that we deem harmful to our community or brand.' },
     ],
@@ -51,7 +52,7 @@ const policies: Record<string, { title: string; icon: LucideIcon; sections: { he
       { heading: 'Processing Time', body: 'Once approved, refunds are processed within 5-10 business days. The refund will be issued to the original payment method used during booking. You will receive a confirmation email once the refund has been initiated.' },
       { heading: 'Partial Refunds', body: 'Partial refunds may be issued in cases where the vehicle is returned early due to mechanical issues on the owner\'s part, or if the vehicle does not match the listed specifications. Each case is evaluated individually.' },
       { heading: 'Non-Refundable Charges', body: 'Service fees, late return fees, additional driver fees, and fuel charges are non-refundable. Any damage costs assessed after the rental period will be charged separately.' },
-      { heading: 'How to Request a Refund', body: 'To request a refund, please contact our support team through the dashboard or email us at support@aether.com with your booking ID and reason for cancellation.' },
+      { heading: 'How to Request a Refund', body: 'To request a refund, please contact our support team through the dashboard or email us at support@apexride.com with your booking ID and reason for cancellation.' },
     ],
   },
   security: {
@@ -63,7 +64,7 @@ const policies: Record<string, { title: string; icon: LucideIcon; sections: { he
       { heading: 'Account Protection', body: 'We recommend using strong, unique passwords and enabling two-factor authentication for your account. You are responsible for maintaining the confidentiality of your login credentials.' },
       { heading: 'Security Monitoring', body: 'Our systems are monitored 24/7 for suspicious activity. We employ intrusion detection systems, regular security audits, and vulnerability assessments to identify and mitigate potential threats.' },
       { heading: 'Incident Response', body: 'In the event of a security breach, we have a comprehensive incident response plan. Affected users will be notified within 72 hours, and we will take immediate steps to contain and resolve the issue.' },
-      { heading: 'Reporting Vulnerabilities', body: 'If you discover a security vulnerability on our platform, please report it immediately to security@aether.com. We take all reports seriously and will respond promptly.' },
+      { heading: 'Reporting Vulnerabilities', body: 'If you discover a security vulnerability on our platform, please report it immediately to security@apexride.com. We take all reports seriously and will respond promptly.' },
     ],
   },
 };
@@ -73,7 +74,7 @@ export const PolicyPage: React.FC = () => {
   const policy = policies[policyType as keyof typeof policies];
 
   useEffect(() => {
-    if (policy) document.title = `${policy.title} — AETHER`;
+    if (policy) document.title = `${policy.title} — Apex Ride`;
   }, [policy]);
 
   if (!policy) {
@@ -93,12 +94,9 @@ export const PolicyPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-light-bg to-white pt-24 pb-16">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-1.5 text-xs text-neutral-400 mb-6 font-display uppercase tracking-widest">
-          <Link to="/" className="hover:text-accent-blue transition-colors">Home</Link>
-          <ChevronRight size={10} />
-          <span className="text-neutral-600 font-semibold">{policy.title}</span>
-        </div>
+        <Breadcrumbs items={[
+          { label: policy.title },
+        ]} />
 
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
@@ -112,7 +110,7 @@ export const PolicyPage: React.FC = () => {
         {/* Sections */}
         <div className="space-y-8">
           {policy.sections.map((section, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}>
+            <motion.div key={section.heading} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}>
               <h2 className="font-display text-lg font-bold text-neutral-900 mb-2">{section.heading}</h2>
               <p className="text-neutral-600 text-sm leading-relaxed">{section.body}</p>
             </motion.div>
@@ -122,8 +120,8 @@ export const PolicyPage: React.FC = () => {
         {/* Footer note */}
         <div className="mt-12 p-5 bg-neutral-50 border border-neutral-200/60 rounded-xl">
           <p className="text-sm text-neutral-600">
-            Have questions about our policies? Contact us at{' '}
-            <a href="mailto:support@aether.com" className="text-accent-blue hover:underline">support@aether.com</a>
+Have questions about our policies? Contact us at{' '}
+             <a href="mailto:support@apexride.com" className="text-accent-blue hover:underline">support@apexride.com</a>
           </p>
         </div>
       </div>

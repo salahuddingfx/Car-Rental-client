@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, CreditCard, User, Mail, Phone, Shield, Check } from 'lucide-react';
+import { CreditCard, User, Mail, Phone, Shield, Check } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { Button } from '../components/ui/Button';
+import { Breadcrumbs } from '../components/Breadcrumbs';
 import { calculateBookingCost, formatPrice } from '../lib/pricing';
 
 const steps = [
@@ -80,9 +81,11 @@ export const Bookings: React.FC = () => {
   return (
     <div className="pt-28 pb-20 bg-light-bg min-h-screen">
       <div className="max-w-4xl mx-auto px-6">
-        <Link to={`/cars/${car.id}`} className="inline-flex items-center gap-2 text-xs font-semibold text-neutral-500 hover:text-neutral-800 uppercase tracking-wider mb-8 transition-colors">
-          <ArrowLeft size={14} /> Back
-        </Link>
+        <Breadcrumbs items={[
+          { label: 'Fleet', href: '/cars' },
+          { label: car.name, href: `/cars/${car.id}` },
+          { label: 'Booking' },
+        ]} />
 
         <div className="flex items-center justify-center gap-0 mb-10">
           {steps.map((s, i) => (
@@ -160,8 +163,8 @@ export const Bookings: React.FC = () => {
                     { label: 'Email', value: email },
                     { label: 'Vehicle', value: `${car.brand} ${car.name}` },
                     { label: 'Duration', value: `${days} day${days > 1 ? 's' : ''}` },
-                  ].map((f, i) => (
-                    <div key={i} className="flex justify-between text-sm">
+                  ].map((f) => (
+                    <div key={f.label} className="flex justify-between text-sm">
                       <span className="text-neutral-500">{f.label}</span>
                       <span className="font-semibold text-neutral-800">{f.value}</span>
                     </div>

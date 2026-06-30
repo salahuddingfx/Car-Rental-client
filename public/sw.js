@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aether-v1';
+const CACHE_NAME = 'apexride-v1';
 const ASSETS = ['/', '/offline.html'];
 
 self.addEventListener('install', (event) => {

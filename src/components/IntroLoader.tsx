@@ -2,25 +2,15 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function IntroLoader() {
-  const [show, setShow] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    const seen = localStorage.getItem('aether-intro-seen');
-    if (seen) return false;
-    return true;
-  });
   const [phase, setPhase] = useState<'enter' | 'exit' | 'gone'>('enter');
 
   useEffect(() => {
-    if (!show) return;
     const t1 = setTimeout(() => setPhase('exit'), 1800);
-    const t2 = setTimeout(() => {
-      setPhase('gone');
-      localStorage.setItem('aether-intro-seen', 'true');
-    }, 2400);
+    const t2 = setTimeout(() => setPhase('gone'), 2400);
     return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, [show]);
+  }, []);
 
-  if (phase === 'gone' || !show) return null;
+  if (phase === 'gone') return null;
 
   return (
     <AnimatePresence>
@@ -42,7 +32,7 @@ export function IntroLoader() {
           >
             <span className="text-white font-display text-2xl font-black">A</span>
           </motion.div>
-          <h1 className="font-display text-4xl font-extrabold text-neutral-900 tracking-tight">AETHER</h1>
+          <h1 className="font-display text-4xl font-extrabold text-neutral-900 tracking-tight">Apex Ride</h1>
           <p className="text-neutral-400 text-sm mt-2 tracking-wider font-display uppercase">Premium Car Rental</p>
           <motion.div
             initial={{ width: 0 }}

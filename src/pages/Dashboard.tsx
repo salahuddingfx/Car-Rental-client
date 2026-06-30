@@ -4,6 +4,7 @@ import {
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { Button } from '../components/ui/Button';
+import { Breadcrumbs } from '../components/Breadcrumbs';
 import { DashboardSidebar } from './dashboard/DashboardSidebar';
 import { DashboardHeader } from './dashboard/DashboardHeader';
 import { DashboardOverview } from './dashboard/DashboardOverview';
@@ -74,6 +75,7 @@ export const Dashboard = () => {
     <div className="min-h-screen bg-gradient-to-b from-light-bg to-white pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <DashboardHeader userRole={userRole} />
+        <Breadcrumbs items={[{ label: 'Dashboard' }]} />
 
         <div className="flex flex-col lg:flex-row gap-8">
           <DashboardSidebar

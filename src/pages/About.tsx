@@ -35,12 +35,12 @@ export const About = () => {
         <Breadcrumbs items={[{ label: 'About' }]} />
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center max-w-3xl mx-auto mb-16">
-          <p className="font-display text-[10px] tracking-[0.25em] text-accent-blue uppercase font-bold mb-4">About AETHER</p>
+          <p className="font-display text-[10px] tracking-[0.25em] text-accent-blue uppercase font-bold mb-4">About Apex Ride</p>
           <h1 className="font-display text-4xl sm:text-5xl font-extrabold text-neutral-900 tracking-tight mb-4">
             Redefining the Car Rental Experience
           </h1>
           <p className="text-neutral-500 text-sm sm:text-base leading-relaxed">
-            AETHER connects discerning drivers with premium vehicles from trusted hosts. 
+            Apex Ride connects discerning drivers with premium vehicles from trusted hosts. 
             We believe every journey deserves a vehicle that matches your standards — whether 
             for business, leisure, or the open road.
           </p>

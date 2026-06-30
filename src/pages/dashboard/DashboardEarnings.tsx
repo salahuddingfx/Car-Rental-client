@@ -15,8 +15,8 @@ export const DashboardEarnings = () => {
           { label: 'Total Earnings', value: `৳${hostEarnings}`, icon: DollarSign, color: 'text-accent-amber' },
           { label: 'Completed Trips', value: `${hostBookings.filter(b => b.status === 'Completed').length}`, icon: Star, color: 'text-green-500' },
           { label: 'Avg. Per Rental', value: hostBookings.length > 0 ? `৳${Math.round(hostEarnings / hostBookings.length)}` : '৳0', icon: BarChart3, color: 'text-accent-blue' },
-        ].map((s, i) => (
-          <div key={i} className="bg-white border border-neutral-200/60 shadow-sm p-5 rounded-2xl relative overflow-hidden">
+        ].map((s) => (
+          <div key={s.label} className="bg-white border border-neutral-200/60 shadow-sm p-5 rounded-2xl relative overflow-hidden">
             <p className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1">{s.label}</p>
             <span className="text-xl font-bold text-neutral-900 font-display">{s.value}</span>
             <s.icon size={32} className={`absolute right-4 bottom-3 opacity-10 ${s.color}`} />

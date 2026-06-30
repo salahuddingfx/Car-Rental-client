@@ -5,6 +5,7 @@ import { Mail, Lock, User, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { Button } from '../components/ui/Button';
 import { CssWave } from '../components/CssWave';
+import { Breadcrumbs } from '../components/Breadcrumbs';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -19,7 +20,7 @@ export const Auth: React.FC = () => {
   const { login } = useStore();
 
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('demo@aether.com');
+  const [email, setEmail] = useState('demo@apexride.com');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [showPw, setShowPw] = useState(false);
@@ -58,14 +59,18 @@ export const Auth: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-light-bg relative overflow-hidden px-6">
       <CssWave />
 
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 w-full max-w-md">
+      <div className="relative z-10 w-full max-w-md">
+        <div className="mb-4">
+          <Breadcrumbs items={[{ label: 'Sign In' }]} />
+        </div>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
         <div className="bg-white/90 backdrop-blur-md border border-neutral-200/60 shadow-sm p-8 rounded-xl">
           <div className="text-center mb-7">
             <h2 className="font-display text-xl font-extrabold uppercase text-neutral-900 mb-1">
               {isLogin ? 'Welcome Back' : 'Create Account'}
             </h2>
             <p className="text-xs text-neutral-500">
-              {isLogin ? 'Access your Aether portal' : 'Join Bangladesh\'s premium car rental'}
+              {isLogin ? 'Access your Apex Ride portal' : 'Join Bangladesh\'s premium car rental'}
             </p>
           </div>
 
@@ -135,6 +140,7 @@ export const Auth: React.FC = () => {
           </div>
         </div>
       </motion.div>
+      </div>
     </div>
   );
 };

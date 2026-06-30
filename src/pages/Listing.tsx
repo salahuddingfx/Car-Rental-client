@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, SlidersHorizontal, X, ChevronDown, Fuel, Zap } from 'lucide-react';
+import { Breadcrumbs } from '../components/Breadcrumbs';
 import { useStore } from '../store/useStore';
 import { CarCard } from '../components/ui/CarCard';
 import { Button } from '../components/ui/Button';
@@ -28,7 +29,9 @@ const sortOptions = [
   { value: 'Name', label: 'Name A-Z' },
 ];
 
-export const Listing: React.FC = () => {
+const PAGE_SIZE = 6;
+
+export const Listing = () => {
   const [searchParams] = useSearchParams();
   const { cars } = useStore();
 
@@ -37,10 +40,11 @@ export const Listing: React.FC = () => {
   const [fuel, setFuel] = useState('All');
   const [sort, setSort] = useState('Price: Low');
   const [priceRange, setPriceRange] = useState(1000);
+  const [page, setPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
 
-  useEffect(() => { document.title = 'Explore Fleet — AETHER' }, []);
+  useEffect(() => { document.title = 'Explore Fleet — Apex Ride' }, []);
 
   const filtered = useMemo(() => {
     let result = [...cars];
@@ -63,6 +67,11 @@ export const Listing: React.FC = () => {
     return result;
   }, [cars, search, category, fuel, sort, priceRange]);
 
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  useEffect(() => { setPage(1); }, [search, category, fuel, sort, priceRange]);
+
   const activeFilters = [
     ...(category !== 'All' ? [{ key: 'category', label: category, onRemove: () => setCategory('All') }] : []),
     ...(fuel !== 'All' ? [{ key: 'fuel', label: fuel, onRemove: () => setFuel('All') }] : []),
@@ -78,8 +87,9 @@ export const Listing: React.FC = () => {
           <div className="absolute bottom-0 left-0 w-[350px] h-[350px] bg-accent-amber/5 rounded-full blur-[100px]" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
+          <Breadcrumbs items={[{ label: 'Fleet' }]} />
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center lg:text-left">
-            <p className="font-display text-[10px] tracking-[0.25em] text-accent-blue uppercase font-bold mb-3">AETHER Fleet Collection</p>
+            <p className="font-display text-[10px] tracking-[0.25em] text-accent-blue uppercase font-bold mb-3">Apex Ride Fleet Collection</p>
             <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-3">Explore Our Fleet</h1>
             <p className="text-neutral-400 text-sm sm:text-base max-w-xl mx-auto lg:mx-0 leading-relaxed">Handpicked luxury, sports, and performance vehicles — each maintained to perfection and ready for your journey.</p>
           </motion.div>
@@ -103,7 +113,7 @@ export const Listing: React.FC = () => {
       </div>
 
       {/* Main content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-6 relative z-10 pb-12">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* ===== FILTER SIDEBAR ===== */}
           <aside className={`lg:w-60 shrink-0 ${showFilters ? 'fixed inset-0 z-40 bg-white p-6 overflow-y-auto lg:relative lg:inset-auto lg:z-auto lg:bg-transparent lg:p-0' : 'hidden lg:block'}`}>
@@ -192,7 +202,11 @@ export const Listing: React.FC = () => {
             <div className="flex items-center justify-between gap-4 mb-6 bg-white border border-neutral-200/60 rounded-2xl px-5 py-3 shadow-sm">
               <div className="flex items-center gap-3">
                 <span className="text-sm text-neutral-600">
-                  <strong className="text-neutral-900">{filtered.length}</strong> vehicles found
+                  {filtered.length > 0 ? (
+                    <>Showing <strong className="text-neutral-900">{(page - 1) * PAGE_SIZE + 1}-{Math.min(page * PAGE_SIZE, filtered.length)}</strong> of <strong className="text-neutral-900">{filtered.length}</strong> vehicles</>
+                  ) : (
+                    <><strong className="text-neutral-900">0</strong> vehicles</>
+                  )}
                 </span>
                 <div className="hidden sm:flex items-center gap-1.5">
                   {activeFilters.map(f => (
@@ -216,7 +230,7 @@ export const Listing: React.FC = () => {
               {filtered.length > 0 ? (
                 <motion.div key="grid" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                   className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                  {filtered.map((car, i) => (
+                  {paginated.map((car, i) => (
                     <motion.div key={car.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.35 }}>
                       <CarCard car={car} />
                     </motion.div>
@@ -235,6 +249,38 @@ export const Listing: React.FC = () => {
                 </motion.div>
               )}
             </AnimatePresence>
+
+            {totalPages > 1 && (
+              <div className="flex items-center justify-center gap-2 mt-8">
+                <button
+                  onClick={() => setPage(p => Math.max(1, p - 1))}
+                  disabled={page === 1}
+                  className="px-3 py-2 text-xs font-semibold rounded-xl border border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
+                >
+                  Previous
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+                  <button
+                    key={p}
+                    onClick={() => setPage(p)}
+                    className={`w-9 h-9 text-xs font-bold rounded-xl transition-all cursor-pointer ${
+                      page === p
+                        ? 'bg-accent-blue text-white shadow-sm shadow-accent-blue/20'
+                        : 'bg-white border border-neutral-200 text-neutral-600 hover:bg-neutral-50'
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ))}
+                <button
+                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                  disabled={page === totalPages}
+                  className="px-3 py-2 text-xs font-semibold rounded-xl border border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
+                >
+                  Next
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

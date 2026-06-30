@@ -20,7 +20,7 @@ export const WhyChooseUsSection: React.FC = () => (
   <section className="relative py-20 border-t border-neutral-200/60 z-10">
     <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
       <div className="space-y-5">
-        <p className="font-display text-[10px] tracking-widest text-accent-blue uppercase font-bold">Why Aether Bangladesh</p>
+        <p className="font-display text-[10px] tracking-widest text-accent-blue uppercase font-bold">Why Apex Ride</p>
         <h2 className="font-display text-3xl md:text-4xl font-extrabold uppercase text-neutral-900 leading-tight">
           Luxury Mobility, Redefined for Bangladesh
         </h2>
@@ -28,8 +28,8 @@ export const WhyChooseUsSection: React.FC = () => (
           We own and maintain every car in our fleet. No middlemen, no surprises. From traffic-savvy chauffeurs in Dhaka to self-drive tours in Cox's Bazar — we deliver a premium experience tailored to Bangladesh.
         </p>
         <div className="space-y-4 pt-2">
-          {features.map((f, i) => (
-            <div key={i} className="flex items-start gap-4">
+          {features.map((f) => (
+            <div key={f.title} className="flex items-start gap-4">
               <div className="p-2.5 bg-white border border-neutral-200 text-accent-blue mt-0.5 rounded-lg shadow-sm shrink-0">
                 <f.icon size={16} />
               </div>

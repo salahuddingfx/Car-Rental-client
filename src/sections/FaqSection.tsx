@@ -25,7 +25,7 @@ export const FaqSection: React.FC = () => {
           {faqs.map((faq, i) => {
             const open = active === i;
             return (
-              <div key={i} className={`border border-neutral-200 bg-white transition-colors overflow-hidden rounded-xl shadow-sm ${open ? 'border-accent-amber/30' : 'hover:bg-amber-50/20'}`}>
+              <div key={faq.q} className={`border border-neutral-200 bg-white transition-colors overflow-hidden rounded-xl shadow-sm ${open ? 'border-accent-amber/30' : 'hover:bg-amber-50/20'}`}>
                 <button onClick={() => setActive(open ? null : i)}
                   className="w-full p-5 text-left flex justify-between items-center text-neutral-800 font-bold text-sm cursor-pointer group"
                 >

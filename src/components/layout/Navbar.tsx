@@ -5,6 +5,14 @@ import { Search, Bell, User as UserIcon, Menu, X, Heart, LogOut, Calendar } from
 import { useStore } from '../../store/useStore';
 import { Button } from '../ui/Button';
 
+const categories = [
+  { name: 'Electric', desc: 'Zero emission, maximum torque', img: 'https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&q=80&w=200' },
+  { name: 'Supercar', desc: 'Raw horsepower, aggressive style', img: 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=200' },
+  { name: 'Sports', desc: 'Precision track and road weapons', img: 'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=200' },
+  { name: 'Luxury', desc: 'First-class prestige travel lounges', img: 'https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&q=80&w=200' },
+  { name: 'SUV', desc: 'Commanding heights, multi-terrain', img: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200' },
+];
+
 export const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -16,69 +24,30 @@ export const Navbar: React.FC = () => {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
-
-  useEffect(() => { const h = () => setIsScrolled(window.scrollY > 50); window.addEventListener('scroll', h); return () => window.removeEventListener('scroll', h); }, []);
-  useEffect(() => { setIsMobileMenuOpen(false); setIsSearchOpen(false); setIsNotificationsOpen(false); setIsProfileOpen(false); setIsMegaMenuOpen(false); }, [location.pathname]);
+    useEffect(() => { const h = () => setIsScrolled(window.scrollY > 50); window.addEventListener('scroll', h); return () => window.removeEventListener('scroll', h); }, []);
+  useEffect(() => { setIsMobileMenuOpen(false); setIsSearchOpen(false); setIsNotificationsOpen(false); setIsProfileOpen(false); }, [location.pathname]);
 
   const handleSearchSubmit = (e: React.FormEvent) => { e.preventDefault(); if (searchQuery.trim()) { navigate(`/cars?search=${encodeURIComponent(searchQuery)}`); setIsSearchOpen(false); } };
   const filteredCars = searchQuery.trim() ? cars.filter(c => c.name.toLowerCase().includes(searchQuery.toLowerCase()) || c.brand.toLowerCase().includes(searchQuery.toLowerCase()) || c.location.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 5) : [];
 
-  const categories = [
-    { name: 'Electric', desc: 'Zero emission, maximum torque', img: 'https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&q=80&w=200' },
-    { name: 'Supercar', desc: 'Raw horsepower, aggressive style', img: 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=200' },
-    { name: 'Sports', desc: 'Precision track and road weapons', img: 'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=200' },
-    { name: 'Luxury', desc: 'First-class prestige travel lounges', img: 'https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&q=80&w=200' },
-    { name: 'SUV', desc: 'Commanding heights, multi-terrain', img: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200' },
-  ];
 
   return (
     <>
       <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-500 ${isScrolled ? 'bg-white/80 backdrop-blur-md py-3 border-b border-neutral-200/60 shadow-sm' : 'bg-neutral-950/60 backdrop-blur-sm py-5 border-b border-white/5'}`}>
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          <Link to="/" className={`font-display font-bold text-xl tracking-widest flex items-center gap-1.5 ${isScrolled ? 'text-neutral-900' : 'text-white'}`}>
-            <span className="text-accent-amber font-extrabold text-2xl">A</span>ETHE<span className="text-accent-blue">R</span>
-          </Link>
+<Link to="/" className={`font-display font-bold text-xl tracking-widest flex items-center gap-1.5 ${isScrolled ? 'text-neutral-900' : 'text-white'}`}>
+             <span className="text-accent-amber font-extrabold text-2xl">A</span>pex Ride
+           </Link>
 
           <div className="hidden lg:flex items-center gap-7">
             {[
               { to: '/', label: 'Home' },
-              { to: '/cars', label: 'Explore Vehicles' },
+              { to: '/cars', label: 'Browse Cars' },
+              { to: '/about', label: 'About Us' },
+              { to: '/contact', label: 'Contact' },
             ].map(l => (
               <Link key={l.to} to={l.to} className={`font-display text-xs tracking-widest uppercase hover:text-accent-blue transition-colors ${location.pathname === l.to ? 'text-accent-blue' : isScrolled ? 'text-neutral-600' : 'text-white/70'}`}>{l.label}</Link>
             ))}
-            <div className="relative" onMouseEnter={() => setIsMegaMenuOpen(true)} onMouseLeave={() => setIsMegaMenuOpen(false)}>
-              <button className={`font-display text-xs tracking-widest uppercase hover:text-accent-blue transition-colors py-2 cursor-pointer ${isScrolled ? 'text-neutral-600' : 'text-white/70'}`}>Categories</button>
-              <AnimatePresence>{isMegaMenuOpen && (
-                <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 12 }} transition={{ duration: 0.15 }}
-                  className="absolute top-full left-1/2 -translate-x-1/2 w-[720px] bg-white border border-neutral-200/60 shadow-xl z-50 mt-2 rounded-2xl overflow-hidden">
-                  <div className="p-5">
-                    <div className="flex items-center justify-between mb-4 px-1">
-                      <span className="font-display text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Browse by Category</span>
-                      <Link to="/cars" className="text-[10px] text-accent-blue hover:text-accent-blue-hover font-display font-bold uppercase tracking-widest transition-colors">View All</Link>
-                    </div>
-                    <div className="grid grid-cols-5 gap-3">
-                      {categories.map(cat => (
-                        <Link key={cat.name} to={`/cars?category=${cat.name}`} className="group relative flex flex-col text-left cursor-pointer rounded-xl overflow-hidden bg-neutral-50 hover:bg-accent-blue/5 transition-all duration-300 border border-transparent hover:border-accent-blue/20">
-                          <div className="w-full h-24 overflow-hidden relative">
-                            <img src={cat.img} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
-                            <span className="absolute bottom-2 left-2.5 text-white text-[10px] font-display font-bold uppercase tracking-wider drop-shadow-lg">{cat.name}</span>
-                          </div>
-                          <div className="p-2.5">
-                            <p className="text-[9px] text-neutral-500 leading-tight line-clamp-2">{cat.desc}</p>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="bg-gradient-to-r from-accent-blue/5 via-accent-amber/5 to-accent-blue/5 px-5 py-3 border-t border-neutral-100">
-                    <p className="text-[10px] text-neutral-500 text-center">Premium vehicles curated for every journey — from city drives to cross-country adventures.</p>
-                  </div>
-                </motion.div>
-              )}</AnimatePresence>
-            </div>
-            <Link to="/about" className={`font-display text-xs tracking-widest uppercase hover:text-accent-blue transition-colors ${isScrolled ? 'text-neutral-600' : 'text-white/70'}`}>Experience</Link>
           </div>
 
           <div className="hidden lg:flex items-center gap-5">
@@ -125,7 +94,7 @@ export const Navbar: React.FC = () => {
                 )}</AnimatePresence>
               </div>
             ) : (
-              <Button variant="glass" size="sm" onClick={() => navigate('/auth')} className="rounded-lg">Access Portal</Button>
+              <Button variant="glass" size="sm" onClick={() => navigate('/auth')} className="rounded-lg">Sign In</Button>
             )}
           </div>
 
@@ -138,11 +107,12 @@ export const Navbar: React.FC = () => {
           className="fixed inset-0 bg-white z-30 flex flex-col p-8 pt-28 overflow-y-auto lg:hidden">
           <div className="flex flex-col gap-5 text-left mb-8">
             <Link to="/" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">Home</Link>
-            <Link to="/cars" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">Explore Vehicles</Link>
+            <Link to="/cars" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">Browse Cars</Link>
+            <Link to="/about" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">About Us</Link>
+            <Link to="/contact" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">Contact</Link>
             <div><span className="font-display text-xs font-bold tracking-wider text-neutral-400 uppercase block mb-2">Categories</span>
               <div className="grid grid-cols-2 gap-2 pl-2">{categories.map(c => <Link key={c.name} to={`/cars?category=${c.name}`} className="text-neutral-600 hover:text-neutral-800 text-sm py-0.5">{c.name}</Link>)}</div>
             </div>
-            <Link to="/about" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">Experience</Link>
           </div>
           <div className="mt-auto space-y-3">
             {user ? (
@@ -155,7 +125,7 @@ export const Navbar: React.FC = () => {
                 <Button variant="glass" size="sm" className="w-full text-red-500 border-red-200 rounded-lg" onClick={() => { logout(); navigate('/'); }}>Logout</Button>
               </>
             ) : (
-              <Button variant="primary" className="w-full rounded-lg" onClick={() => navigate('/auth')}>Access Portal</Button>
+              <Button variant="primary" className="w-full rounded-lg" onClick={() => navigate('/auth')}>Sign In</Button>
             )}
           </div>
         </motion.div>

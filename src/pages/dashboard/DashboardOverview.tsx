@@ -25,8 +25,8 @@ export const DashboardOverview = () => {
               { label: 'Listed Cars', value: `${hostCars.length}`, icon: Car, color: 'text-accent-blue' },
               { label: 'Total Earnings', value: `৳${hostEarnings}`, icon: DollarSign, color: 'text-accent-amber' },
               { label: 'Active Bookings', value: `${bookings.filter(b => hostCars.some(c => c.id === b.carId) && (b.status === 'Upcoming' || b.status === 'Active')).length}`, icon: Calendar, color: 'text-green-500' },
-            ].map((s, i) => (
-              <div key={i} className="bg-white border border-neutral-200/60 shadow-sm p-5 rounded-2xl relative overflow-hidden">
+            ].map((s) => (
+              <div key={s.label} className="bg-white border border-neutral-200/60 shadow-sm p-5 rounded-2xl relative overflow-hidden">
                 <p className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1">{s.label}</p>
                 <span className="text-xl font-bold text-neutral-900 font-display">{s.value}</span>
                 <s.icon size={32} className={`absolute right-4 bottom-3 opacity-10 ${s.color}`} />
@@ -60,8 +60,8 @@ export const DashboardOverview = () => {
               { label: 'Total Users', value: '1,247', icon: Users, color: 'text-accent-amber' },
               { label: 'Total Revenue', value: `৳${totalRevenue}`, icon: DollarSign, color: 'text-green-500' },
               { label: 'Avg Rating', value: '4.9', icon: Star, color: 'text-purple-500' },
-            ].map((s, i) => (
-              <div key={i} className="bg-white border border-neutral-200/60 shadow-sm p-5 rounded-2xl relative overflow-hidden">
+            ].map((s) => (
+              <div key={s.label} className="bg-white border border-neutral-200/60 shadow-sm p-5 rounded-2xl relative overflow-hidden">
                 <p className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1">{s.label}</p>
                 <span className="text-xl font-bold text-neutral-900 font-display">{s.value}</span>
                 <s.icon size={32} className={`absolute right-4 bottom-3 opacity-10 ${s.color}`} />
@@ -96,8 +96,8 @@ export const DashboardOverview = () => {
               { label: 'Total Spent', value: `৳${totalSpend}`, icon: CreditCard, color: 'text-accent-blue' },
               { label: 'Rental Days', value: `${rentingDays} Days`, icon: Clock, color: 'text-accent-amber' },
               { label: 'Wishlist', value: `${wishlist.length} Cars`, icon: Heart, color: 'text-red-500' },
-            ].map((s, i) => (
-              <div key={i} className="bg-white border border-neutral-200/60 shadow-sm p-5 rounded-2xl relative overflow-hidden">
+            ].map((s) => (
+              <div key={s.label} className="bg-white border border-neutral-200/60 shadow-sm p-5 rounded-2xl relative overflow-hidden">
                 <p className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1">{s.label}</p>
                 <span className="text-xl font-bold text-neutral-900 font-display">{s.value}</span>
                 <s.icon size={32} className={`absolute right-4 bottom-3 opacity-10 ${s.color}`} />

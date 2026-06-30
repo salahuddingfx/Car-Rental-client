@@ -14,8 +14,8 @@ export const DashboardSettings = () => {
         {[
           { label: 'Full Name', value: user?.name },
           { label: 'Email', value: user?.email },
-        ].map((f, i) => (
-          <div key={i}>
+        ].map((f) => (
+          <div key={f.label}>
             <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">{f.label}</label>
             <input type="text" defaultValue={f.value}
               className="w-full bg-white border border-neutral-200 text-sm text-neutral-800 p-3 rounded-xl outline-none focus:border-accent-blue transition-colors" />

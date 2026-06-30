@@ -68,7 +68,7 @@ export const PremiumHeroSection: React.FC = () => {
   return (
     <section className="relative w-full h-screen overflow-hidden bg-neutral-950">
       {slides.map((slide, i) => (
-        <div key={i} className={`absolute inset-0 transition-all duration-1000 ease-in-out ${i === current ? 'opacity-100' : 'opacity-0'}`}>
+        <div key={slide.alt} className={`absolute inset-0 transition-all duration-1000 ease-in-out ${i === current ? 'opacity-100' : 'opacity-0'}`}>
           <div className={`absolute inset-0 transition-all duration-[1.5s] ease-out ${i === current ? 'scale-100' : 'scale-110'}`}>
             <img
               src={slide.img}
@@ -105,8 +105,8 @@ export const PremiumHeroSection: React.FC = () => {
 
       {/* Dots */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5">
-        {slides.map((_, i) => (
-          <button key={i} onClick={() => goTo(i)}
+        {slides.map((slide, i) => (
+          <button key={slide.title} onClick={() => goTo(i)}
             className={`rounded-full transition-all duration-500 cursor-pointer ${i === current ? 'w-10 h-2 bg-white shadow-lg shadow-white/20' : 'w-2 h-2 bg-white/30 hover:bg-white/50'}`} />
         ))}
       </div>

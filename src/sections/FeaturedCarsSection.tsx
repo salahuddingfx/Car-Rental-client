@@ -73,16 +73,14 @@ export const FeaturedCarsSection: React.FC<Props> = ({ cars }) => {
           </div>
 
           {/* Arrows */}
-          {canScrollPrev && (
-            <button onClick={scrollPrev} className="absolute -left-3 sm:-left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white border border-neutral-200 shadow-lg flex items-center justify-center text-neutral-600 hover:text-accent-blue hover:border-accent-blue/30 transition-all cursor-pointer z-10">
-              <ChevronLeft size={18} />
+          <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
+            <button onClick={scrollPrev} disabled={!canScrollPrev} className="w-9 h-9 rounded-full bg-white border border-neutral-200 shadow-md flex items-center justify-center text-neutral-600 hover:text-accent-blue disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer">
+              <ChevronLeft size={16} />
             </button>
-          )}
-          {canScrollNext && (
-            <button onClick={scrollNext} className="absolute -right-3 sm:-right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white border border-neutral-200 shadow-lg flex items-center justify-center text-neutral-600 hover:text-accent-blue hover:border-accent-blue/30 transition-all cursor-pointer z-10">
-              <ChevronRight size={18} />
+            <button onClick={scrollNext} disabled={!canScrollNext} className="w-9 h-9 rounded-full bg-white border border-neutral-200 shadow-md flex items-center justify-center text-neutral-600 hover:text-accent-blue disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer">
+              <ChevronRight size={16} />
             </button>
-          )}
+          </div>
         </div>
       </div>
     </section>

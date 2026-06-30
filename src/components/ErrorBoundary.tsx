@@ -32,8 +32,8 @@ export class ErrorBoundary extends Component<Props, State> {
             <div className="w-16 h-16 rounded-2xl bg-red-50 flex items-center justify-center mx-auto mb-5">
               <AlertTriangle size={28} className="text-red-500" />
             </div>
-            <h2 className="font-display text-xl font-bold text-neutral-900 mb-2">Something went wrong</h2>
-            <p className="text-sm text-neutral-500 mb-2">{this.state.error?.message || 'An unexpected error occurred.'}</p>
+            <h2 className="font-display text-xl font-bold text-neutral-900 mb-2">Something unexpected happened</h2>
+            <p className="text-sm text-neutral-500 mb-2">{this.state.error?.message || 'The page could not be loaded.'}</p>
             <p className="text-xs text-neutral-400 mb-6">Please try refreshing the page.</p>
             <button onClick={() => window.location.reload()}
               className="px-6 py-2.5 bg-accent-blue text-white text-sm font-semibold rounded-xl hover:bg-accent-blue-hover transition-colors cursor-pointer">

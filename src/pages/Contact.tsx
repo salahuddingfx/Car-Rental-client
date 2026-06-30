@@ -5,7 +5,7 @@ import { Breadcrumbs } from '../components/Breadcrumbs';
 import { Button } from '../components/ui/Button';
 
 const contactInfo = [
-  { icon: Mail, label: 'Email', value: 'hello@aether.com' },
+  { icon: Mail, label: 'Email', value: 'hello@apexride.com' },
   { icon: Phone, label: 'Phone', value: '+880 1700-000000' },
   { icon: MapPin, label: 'Office', value: 'Dhaka 1212, Bangladesh' },
 ];
