@@ -12,9 +12,9 @@ export const Footer: React.FC = () => {
     <footer className="bg-white border-t border-neutral-200/60 pt-16 pb-8 text-neutral-500 relative z-10">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 pb-12">
         <div className="lg:col-span-2 space-y-5">
-<Link to="/" className="font-display font-bold text-xl tracking-widest text-neutral-900 flex items-center gap-1.5">
-             <span className="text-accent-amber font-extrabold text-2xl">A</span>pex Ride
-           </Link>
+          <Link to="/" className="font-display font-bold text-xl tracking-widest text-neutral-900 flex items-center gap-1.5">
+            <span className="text-accent-amber font-extrabold text-2xl">A</span>pex Ride
+          </Link>
           <p className="text-sm leading-relaxed max-w-sm">Experience the pinnacle of automotive engineering and modern luxury across Bangladesh. Premium hypercars, sports coupés, and electric tourers for discerning drivers.</p>
           <div className="flex gap-3">
             {[Globe, Play, MessageCircle].map((Icon, i) => (
@@ -32,6 +32,7 @@ export const Footer: React.FC = () => {
           { title: 'Company', links: [
             { to: '/about', label: 'About Us' },
             { to: '/contact', label: 'Contact' },
+            { to: '/developer', label: 'Developer' },
             { to: '/privacy', label: 'Privacy Policy' },
             { to: '/terms', label: 'Terms of Service' },
           ]},

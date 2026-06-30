@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Heart, Disc, Zap, Flame, User, Star } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import type { Car } from '../../data/mockCars';
+import { getHourlyRate } from '../../lib/pricing';
 import { Button } from './Button';
 
 interface CarCardProps { car: Car }
@@ -64,9 +65,12 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
         <div className="flex items-center justify-between pt-1 mt-auto">
           <div>
             <span className="text-neutral-400 text-[9px] font-display uppercase tracking-widest block">Daily Rate</span>
-            <div className="flex items-baseline gap-0.5">
-              <span className="text-xl font-bold text-neutral-900 group-hover:text-accent-blue transition-colors">৳{car.price}</span>
-              <span className="text-[10px] text-neutral-400">/ day</span>
+            <div className="flex flex-col">
+              <div className="flex items-baseline gap-0.5">
+                <span className="text-xl font-bold text-neutral-900 group-hover:text-accent-blue transition-colors">৳{car.price}</span>
+                <span className="text-[10px] text-neutral-400">/ day</span>
+              </div>
+              <span className="text-[9px] text-neutral-500">৳{getHourlyRate(car.price)}/hr • ৳{getHourlyRate(car.price) * 24}/full day</span>
             </div>
           </div>
           <Link to={`/cars/${car.id}`}>
