@@ -1,0 +1,188 @@
+import React, { useState } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowLeft, CreditCard, User, Mail, Phone, Shield, Check } from 'lucide-react';
+import { useStore } from '../store/useStore';
+import { Button } from '../components/ui/Button';
+
+const steps = [
+  { num: 1, label: 'Review' },
+  { num: 2, label: 'Driver Info' },
+  { num: 3, label: 'Payment' },
+  { num: 4, label: 'Confirmation' },
+];
+
+export const Bookings: React.FC = () => {
+  const { carId } = useParams();
+  const navigate = useNavigate();
+  const { cars, addBooking, user } = useStore();
+  const car = cars.find(c => c.id === carId);
+
+  const [step, setStep] = useState(1);
+  const [name, setName] = useState(user?.name || '');
+  const [email, setEmail] = useState(user?.email || '');
+  const [phone, setPhone] = useState('');
+  const [license, setLicense] = useState('');
+  const [pickup] = useState(new Date().toISOString().split('T')[0]);
+  const [returnD] = useState(new Date(Date.now() + 86400000).toISOString().split('T')[0]);
+
+  if (!car) {
+    return (
+      <div className="pt-28 pb-20 text-center min-h-screen flex flex-col items-center justify-center">
+        <p className="text-neutral-500 mb-4">Vehicle not found</p>
+        <Button variant="outline" onClick={() => navigate('/cars')}>Back to Fleet</Button>
+      </div>
+    );
+  }
+
+  const days = Math.max(1, Math.ceil((new Date(returnD).getTime() - new Date(pickup).getTime()) / 86400000));
+  const subtotal = car.price * days;
+  const tripFee = Math.round(subtotal * 0.12);
+  const tax = Math.round(subtotal * 0.08);
+  const total = subtotal + tripFee + tax;
+
+  const handleConfirm = () => {
+    if (!user) { navigate('/auth'); return; }
+    addBooking({
+      carId: car.id, userId: user.id,
+      pickupDate: pickup, returnDate: returnD,
+      totalDays: days, totalPrice: total, status: 'Upcoming',
+      driverInfo: { fullName: name, email, phone, licenseNumber: license, licenseExpiry: '' },
+    });
+    setStep(4);
+  };
+
+  return (
+    <div className="pt-28 pb-20 bg-light-bg min-h-screen">
+      <div className="max-w-4xl mx-auto px-6">
+        <Link to={`/cars/${car.id}`} className="inline-flex items-center gap-2 text-xs font-semibold text-neutral-500 hover:text-neutral-800 uppercase tracking-wider mb-8 transition-colors">
+          <ArrowLeft size={14} /> Back
+        </Link>
+
+        <div className="flex items-center justify-center gap-0 mb-10">
+          {steps.map((s, i) => (
+            <div key={s.num} className="flex items-center">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold font-display transition-colors ${step >= s.num ? 'bg-accent-blue text-white' : 'bg-neutral-100 text-neutral-400'}`}>{step > s.num ? <Check size={14} /> : s.num}</div>
+              {i < steps.length - 1 && <div className={`w-12 h-[1.5px] ${step > s.num ? 'bg-accent-blue' : 'bg-neutral-200'}`} />}
+            </div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+          <div className="lg:col-span-3">
+            {step === 1 && (
+              <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="bg-white border border-neutral-200/60 shadow-sm p-6 rounded-xl">
+                <h3 className="font-display text-sm font-bold text-neutral-800 uppercase tracking-wider mb-4">Review Your Booking</h3>
+                <div className="flex gap-4 mb-5 pb-4 border-b border-neutral-100">
+                  <img src={car.image} alt={car.name} className="car-img w-20 h-14 object-cover rounded-lg bg-neutral-100" />
+                  <div>
+                    <p className="font-display text-xs text-accent-blue uppercase tracking-wider font-bold">{car.brand}</p>
+                    <h4 className="font-display text-base font-bold text-neutral-800">{car.name}</h4>
+                    <p className="text-xs text-neutral-500">{car.location}</p>
+                  </div>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between"><span className="text-neutral-500">Pickup</span><span className="font-semibold text-neutral-800">{pickup}</span></div>
+                  <div className="flex justify-between"><span className="text-neutral-500">Return</span><span className="font-semibold text-neutral-800">{returnD}</span></div>
+                  <div className="flex justify-between"><span className="text-neutral-500">Duration</span><span className="font-semibold text-neutral-800">{days} day{days > 1 ? 's' : ''}</span></div>
+                  <div className="flex justify-between"><span className="text-neutral-500">Daily Rate</span><span className="font-semibold text-neutral-800">৳{car.price}</span></div>
+                </div>
+                <Button variant="primary" className="w-full mt-6 rounded-lg" onClick={() => setStep(2)}>Continue</Button>
+              </motion.div>
+            )}
+
+            {step === 2 && (
+              <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="bg-white border border-neutral-200/60 shadow-sm p-6 rounded-xl">
+                <h3 className="font-display text-sm font-bold text-neutral-800 uppercase tracking-wider mb-5">Driver Information</h3>
+                <div className="space-y-4">
+                  {[
+                    { icon: User, label: 'Full Name', value: name, set: setName, type: 'text', ph: 'Your name' },
+                    { icon: Mail, label: 'Email', value: email, set: setEmail, type: 'email', ph: 'your@email.com' },
+                    { icon: Phone, label: 'Phone', value: phone, set: setPhone, type: 'tel', ph: '+880 1XXX XXXXXX' },
+                    { icon: Shield, label: 'License Number', value: license, set: setLicense, type: 'text', ph: 'Driving license #' },
+                  ].map((f, i) => (
+                    <div key={i}>
+                      <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block">{f.label}</label>
+                      <div className="flex items-center border border-neutral-200 p-3 bg-white rounded-lg">
+                        <f.icon size={15} className="text-neutral-400 mr-2 shrink-0" />
+                        <input type={f.type} placeholder={f.ph} value={f.value} onChange={(e) => f.set(e.target.value)}
+                          className="bg-transparent text-sm text-neutral-800 placeholder-neutral-400 outline-none w-full font-sans" required />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-3 mt-6">
+                  <Button variant="ghost" onClick={() => setStep(1)} className="rounded-lg">Back</Button>
+                  <Button variant="primary" className="flex-1 rounded-lg" onClick={() => setStep(3)}>Continue</Button>
+                </div>
+              </motion.div>
+            )}
+
+            {step === 3 && (
+              <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="bg-white border border-neutral-200/60 shadow-sm p-6 rounded-xl">
+                <h3 className="font-display text-sm font-bold text-neutral-800 uppercase tracking-wider mb-5">Payment</h3>
+                <div className="space-y-4">
+                  <div className="p-4 border border-neutral-200 rounded-lg bg-neutral-50 flex items-center gap-3">
+                    <CreditCard size={20} className="text-neutral-400" />
+                    <span className="text-sm text-neutral-500">Pay on pickup — no card details needed</span>
+                  </div>
+                  {[
+                    { label: 'Driver', value: name },
+                    { label: 'Email', value: email },
+                    { label: 'Vehicle', value: `${car.brand} ${car.name}` },
+                    { label: 'Duration', value: `${days} day${days > 1 ? 's' : ''}` },
+                  ].map((f, i) => (
+                    <div key={i} className="flex justify-between text-sm">
+                      <span className="text-neutral-500">{f.label}</span>
+                      <span className="font-semibold text-neutral-800">{f.value}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-3 mt-6">
+                  <Button variant="ghost" onClick={() => setStep(2)} className="rounded-lg">Back</Button>
+                  <Button variant="primary" className="flex-1 rounded-lg" onClick={handleConfirm}>
+                    Confirm — ${total}
+                  </Button>
+                </div>
+              </motion.div>
+            )}
+
+            {step === 4 && (
+              <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-white border border-neutral-200/60 shadow-sm p-8 rounded-xl text-center">
+                <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Check size={28} className="text-green-600" />
+                </div>
+                <h3 className="font-display text-lg font-bold text-neutral-800 mb-2">Booking Confirmed!</h3>
+                <p className="text-sm text-neutral-500 mb-1">Your {car.name} has been reserved.</p>
+                <p className="text-xs text-neutral-400 mb-6">Pickup: {pickup} · Return: {returnD}</p>
+                <Button variant="primary" onClick={() => navigate('/dashboard?tab=bookings')} className="rounded-lg">View My Bookings</Button>
+              </motion.div>
+            )}
+          </div>
+
+          <div className="lg:col-span-2">
+            <div className="bg-white border border-neutral-200/60 shadow-sm p-5 rounded-xl sticky top-28">
+              <h4 className="font-display text-xs font-bold text-neutral-800 uppercase tracking-wider mb-3">Price Summary</h4>
+              <div className="flex gap-3 mb-4 pb-3 border-b border-neutral-100">
+                <img src={car.image} alt={car.name} className="car-img w-14 h-10 object-cover rounded bg-neutral-100" />
+                <div>
+                  <p className="font-display text-xs font-bold text-neutral-800">{car.name}</p>
+                  <p className="text-[10px] text-neutral-500">{car.brand}</p>
+                </div>
+              </div>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between text-neutral-500">
+                  <span>৳{car.price} × {days} day{days > 1 ? 's' : ''}</span>
+                  <span className="text-neutral-800 font-semibold">${subtotal}</span>
+                </div>
+                <div className="flex justify-between text-neutral-500"><span>Trip fee</span><span className="text-neutral-800 font-semibold">${tripFee}</span></div>
+                <div className="flex justify-between text-neutral-500"><span>Tax</span><span className="text-neutral-800 font-semibold">${tax}</span></div>
+                <div className="border-t border-neutral-100 pt-2 flex justify-between font-display text-sm font-bold text-neutral-900"><span>Total</span><span>${total}</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
