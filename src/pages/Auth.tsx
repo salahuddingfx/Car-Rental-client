@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Mail, Lock, User, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { Button } from '../components/ui/Button';
 import { CssWave } from '../components/CssWave';
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+interface AuthErrors {
+  email?: string;
+  password?: string;
+  name?: string;
+}
 
 export const Auth: React.FC = () => {
   const navigate = useNavigate();
@@ -16,15 +24,34 @@ export const Auth: React.FC = () => {
   const [name, setName] = useState('');
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<AuthErrors>({});
+  const [touched, setTouched] = useState(false);
+
+  const validate = (): AuthErrors => {
+    const errs: AuthErrors = {};
+    if (!emailRegex.test(email)) errs.email = 'Please enter a valid email';
+    if (password.length < 6) errs.password = 'Password must be at least 6 characters';
+    if (!isLogin && !name.trim()) errs.name = 'Name is required';
+    return errs;
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setTouched(true);
+    const errs = validate();
+    setErrors(errs);
+    if (Object.keys(errs).length > 0) return;
     setLoading(true);
     setTimeout(() => {
       login(email);
       navigate('/');
       setLoading(false);
     }, 800);
+  };
+
+  const handleBlur = () => {
+    setTouched(true);
+    setErrors(validate());
   };
 
   return (
@@ -48,9 +75,11 @@ export const Auth: React.FC = () => {
                 <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block">Full Name</label>
                 <div className="flex items-center border border-neutral-200 p-3 bg-white rounded-lg focus-within:border-accent-blue transition-colors">
                   <User size={15} className="text-neutral-400 mr-2 shrink-0" />
-                  <input type="text" placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)}
-                    className="bg-transparent text-sm text-neutral-800 placeholder-neutral-400 outline-none w-full font-sans" required />
+                  <input type="text" placeholder="Your name" value={name} onChange={(e) => { setName(e.target.value); if (touched) setErrors(validate()); }}
+                    onBlur={handleBlur}
+                    className="bg-transparent text-sm text-neutral-800 placeholder-neutral-400 outline-none w-full font-sans" />
                 </div>
+                {errors.name && <p className="text-[10px] text-red-500 mt-1">{errors.name}</p>}
               </div>
             )}
 
@@ -58,21 +87,25 @@ export const Auth: React.FC = () => {
               <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block">Email</label>
               <div className="flex items-center border border-neutral-200 p-3 bg-white rounded-lg focus-within:border-accent-blue transition-colors">
                 <Mail size={15} className="text-neutral-400 mr-2 shrink-0" />
-                <input type="email" placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)}
-                  className="bg-transparent text-sm text-neutral-800 placeholder-neutral-400 outline-none w-full font-sans" required />
+                <input type="email" placeholder="your@email.com" value={email} onChange={(e) => { setEmail(e.target.value); if (touched) setErrors(validate()); }}
+                  onBlur={handleBlur}
+                  className="bg-transparent text-sm text-neutral-800 placeholder-neutral-400 outline-none w-full font-sans" />
               </div>
+              {errors.email && <p className="text-[10px] text-red-500 mt-1">{errors.email}</p>}
             </div>
 
             <div>
               <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block">Password</label>
               <div className="flex items-center border border-neutral-200 p-3 bg-white rounded-lg focus-within:border-accent-blue transition-colors">
                 <Lock size={15} className="text-neutral-400 mr-2 shrink-0" />
-                <input type={showPw ? 'text' : 'password'} placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)}
-                  className="bg-transparent text-sm text-neutral-800 placeholder-neutral-400 outline-none w-full font-sans" required />
+                <input type={showPw ? 'text' : 'password'} placeholder="••••••••" value={password} onChange={(e) => { setPassword(e.target.value); if (touched) setErrors(validate()); }}
+                  onBlur={handleBlur}
+                  className="bg-transparent text-sm text-neutral-800 placeholder-neutral-400 outline-none w-full font-sans" />
                 <button type="button" onClick={() => setShowPw(!showPw)} className="text-neutral-400 hover:text-neutral-600 cursor-pointer shrink-0">
                   {showPw ? <EyeOff size={15} /> : <Eye size={15} />}
                 </button>
               </div>
+              {errors.password && <p className="text-[10px] text-red-500 mt-1">{errors.password}</p>}
             </div>
 
             {isLogin && (
@@ -81,7 +114,7 @@ export const Auth: React.FC = () => {
               </div>
             )}
 
-            <Button type="submit" variant="primary" className="w-full rounded-lg" isLoading={loading}>
+            <Button type="submit" variant="primary" className="w-full rounded-lg" isLoading={loading} disabled={Object.keys(validate()).length > 0}>
               {isLogin ? 'Sign In' : 'Create Account'} <ArrowRight size={15} />
             </Button>
           </form>

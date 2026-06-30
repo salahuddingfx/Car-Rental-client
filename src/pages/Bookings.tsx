@@ -13,6 +13,15 @@ const steps = [
   { num: 4, label: 'Confirmation' },
 ];
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+interface DriverErrors {
+  name?: string;
+  email?: string;
+  phone?: string;
+  license?: string;
+}
+
 export const Bookings: React.FC = () => {
   const { carId } = useParams();
   const navigate = useNavigate();
@@ -26,6 +35,24 @@ export const Bookings: React.FC = () => {
   const [license, setLicense] = useState('');
   const [pickup] = useState(new Date().toISOString().split('T')[0]);
   const [returnD] = useState(new Date(Date.now() + 86400000).toISOString().split('T')[0]);
+  const [errors, setErrors] = useState<DriverErrors>({});
+  const [touched, setTouched] = useState(false);
+
+  const validateDriverInfo = (): DriverErrors => {
+    const errs: DriverErrors = {};
+    if (name.trim().length < 2) errs.name = 'Name must be at least 2 characters';
+    if (!emailRegex.test(email)) errs.email = 'Please enter a valid email';
+    if (phone.trim().length < 8) errs.phone = 'Phone must be at least 8 characters';
+    if (license.trim().length < 5) errs.license = 'License must be at least 5 characters';
+    return errs;
+  };
+
+  const goToStep3 = () => {
+    setTouched(true);
+    const errs = validateDriverInfo();
+    setErrors(errs);
+    if (Object.keys(errs).length === 0) setStep(3);
+  };
 
   if (!car) {
     return (
@@ -94,24 +121,28 @@ export const Bookings: React.FC = () => {
                 <h3 className="font-display text-sm font-bold text-neutral-800 uppercase tracking-wider mb-5">Driver Information</h3>
                 <div className="space-y-4">
                   {[
-                    { icon: User, label: 'Full Name', value: name, set: setName, type: 'text', ph: 'Your name' },
-                    { icon: Mail, label: 'Email', value: email, set: setEmail, type: 'email', ph: 'your@email.com' },
-                    { icon: Phone, label: 'Phone', value: phone, set: setPhone, type: 'tel', ph: '+880 1XXX XXXXXX' },
-                    { icon: Shield, label: 'License Number', value: license, set: setLicense, type: 'text', ph: 'Driving license #' },
-                  ].map((f, i) => (
-                    <div key={i}>
-                      <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block">{f.label}</label>
-                      <div className="flex items-center border border-neutral-200 p-3 bg-white rounded-lg">
-                        <f.icon size={15} className="text-neutral-400 mr-2 shrink-0" />
-                        <input type={f.type} placeholder={f.ph} value={f.value} onChange={(e) => f.set(e.target.value)}
-                          className="bg-transparent text-sm text-neutral-800 placeholder-neutral-400 outline-none w-full font-sans" required />
+                    { key: 'name', icon: User, label: 'Full Name', value: name, set: setName, type: 'text', ph: 'Your name' },
+                    { key: 'email', icon: Mail, label: 'Email', value: email, set: setEmail, type: 'email', ph: 'your@email.com' },
+                    { key: 'phone', icon: Phone, label: 'Phone', value: phone, set: setPhone, type: 'tel', ph: '+880 1XXX XXXXXX' },
+                    { key: 'license', icon: Shield, label: 'License Number', value: license, set: setLicense, type: 'text', ph: 'Driving license #' },
+                  ].map((f) => {
+                    const fieldKey = f.key as keyof DriverErrors;
+                    return (
+                      <div key={f.key}>
+                        <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block">{f.label}</label>
+                        <div className="flex items-center border border-neutral-200 p-3 bg-white rounded-lg">
+                          <f.icon size={15} className="text-neutral-400 mr-2 shrink-0" />
+                          <input type={f.type} placeholder={f.ph} value={f.value} onChange={(e) => { f.set(e.target.value); if (touched) setErrors(validateDriverInfo()); }}
+                            className="bg-transparent text-sm text-neutral-800 placeholder-neutral-400 outline-none w-full font-sans" />
+                        </div>
+                        {errors[fieldKey] && <p className="text-[10px] text-red-500 mt-1">{errors[fieldKey]}</p>}
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
                 <div className="flex gap-3 mt-6">
                   <Button variant="ghost" onClick={() => setStep(1)} className="rounded-lg">Back</Button>
-                  <Button variant="primary" className="flex-1 rounded-lg" onClick={() => setStep(3)}>Continue</Button>
+                  <Button variant="primary" className="flex-1 rounded-lg" onClick={goToStep3}>Continue</Button>
                 </div>
               </motion.div>
             )}

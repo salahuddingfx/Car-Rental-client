@@ -5,12 +5,21 @@ import { Button } from '../../components/ui/Button';
 import { PlusCircle, Car, Fuel, Disc, Star, Edit2, Trash2, X } from 'lucide-react';
 import type { Car as CarType } from '../../data/mockCars';
 
+interface FormErrors {
+  name?: string;
+  brand?: string;
+  price?: string;
+  seats?: string;
+  image?: string;
+}
+
 export const DashboardMyCars = () => {
   const { user, cars, addCar, editCar, deleteCar } = useStore();
   const hostCars = cars.filter(c => c.hostName === user?.name);
 
   const [showAddForm, setShowAddForm] = useState(false);
   const [editCarId, setEditCarId] = useState<string | null>(null);
+  const [errors, setErrors] = useState<FormErrors>({});
   const [form, setForm] = useState({
     name: '', brand: '', category: 'Luxury' as CarType['category'], price: 0,
     image: '', fuel: 'Petrol' as CarType['fuel'], transmission: 'Automatic' as CarType['transmission'],
@@ -23,8 +32,21 @@ export const DashboardMyCars = () => {
     setShowAddForm(false);
   };
 
+  const validateCarForm = (): FormErrors => {
+    const errs: FormErrors = {};
+    if (!form.name.trim()) errs.name = 'Car name is required';
+    if (!form.brand.trim()) errs.brand = 'Brand is required';
+    if (!form.price || Number(form.price) <= 0) errs.price = 'Price must be greater than 0';
+    if (!form.seats || Number(form.seats) < 1) errs.seats = 'Seats must be at least 1';
+    if (form.image && !form.image.startsWith('http')) errs.image = 'Image URL must start with http';
+    return errs;
+  };
+
   const handleAddCar = (e: React.FormEvent) => {
     e.preventDefault();
+    const errs = validateCarForm();
+    setErrors(errs);
+    if (Object.keys(errs).length > 0) return;
     if (editCarId) {
       editCar(editCarId, {
         ...form,
@@ -120,13 +142,15 @@ export const DashboardMyCars = () => {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Car Name</label>
-                  <input required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
+                  <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
                     className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 rounded-lg outline-none focus:border-accent-blue" />
+                  {errors.name && <p className="text-[10px] text-red-500 mt-1">{errors.name}</p>}
                 </div>
                 <div>
                   <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Brand</label>
-                  <input required value={form.brand} onChange={e => setForm({ ...form, brand: e.target.value })}
+                  <input value={form.brand} onChange={e => setForm({ ...form, brand: e.target.value })}
                     className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 rounded-lg outline-none focus:border-accent-blue" />
+                  {errors.brand && <p className="text-[10px] text-red-500 mt-1">{errors.brand}</p>}
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-3">

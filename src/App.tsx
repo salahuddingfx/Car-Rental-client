@@ -1,13 +1,26 @@
+import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { MainLayout } from './components/layout/MainLayout';
 import { Home } from './pages/Home';
-import { Listing } from './pages/Listing';
-import { Details } from './pages/Details';
-import { Bookings } from './pages/Bookings';
-import { Auth } from './pages/Auth';
-import { Dashboard } from './pages/Dashboard';
-import { PolicyPage } from './pages/PolicyPage';
 import { ScrollToTop } from './components/ScrollToTop';
+
+const Listing = lazy(() => import('./pages/Listing').then(m => ({ default: m.Listing })));
+const Details = lazy(() => import('./pages/Details').then(m => ({ default: m.Details })));
+const Bookings = lazy(() => import('./pages/Bookings').then(m => ({ default: m.Bookings })));
+const Auth = lazy(() => import('./pages/Auth').then(m => ({ default: m.Auth })));
+const Dashboard = lazy(() => import('./pages/Dashboard').then(m => ({ default: m.Dashboard })));
+const PolicyPage = lazy(() => import('./pages/PolicyPage').then(m => ({ default: m.PolicyPage })));
+
+function PageLoader() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-light-bg">
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-8 h-8 border-2 border-accent-blue border-t-transparent rounded-full animate-spin" />
+        <p className="text-sm text-neutral-500 font-display tracking-wider">Loading...</p>
+      </div>
+    </div>
+  );
+}
 
 function App() {
   return (
@@ -16,13 +29,13 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
-          <Route path="cars" element={<Listing />} />
-          <Route path="cars/:id" element={<Details />} />
-          <Route path="bookings/:carId" element={<Bookings />} />
-          <Route path="auth" element={<Auth />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="host" element={<Dashboard />} />
-          <Route path=":policyType" element={<PolicyPage />} />
+          <Route path="cars" element={<Suspense fallback={<PageLoader />}><Listing /></Suspense>} />
+          <Route path="cars/:id" element={<Suspense fallback={<PageLoader />}><Details /></Suspense>} />
+          <Route path="bookings/:carId" element={<Suspense fallback={<PageLoader />}><Bookings /></Suspense>} />
+          <Route path="auth" element={<Suspense fallback={<PageLoader />}><Auth /></Suspense>} />
+          <Route path="dashboard" element={<Suspense fallback={<PageLoader />}><Dashboard /></Suspense>} />
+          <Route path="host" element={<Suspense fallback={<PageLoader />}><Dashboard /></Suspense>} />
+          <Route path=":policyType" element={<Suspense fallback={<PageLoader />}><PolicyPage /></Suspense>} />
           <Route path="*" element={<Home />} />
         </Route>
       </Routes>
