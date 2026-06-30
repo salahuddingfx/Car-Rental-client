@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { CarCard } from '../components/ui/CarCard';
 import useEmblaCarousel from 'embla-carousel-react';
-import type { Car } from '../store/useStore';
+import type { Car } from '../data/mockCars';
 
 interface Props { cars: Car[] }
 
