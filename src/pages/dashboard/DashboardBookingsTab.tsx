@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { useStore } from '../../store/useStore';
-import { Car } from 'lucide-react';
 
 export const DashboardBookingsTab = () => {
   const { user, bookings, cars } = useStore();
