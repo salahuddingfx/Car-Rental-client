@@ -118,21 +118,21 @@ export const Bookings: React.FC = () => {
 
             {step === 2 && (
               <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 shadow-sm p-6 rounded-xl">
-                <h3 className="font-display text-sm font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wider mb-5">Driver Information</h3>
+                <h3 className="font-display text-sm font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wider mb-2">Passenger Information</h3>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-5">Our professional driver will handle the ride. Just provide your details.</p>
                 <div className="space-y-4">
                   {[
                     { key: 'name', icon: User, label: 'Full Name', value: name, set: setName, type: 'text', ph: 'Your name' },
                     { key: 'email', icon: Mail, label: 'Email', value: email, set: setEmail, type: 'email', ph: 'your@email.com' },
                     { key: 'phone', icon: Phone, label: 'Phone', value: phone, set: setPhone, type: 'tel', ph: '+880 1XXX XXXXXX' },
-                    { key: 'license', icon: Shield, label: 'License Number', value: license, set: setLicense, type: 'text', ph: 'Driving license #' },
                   ].map((f) => {
-                    const fieldKey = f.key as keyof DriverErrors;
+                    const fieldKey = f.key as keyof PassengerErrors;
                     return (
                       <div key={f.key}>
                         <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">{f.label}</label>
                         <div className="flex items-center border border-neutral-200 dark:border-neutral-700 p-3 bg-white dark:bg-neutral-800 rounded-lg">
                           <f.icon size={15} className="text-neutral-400 dark:text-neutral-500 mr-2 shrink-0" />
-                          <input type={f.type} placeholder={f.ph} value={f.value} onChange={(e) => { f.set(e.target.value); if (touched) setErrors(validateDriverInfo()); }}
+                          <input type={f.type} placeholder={f.ph} value={f.value} onChange={(e) => { f.set(e.target.value); if (touched) setErrors(validatePassengerInfo()); }}
                             className="bg-transparent text-sm text-neutral-800 dark:text-neutral-200 placeholder-neutral-400 dark:placeholder-neutral-600 outline-none w-full font-sans" />
                         </div>
                         {errors[fieldKey] && <p className="text-[10px] text-red-500 mt-1">{errors[fieldKey]}</p>}
