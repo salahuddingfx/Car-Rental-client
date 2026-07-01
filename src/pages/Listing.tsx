@@ -77,9 +77,22 @@ export const Listing = () => {
   }, [cars, search, category, fuel, sort, priceRange]);
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
-  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const paginated = filtered.slice(0, visibleCount);
+  const hasMore = visibleCount < filtered.length;
 
-  useEffect(() => { setPage(1); }, [search, category, fuel, sort, priceRange]);
+  useEffect(() => { setVisibleCount(PAGE_SIZE); }, [search, category, fuel, sort, priceRange]);
+
+  const loadMore = useCallback(() => {
+    setVisibleCount(prev => Math.min(prev + PAGE_SIZE, filtered.length));
+  }, [filtered.length]);
+
+  useEffect(() => {
+    const el = loaderRef.current;
+    if (!el || !hasMore) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) loadMore(); }, { rootMargin: '200px' });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [hasMore, loadMore]);
 
   const activeFilters = [
     ...(category !== 'All' ? [{ key: 'category', label: category, onRemove: () => setCategory('All') }] : []),
