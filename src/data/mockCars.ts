@@ -113,6 +113,11 @@ export const INITIAL_CARS: Car[] = [
     rating: 4.98,
     reviewsCount: 18,
     image: 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=800',
+    images: [
+      'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=800',
+    ],
     fuel: 'Petrol',
     transmission: 'Automatic',
     seats: 2,
@@ -139,6 +144,11 @@ export const INITIAL_CARS: Car[] = [
     rating: 4.99,
     reviewsCount: 31,
     image: 'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=800',
+    images: [
+      'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=800',
+    ],
     fuel: 'Petrol',
     transmission: 'Automatic',
     seats: 2,
