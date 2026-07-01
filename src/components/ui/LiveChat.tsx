@@ -123,7 +123,7 @@ export const LiveChat = () => {
     <>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-5 right-4 sm:bottom-20 sm:right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 bg-accent-blue text-white rounded-full shadow-lg shadow-accent-blue/30 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer"
+        className="fixed bottom-20 right-4 sm:right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 bg-accent-blue text-white rounded-full shadow-lg shadow-accent-blue/30 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer"
       >
         <MessageCircle size={22} />
       </button>
@@ -135,12 +135,12 @@ export const LiveChat = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed inset-x-0 bottom-0 sm:inset-auto sm:bottom-36 sm:right-6 z-50 sm:w-[360px] sm:h-[500px] max-h-[80vh] sm:max-h-none bg-white dark:bg-neutral-900 sm:rounded-2xl rounded-t-2xl shadow-2xl border border-neutral-200 dark:border-neutral-700 sm:border flex flex-col overflow-hidden"
+            className="fixed inset-x-0 bottom-0 sm:inset-auto sm:bottom-36 sm:right-6 z-50 sm:w-[360px] sm:h-[500px] max-h-[85vh] sm:max-h-none bg-white dark:bg-neutral-900 sm:rounded-2xl rounded-t-2xl shadow-2xl border border-neutral-200 dark:border-neutral-700 sm:border flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="bg-accent-blue text-white p-4 flex items-center gap-3">
+            <div className="bg-accent-blue text-white p-4 flex items-center gap-3 shrink-0">
               {view === 'chat' && (
-                <button onClick={() => { setView('contact'); setActiveChat(null); }} className="cursor-pointer">
+                <button onClick={() => { setView('contact'); setActiveChat(null); }} className="p-1 cursor-pointer">
                   <User size={18} />
                 </button>
               )}
@@ -155,8 +155,8 @@ export const LiveChat = () => {
                   }
                 </p>
               </div>
-              <button onClick={() => setIsOpen(false)} className="cursor-pointer">
-                <X size={18} />
+              <button onClick={() => setIsOpen(false)} className="p-2 -mr-1 rounded-lg hover:bg-white/10 transition-colors cursor-pointer">
+                <X size={20} />
               </button>
             </div>
 
@@ -224,6 +224,17 @@ export const LiveChat = () => {
             {view === 'chat' && (
               <>
                 <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-neutral-50 dark:bg-neutral-800/50">
+                  {currentChat?.messages.length === 0 && (
+                    <div className="text-center py-4">
+                      <div className="w-12 h-12 bg-accent-blue/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <MessageCircle size={20} className="text-accent-blue" />
+                      </div>
+                      <p className="text-sm font-bold text-neutral-800 dark:text-neutral-200 mb-1">Hello! 👋</p>
+                      <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed max-w-[240px] mx-auto">
+                        Welcome to Apex Ride! Do you need a car? Ask us anything about our fleet, pricing, or bookings.
+                      </p>
+                    </div>
+                  )}
                   {currentChat?.messages.map(msg => {
                     const isMe = msg.senderId === user?.id;
                     return (
