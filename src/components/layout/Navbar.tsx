@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Bell, User as UserIcon, Menu, X, Heart, LogOut, Calendar } from 'lucide-react';
+import { Search, Bell, User as UserIcon, Menu, X, Heart, LogOut, Calendar, Sun, Moon } from 'lucide-react';
 import { useStore } from '../../store/useStore';
+import { useThemeStore } from '../../store/useThemeStore';
 import { useLanguageStore } from '../../store/useLanguageStore';
 import { Button } from '../ui/Button';
 import { ThemeToggle } from '../ui/ThemeToggle';
@@ -21,6 +22,7 @@ export const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, wishlist, logout, cars } = useStore();
+  const { isDark, toggleTheme } = useThemeStore();
   const { t } = useLanguageStore();
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -79,8 +81,12 @@ export const Navbar: React.FC = () => {
                       { icon: UserIcon, label: t('myProfile'), to: '/dashboard' },
                       { icon: Calendar, label: t('myBookings'), to: '/dashboard?tab=bookings' },
                     ].map(l => (
-                      <Link key={l.label} to={l.to} className="flex items-center gap-2 px-3 py-1.5 text-xs text-neutral-600 hover:text-neutral-800 hover:bg-neutral-50 transition-colors rounded">{<l.icon size={13} />}{l.label}</Link>
+                      <Link key={l.label} to={l.to} className="flex items-center gap-2 px-3 py-1.5 text-xs text-neutral-600 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-white hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors rounded">{<l.icon size={13} />}{l.label}</Link>
                     ))}
+                    <button onClick={toggleTheme} className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-left text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors rounded cursor-pointer">
+                      {isDark ? <Sun size={13} /> : <Moon size={13} />}
+                      {isDark ? 'Light Mode' : 'Dark Mode'}
+                    </button>
                     <button onClick={() => { logout(); navigate('/'); }} className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-left text-red-500 hover:bg-red-50 transition-colors rounded cursor-pointer"><LogOut size={13} />{t('logout')}</button>
                   </motion.div>
                 )}</AnimatePresence>
@@ -114,6 +120,10 @@ export const Navbar: React.FC = () => {
                   <img src={user.avatar} alt="" className="w-9 h-9 rounded-full object-cover" />
                   <div><p className="text-sm font-bold text-neutral-800 dark:text-neutral-100 uppercase font-display">{user.name}</p><p className="text-xs text-neutral-500 truncate">{user.email}</p></div>
                 </div>
+                <button onClick={toggleTheme} className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-neutral-700 dark:text-neutral-300 bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer">
+                  {isDark ? <Sun size={15} className="text-amber-500" /> : <Moon size={15} />}
+                  {isDark ? 'Light Mode' : 'Dark Mode'}
+                </button>
                 <Button variant="outline" size="sm" className="w-full rounded-lg" onClick={() => navigate('/dashboard')}>Dashboard</Button>
                 <Button variant="glass" size="sm" className="w-full text-red-500 border-red-200 rounded-lg" onClick={() => { logout(); navigate('/'); }}>Logout</Button>
               </>

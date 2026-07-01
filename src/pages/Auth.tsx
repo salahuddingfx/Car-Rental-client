@@ -115,7 +115,7 @@ export const Auth: React.FC = () => {
 
             {isLogin && (
               <div className="text-right">
-                <button type="button" className="text-[11px] text-accent-blue hover:text-accent-blue-hover transition-colors cursor-pointer">Forgot password?</button>
+                <button type="button" onClick={() => navigate('/forgot-password')} className="text-[11px] text-accent-blue hover:text-accent-blue-hover transition-colors cursor-pointer">Forgot password?</button>
               </div>
             )}
 

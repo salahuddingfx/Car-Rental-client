@@ -11,6 +11,7 @@ const Dashboard = lazy(() => import('./pages/Dashboard').then(m => ({ default: m
 const Bookings = lazy(() => import('./pages/Bookings').then(m => ({ default: m.Bookings })));
 const GuestBooking = lazy(() => import('./pages/GuestBooking').then(m => ({ default: m.GuestBooking })));
 const Auth = lazy(() => import('./pages/Auth').then(m => ({ default: m.Auth })));
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword').then(m => ({ default: m.ForgotPassword })));
 const DriverCars = lazy(() => import('./pages/DriverCars').then(m => ({ default: m.DriverCars })));
 const PolicyPage = lazy(() => import('./pages/PolicyPage').then(m => ({ default: m.PolicyPage })));
 const About = lazy(() => import('./pages/About').then(m => ({ default: m.About })));
@@ -41,6 +42,7 @@ function App() {
           <Route path="bookings/:carId" element={<Suspense fallback={<PageLoader />}><Bookings /></Suspense>} />
           <Route path="guest-book/:carId" element={<Suspense fallback={<PageLoader />}><GuestBooking /></Suspense>} />
           <Route path="auth" element={<Suspense fallback={<PageLoader />}><Auth /></Suspense>} />
+          <Route path="forgot-password" element={<Suspense fallback={<PageLoader />}><ForgotPassword /></Suspense>} />
           <Route path="dashboard" element={<Suspense fallback={<PageLoader />}><Dashboard /></Suspense>} />
           <Route path="driver/cars" element={<Suspense fallback={<PageLoader />}><DriverCars /></Suspense>} />
           <Route path="about" element={<Suspense fallback={<PageLoader />}><About /></Suspense>} />
