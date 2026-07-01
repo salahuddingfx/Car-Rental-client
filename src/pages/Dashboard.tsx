@@ -1,11 +1,9 @@
-import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { User, Calendar, Heart, Car, DollarSign, Settings, LogOut, Shield, Fuel, Disc, Star, Edit2, Trash2 } from 'lucide-react';
+import { User, Calendar, Heart, Car, DollarSign, Settings, LogOut, Shield } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { Button } from '../components/ui/Button';
 import { Breadcrumbs } from '../components/Breadcrumbs';
-import { formatPrice } from '../lib/pricing';
 
 const tabs = [
   { id: 'overview', label: 'Overview', icon: User },
