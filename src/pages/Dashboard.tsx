@@ -5,18 +5,18 @@ import {
 import { useStore } from '../store/useStore';
 import { Button } from '../components/ui/Button';
 import { Breadcrumbs } from '../components/Breadcrumbs';
-import { DashboardSidebar } from './dashboard/DashboardSidebar';
-import { DashboardHeader } from './dashboard/DashboardHeader';
-import { DashboardOverview } from './dashboard/DashboardOverview';
-import { DashboardBookingsTab } from './dashboard/DashboardBookingsTab';
-import { DashboardWishlist } from './dashboard/DashboardWishlist';
-import { DashboardMyCars } from './dashboard/DashboardMyCars';
-import { DashboardEarnings } from './dashboard/DashboardEarnings';
-import { DashboardAllCars } from './dashboard/DashboardAllCars';
-import { DashboardUsers } from './dashboard/DashboardUsers';
-import { DashboardAnalytics } from './dashboard/DashboardAnalytics';
-import { DashboardSettings } from './dashboard/DashboardSettings';
-import type { TabItem } from './dashboard/DashboardSidebar';
+import { DashboardSidebar } from './admin/DashboardSidebar';
+import { DashboardHeader } from './admin/DashboardHeader';
+import { DashboardOverview } from './admin/DashboardOverview';
+import { DashboardBookingsTab } from './admin/DashboardBookingsTab';
+import { DashboardWishlist } from './admin/DashboardWishlist';
+import { DashboardMyCars } from './admin/DashboardMyCars';
+import { DashboardEarnings } from './admin/DashboardEarnings';
+import { DashboardAllCars } from './admin/DashboardAllCars';
+import { DashboardUsers } from './admin/DashboardUsers';
+import { DashboardAnalytics } from './admin/DashboardAnalytics';
+import { DashboardSettings } from './admin/DashboardSettings';
+import type { TabItem } from './admin/DashboardSidebar';
 
 export const Dashboard = () => {
   const navigate = useNavigate();
