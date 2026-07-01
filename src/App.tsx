@@ -1,7 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { MainLayout } from './components/layout/MainLayout';
-import { AdminLayout } from './components/layout/AdminLayout';
 import { Home } from './pages/Home';
 import { ScrollToTop } from './components/ScrollToTop';
 import { IntroLoader } from './components/IntroLoader';
@@ -16,13 +15,6 @@ const PolicyPage = lazy(() => import('./pages/PolicyPage').then(m => ({ default:
 const About = lazy(() => import('./pages/About').then(m => ({ default: m.About })));
 const Contact = lazy(() => import('./pages/Contact').then(m => ({ default: m.Contact })));
 const DeveloperCredits = lazy(() => import('./pages/DeveloperCredits'));
-
-// Admin pages
-const AdminOverview = lazy(() => import('./pages/admin/AdminOverview').then(m => ({ default: m.AdminOverview })));
-const AdminCars = lazy(() => import('./pages/admin/AdminCars').then(m => ({ default: m.AdminCars })));
-const AdminUsers = lazy(() => import('./pages/admin/AdminUsers').then(m => ({ default: m.AdminUsers })));
-const AdminAnalytics = lazy(() => import('./pages/admin/AdminAnalytics').then(m => ({ default: m.AdminAnalytics })));
-const AdminSettings = lazy(() => import('./pages/admin/AdminSettings').then(m => ({ default: m.AdminSettings })));
 
 function PageLoader() {
   return (
@@ -41,7 +33,6 @@ function App() {
       <IntroLoader />
       <ScrollToTop />
       <Routes>
-        {/* ============ CLIENT SIDE ============ */}
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
           <Route path="cars" element={<Suspense fallback={<PageLoader />}><Listing /></Suspense>} />
@@ -54,18 +45,8 @@ function App() {
           <Route path="contact" element={<Suspense fallback={<PageLoader />}><Contact /></Suspense>} />
           <Route path="developer" element={<Suspense fallback={<PageLoader />}><DeveloperCredits /></Suspense>} />
           <Route path=":policyType" element={<Suspense fallback={<PageLoader />}><PolicyPage /></Suspense>} />
+          <Route path="*" element={<Home />} />
         </Route>
-
-        {/* ============ ADMIN SIDE ============ */}
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<Suspense fallback={<PageLoader />}><AdminOverview /></Suspense>} />
-          <Route path="cars" element={<Suspense fallback={<PageLoader />}><AdminCars /></Suspense>} />
-          <Route path="users" element={<Suspense fallback={<PageLoader />}><AdminUsers /></Suspense>} />
-          <Route path="analytics" element={<Suspense fallback={<PageLoader />}><AdminAnalytics /></Suspense>} />
-          <Route path="settings" element={<Suspense fallback={<PageLoader />}><AdminSettings /></Suspense>} />
-        </Route>
-
-        <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>
   );
