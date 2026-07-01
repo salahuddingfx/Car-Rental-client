@@ -1,10 +1,11 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, SlidersHorizontal, X, ChevronDown, Fuel, Zap } from 'lucide-react';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { useStore } from '../store/useStore';
 import { CarCard } from '../components/ui/CarCard';
+import { CarCardSkeleton } from '../components/ui/Skeleton';
 import { Button } from '../components/ui/Button';
 
 const categories = [
@@ -34,17 +35,25 @@ const PAGE_SIZE = 6;
 export const Listing = () => {
   const [searchParams] = useSearchParams();
   const { cars } = useStore();
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const [initialLoading, setInitialLoading] = useState(true);
 
   const [search, setSearch] = useState(searchParams.get('search') || '');
   const [category, setCategory] = useState(searchParams.get('category') || 'All');
   const [fuel, setFuel] = useState('All');
   const [sort, setSort] = useState('Price: Low');
   const [priceRange, setPriceRange] = useState(1000);
-  const [page, setPage] = useState(1);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [showFilters, setShowFilters] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
 
   useEffect(() => { document.title = 'Explore Fleet — Apex Ride' }, []);
+
+  useEffect(() => {
+    setInitialLoading(true);
+    const t = setTimeout(() => setInitialLoading(false), 600);
+    return () => clearTimeout(t);
+  }, []);
 
   const filtered = useMemo(() => {
     let result = [...cars];
