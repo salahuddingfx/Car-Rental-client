@@ -34,7 +34,7 @@ export const FeaturedCarsSection: React.FC<Props> = ({ cars }) => {
   }, [emblaApi, onSelect]);
 
   return (
-    <section id="featured-cars" className="relative py-20 lg:py-28 z-10 bg-gradient-to-b from-light-bg to-white">
+    <section id="featured-cars" className="relative py-20 lg:py-28 z-10 bg-gradient-to-b from-light-bg to-white dark:from-neutral-950 dark:to-neutral-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
@@ -50,10 +50,10 @@ export const FeaturedCarsSection: React.FC<Props> = ({ cars }) => {
               Explore All <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
             </Link>
             <div className="flex items-center gap-2">
-              <button onClick={scrollPrev} disabled={!canScrollPrev} className="w-9 h-9 rounded-full bg-white border border-neutral-200 shadow-md flex items-center justify-center text-neutral-600 hover:text-accent-blue hover:border-accent-blue/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer">
+              <button onClick={scrollPrev} disabled={!canScrollPrev} className="w-9 h-9 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-md flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:text-accent-blue hover:border-accent-blue/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer">
                 <ChevronLeft size={16} />
               </button>
-              <button onClick={scrollNext} disabled={!canScrollNext} className="w-9 h-9 rounded-full bg-white border border-neutral-200 shadow-md flex items-center justify-center text-neutral-600 hover:text-accent-blue hover:border-accent-blue/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer">
+              <button onClick={scrollNext} disabled={!canScrollNext} className="w-9 h-9 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-md flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:text-accent-blue hover:border-accent-blue/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer">
                 <ChevronRight size={16} />
               </button>
             </div>
@@ -64,7 +64,7 @@ export const FeaturedCarsSection: React.FC<Props> = ({ cars }) => {
         <div className="flex flex-wrap gap-2 mb-8">
           {categories.map(cat => (
             <button key={cat} onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 rounded-full text-xs font-display font-bold uppercase tracking-widest transition-all cursor-pointer ${activeCategory === cat ? 'bg-accent-blue text-white shadow-lg shadow-accent-blue/20' : 'bg-white text-neutral-500 border border-neutral-200 hover:border-accent-blue/30 hover:text-accent-blue'}`}>
+              className={`px-4 py-2 rounded-full text-xs font-display font-bold uppercase tracking-widest transition-all cursor-pointer ${activeCategory === cat ? 'bg-accent-blue text-white shadow-lg shadow-accent-blue/20' : 'bg-white dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700 hover:border-accent-blue/30 hover:text-accent-blue'}`}>
               {cat}
             </button>
           ))}

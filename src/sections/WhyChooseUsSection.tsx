@@ -17,7 +17,7 @@ const stats = [
 ];
 
 export const WhyChooseUsSection: React.FC = () => (
-  <section className="relative py-20 border-t border-neutral-200/60 z-10">
+  <section className="relative py-20 border-t border-neutral-200/60 dark:border-neutral-700/60 z-10">
     <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
       <div className="space-y-5">
         <p className="font-display text-[10px] tracking-widest text-accent-blue uppercase font-bold">Why Apex Ride</p>
@@ -30,11 +30,11 @@ export const WhyChooseUsSection: React.FC = () => (
         <div className="space-y-4 pt-2">
           {features.map((f) => (
             <div key={f.title} className="flex items-start gap-4">
-              <div className="p-2.5 bg-white border border-neutral-200 text-accent-blue mt-0.5 rounded-lg shadow-sm shrink-0">
+              <div className="p-2.5 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-accent-blue mt-0.5 rounded-lg shadow-sm shrink-0">
                 <f.icon size={16} />
               </div>
               <div>
-                <h4 className="text-neutral-800 font-semibold text-sm mb-0.5">{f.title}</h4>
+                <h4 className="text-neutral-800 dark:text-neutral-200 font-semibold text-sm mb-0.5">{f.title}</h4>
                 <p className="text-sm text-neutral-500">{f.desc}</p>
               </div>
             </div>
@@ -45,7 +45,7 @@ export const WhyChooseUsSection: React.FC = () => (
         {stats.map((s, i) => (
           <motion.div key={s.label} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             transition={{ delay: i * 0.08 }}
-            className="p-7 border border-neutral-200 bg-white hover:bg-amber-50/20 hover:border-accent-amber/20 transition-all duration-300 flex flex-col justify-center items-center text-center h-36 rounded-xl shadow-sm"
+            className="p-7 border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 hover:bg-amber-50/20 dark:hover:bg-neutral-750 hover:border-accent-amber/20 transition-all duration-300 flex flex-col justify-center items-center text-center h-36 rounded-xl shadow-sm"
           >
             <span className="text-3xl md:text-4xl font-bold text-accent-amber font-display">{s.value}</span>
             <span className="text-xs text-neutral-500 mt-1.5 uppercase tracking-wider font-medium">{s.label}</span>

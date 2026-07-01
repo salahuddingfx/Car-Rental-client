@@ -79,7 +79,7 @@ export const Listing = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-light-bg to-white">
+    <div className="min-h-screen bg-gradient-to-b from-light-bg to-white dark:from-neutral-900 dark:to-neutral-950">
       {/* Hero Banner */}
       <div className="relative bg-gradient-to-br from-neutral-900 via-neutral-950 to-neutral-900 overflow-hidden pt-24 pb-12 lg:pb-16">
         <div className="absolute inset-0 pointer-events-none">
@@ -116,75 +116,75 @@ export const Listing = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-6 relative z-10 pb-12">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* ===== FILTER SIDEBAR ===== */}
-          <aside className={`lg:w-60 shrink-0 ${showFilters ? 'fixed inset-0 z-40 bg-white p-6 overflow-y-auto lg:relative lg:inset-auto lg:z-auto lg:bg-transparent lg:p-0' : 'hidden lg:block'}`}>
+          <aside className={`lg:w-60 shrink-0 ${showFilters ? 'fixed inset-0 z-40 bg-white dark:bg-neutral-900 p-6 overflow-y-auto lg:relative lg:inset-auto lg:z-auto lg:bg-transparent lg:p-0' : 'hidden lg:block'}`}>
             {showFilters && (
               <div className="flex items-center justify-between mb-6 lg:hidden">
-                <h3 className="font-display text-sm font-bold text-neutral-800 uppercase tracking-wider">Filters</h3>
-                <button onClick={() => setShowFilters(false)} className="text-neutral-500 hover:text-neutral-800 cursor-pointer"><X size={20} /></button>
+                <h3 className="font-display text-sm font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wider">Filters</h3>
+                <button onClick={() => setShowFilters(false)} className="text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200 cursor-pointer"><X size={20} /></button>
               </div>
             )}
 
-            <div className="bg-white border border-neutral-200/60 rounded-2xl p-5 shadow-sm space-y-6">
+            <div className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-700/60 rounded-2xl p-5 shadow-sm space-y-6">
               {/* Category */}
               <div>
-                <h4 className="font-display text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-3">Category</h4>
+                <h4 className="font-display text-[10px] font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-widest mb-3">Category</h4>
                 <div className="space-y-1.5">
                   {categories.map(c => (
                     <button key={c.value} onClick={() => setCategory(c.value)}
-                      className={`w-full text-left text-xs px-3 py-2 rounded-lg transition-all ${category === c.value ? 'bg-accent-blue text-white font-semibold' : 'text-neutral-600 hover:bg-neutral-100'}`}>
+                      className={`w-full text-left text-xs px-3 py-2 rounded-lg transition-all ${category === c.value ? 'bg-accent-blue text-white font-semibold' : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800'}`}>
                       {c.label}
                     </button>
                   ))}
                 </div>
               </div>
-              <div className="h-px bg-neutral-100" />
+              <div className="h-px bg-neutral-100 dark:bg-neutral-700" />
 
               {/* Fuel Type */}
               <div>
-                <h4 className="font-display text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-3">Fuel Type</h4>
+                <h4 className="font-display text-[10px] font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-widest mb-3">Fuel Type</h4>
                 <div className="space-y-1.5">
                   {fuelTypes.map(f => (
                     <button key={f.value} onClick={() => setFuel(f.value)}
-                      className={`w-full text-left text-xs px-3 py-2 rounded-lg transition-all flex items-center gap-2 ${fuel === f.value ? 'bg-accent-amber/10 text-accent-amber font-semibold' : 'text-neutral-600 hover:bg-neutral-100'}`}>
+                      className={`w-full text-left text-xs px-3 py-2 rounded-lg transition-all flex items-center gap-2 ${fuel === f.value ? 'bg-accent-amber/10 text-accent-amber font-semibold' : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800'}`}>
                       {f.value === 'Electric' ? <Zap size={13} /> : <Fuel size={13} />}
                       {f.label}
                     </button>
                   ))}
                 </div>
               </div>
-              <div className="h-px bg-neutral-100" />
+              <div className="h-px bg-neutral-100 dark:bg-neutral-700" />
 
               {/* Price Range */}
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <h4 className="font-display text-[10px] font-bold text-neutral-500 uppercase tracking-widest">Max Price</h4>
+                  <h4 className="font-display text-[10px] font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-widest">Max Price</h4>
                   <span className="text-sm font-bold text-accent-blue">৳{priceRange}</span>
                 </div>
                 <input type="range" min={100} max={1000} value={priceRange} onChange={(e) => setPriceRange(Number(e.target.value))}
-                  className="w-full accent-accent-blue h-1.5 rounded-full appearance-none bg-neutral-200 cursor-pointer" />
-                <div className="flex justify-between text-[10px] text-neutral-400 mt-1">
+                  className="w-full accent-accent-blue h-1.5 rounded-full appearance-none bg-neutral-200 dark:bg-neutral-700 cursor-pointer" />
+                <div className="flex justify-between text-[10px] text-neutral-400 dark:text-neutral-500 mt-1">
                   <span>৳100</span>
                   <span>৳1,000</span>
                 </div>
               </div>
-              <div className="h-px bg-neutral-100" />
+              <div className="h-px bg-neutral-100 dark:bg-neutral-700" />
 
               {/* Sort */}
               <div>
-                <h4 className="font-display text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-3">Sort By</h4>
+                <h4 className="font-display text-[10px] font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-widest mb-3">Sort By</h4>
                 <div className="relative">
                   <button onClick={() => setSortOpen(!sortOpen)}
-                    className="w-full flex items-center justify-between bg-white border border-neutral-200 text-sm text-neutral-700 px-3 py-2.5 rounded-lg hover:border-neutral-400 transition-colors cursor-pointer">
+                    className="w-full flex items-center justify-between bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-sm text-neutral-700 dark:text-neutral-300 px-3 py-2.5 rounded-lg hover:border-neutral-400 dark:hover:border-neutral-500 transition-colors cursor-pointer">
                     <span>{sortOptions.find(s => s.value === sort)?.label}</span>
                     <ChevronDown size={14} className={`transition-transform ${sortOpen ? 'rotate-180' : ''}`} />
                   </button>
                   <AnimatePresence>
                     {sortOpen && (
                       <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }}
-                        className="absolute top-full left-0 right-0 mt-1 bg-white border border-neutral-200 rounded-lg shadow-lg z-10 overflow-hidden">
+                        className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-lg z-10 overflow-hidden">
                         {sortOptions.map(s => (
                           <button key={s.value} onClick={() => { setSort(s.value); setSortOpen(false); }}
-                            className={`w-full text-left text-xs px-3 py-2.5 transition-colors cursor-pointer ${sort === s.value ? 'bg-accent-blue/10 text-accent-blue font-semibold' : 'text-neutral-600 hover:bg-neutral-50'}`}>
+                            className={`w-full text-left text-xs px-3 py-2.5 transition-colors cursor-pointer ${sort === s.value ? 'bg-accent-blue/10 text-accent-blue font-semibold' : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-700'}`}>
                             {s.label}
                           </button>
                         ))}

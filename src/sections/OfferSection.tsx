@@ -14,7 +14,7 @@ export const OfferSection: React.FC = () => {
   useEffect(() => { const i = setInterval(() => setT(p => p > 0 ? p - 1 : 86400), 1000); return () => clearInterval(i); }, []);
 
   return (
-    <section className="relative py-20 border-t border-neutral-200/60 z-10 bg-amber-50/30">
+    <section className="relative py-20 border-t border-neutral-200/60 dark:border-neutral-700/60 z-10 bg-amber-50/30 dark:bg-amber-950/10">
       <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row justify-between items-center gap-10">
         <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-4 max-w-xl">
           <span className="font-display text-[9px] uppercase font-bold tracking-widest text-accent-amber border border-accent-amber/30 px-2 py-0.5 bg-amber-50 rounded">Limited — Bangladesh Special</span>

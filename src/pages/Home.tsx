@@ -30,7 +30,7 @@ export const Home: React.FC = () => {
     <div className="relative overflow-x-hidden min-h-screen">
       <PremiumHeroSection />
 
-      <div className="bg-light-bg">
+      <div className="bg-light-bg dark:bg-neutral-950">
         <BrandsSection
           searchLoc={searchLoc}
           setSearchLoc={setSearchLoc}

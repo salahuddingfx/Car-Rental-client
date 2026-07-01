@@ -15,7 +15,7 @@ export const FaqSection: React.FC = () => {
   const [active, setActive] = useState<number | null>(null);
 
   return (
-    <section className="relative py-20 z-10 bg-white">
+    <section className="relative py-20 z-10 bg-white dark:bg-neutral-900">
       <div className="max-w-3xl mx-auto px-6 space-y-10">
         <div className="text-center space-y-1">
           <HelpCircle className="text-accent-amber mx-auto" size={22} />
