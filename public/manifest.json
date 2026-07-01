@@ -1,0 +1,17 @@
+{
+  "name": "Apex Ride - Luxury Car Rental",
+  "short_name": "Apex Ride",
+  "description": "Premium luxury car rental platform",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
