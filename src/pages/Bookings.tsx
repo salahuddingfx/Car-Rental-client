@@ -204,6 +204,7 @@ export const Bookings: React.FC = () => {
                     { label: 'Email', value: email },
                     { label: 'Vehicle', value: `${car.brand} ${car.name}` },
                     { label: 'Duration', value: `${days} day${days > 1 ? 's' : ''}` },
+                    { label: 'NID', value: nidFile ? 'Uploaded ✓' : 'Not uploaded' },
                   ].map((f) => (
                     <div key={f.label} className="flex justify-between text-sm">
                       <span className="text-neutral-500 dark:text-neutral-400">{f.label}</span>
