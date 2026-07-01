@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { CreditCard, User, Mail, Phone, Check } from 'lucide-react';
+import { CreditCard, User, Mail, Phone, Check, Upload, FileText } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { Button } from '../components/ui/Button';
 import { Breadcrumbs } from '../components/Breadcrumbs';
@@ -20,6 +20,7 @@ interface PassengerErrors {
   name?: string;
   email?: string;
   phone?: string;
+  nid?: string;
 }
 
 export const Bookings: React.FC = () => {
@@ -32,16 +33,28 @@ export const Bookings: React.FC = () => {
   const [name, setName] = useState(user?.name || '');
   const [email, setEmail] = useState(user?.email || '');
   const [phone, setPhone] = useState('');
+  const [nidFile, setNidFile] = useState<File | null>(null);
+  const [nidPreview, setNidPreview] = useState('');
   const [pickup] = useState(new Date().toISOString().split('T')[0]);
   const [returnD] = useState(new Date(Date.now() + 86400000).toISOString().split('T')[0]);
   const [errors, setErrors] = useState<PassengerErrors>({});
   const [touched, setTouched] = useState(false);
+
+  const handleNidUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { setErrors(p => ({ ...p, nid: 'File must be under 5MB' })); return; }
+    setNidFile(file);
+    setNidPreview(URL.createObjectURL(file));
+    setErrors(p => ({ ...p, nid: undefined }));
+  };
 
   const validatePassengerInfo = (): PassengerErrors => {
     const errs: PassengerErrors = {};
     if (name.trim().length < 2) errs.name = 'Name must be at least 2 characters';
     if (!emailRegex.test(email)) errs.email = 'Please enter a valid email';
     if (phone.trim().length < 8) errs.phone = 'Phone must be at least 8 characters';
+    if (!nidFile) errs.nid = 'NID upload is required for verification';
     return errs;
   };
 
