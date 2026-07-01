@@ -152,6 +152,37 @@ export const Bookings: React.FC = () => {
                       </div>
                     );
                   })}
+
+                  {/* NID Upload */}
+                  <div>
+                    <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">National ID (NID) *</label>
+                    <label className={`flex items-center justify-center gap-3 p-4 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${nidFile ? 'border-green-400 bg-green-50 dark:bg-green-950/20' : 'border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 hover:border-accent-blue/50'}`}>
+                      <input type="file" accept="image/*,.pdf" className="hidden" onChange={handleNidUpload} />
+                      {nidFile ? (
+                        <>
+                          <FileText size={20} className="text-green-600" />
+                          <div className="text-left">
+                            <p className="text-xs font-semibold text-neutral-800 dark:text-neutral-200 truncate max-w-[200px]">{nidFile.name}</p>
+                            <p className="text-[10px] text-neutral-400">Click to replace</p>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <Upload size={20} className="text-neutral-400" />
+                          <div className="text-left">
+                            <p className="text-xs text-neutral-600 dark:text-neutral-400">Upload front side of your NID</p>
+                            <p className="text-[10px] text-neutral-400">JPG, PNG or PDF · Max 5MB</p>
+                          </div>
+                        </>
+                      )}
+                    </label>
+                    {nidPreview && nidFile?.type.startsWith('image/') && (
+                      <div className="mt-2 relative w-24 h-16 rounded-lg overflow-hidden border border-neutral-200 dark:border-neutral-700">
+                        <img src={nidPreview} alt="NID preview" className="w-full h-full object-cover" />
+                      </div>
+                    )}
+                    {errors.nid && <p className="text-[10px] text-red-500 mt-1">{errors.nid}</p>}
+                  </div>
                 </div>
                 <div className="flex gap-3 mt-6">
                   <Button variant="ghost" onClick={() => setStep(1)} className="rounded-lg">Back</Button>
