@@ -53,6 +53,7 @@ export const Navbar: React.FC = () => {
               { to: '/cars', label: t('browseCars') },
               ...(user ? [{ to: '/driver/cars', label: t('listYourCar') }] : []),
               { to: '/about', label: t('aboutUs') },
+              { to: '/reviews', label: t('reviews') || 'Reviews' },
               { to: '/contact', label: t('contact') },
             ].map(l => (
               <Link key={l.to} to={l.to} className={`font-display text-xs tracking-widest uppercase hover:text-accent-blue transition-colors ${location.pathname === l.to ? 'text-accent-blue' : isScrolled ? 'text-neutral-600 dark:text-neutral-400' : 'text-white/70'}`}>{l.label}</Link>
