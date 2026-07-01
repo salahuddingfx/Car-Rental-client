@@ -123,7 +123,7 @@ export const LiveChat = () => {
     <>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-20 right-4 sm:right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 bg-accent-blue text-white rounded-full shadow-lg shadow-accent-blue/30 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer"
+        className="fixed bottom-5 right-4 sm:bottom-20 sm:right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 bg-accent-blue text-white rounded-full shadow-lg shadow-accent-blue/30 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer"
       >
         <MessageCircle size={22} />
       </button>
@@ -131,10 +131,11 @@ export const LiveChat = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed inset-0 sm:inset-auto sm:bottom-36 sm:right-6 z-50 w-full sm:w-[360px] h-full sm:h-[500px] bg-white dark:bg-neutral-900 sm:rounded-2xl shadow-2xl border-0 sm:border border-neutral-200 dark:border-neutral-700 flex flex-col overflow-hidden"
+            initial={{ opacity: 0, y: '100%' }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: '100%' }}
+            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+            className="fixed inset-x-0 bottom-0 sm:inset-auto sm:bottom-36 sm:right-6 z-50 sm:w-[360px] sm:h-[500px] max-h-[80vh] sm:max-h-none bg-white dark:bg-neutral-900 sm:rounded-2xl rounded-t-2xl shadow-2xl border border-neutral-200 dark:border-neutral-700 sm:border flex flex-col overflow-hidden"
           >
             {/* Header */}
             <div className="bg-accent-blue text-white p-4 flex items-center gap-3">
