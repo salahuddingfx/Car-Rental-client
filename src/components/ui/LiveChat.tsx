@@ -123,7 +123,7 @@ export const LiveChat = () => {
     <>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-20 right-6 z-50 w-14 h-14 bg-accent-blue text-white rounded-full shadow-lg shadow-accent-blue/30 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer"
+        className="fixed bottom-20 right-4 sm:right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 bg-accent-blue text-white rounded-full shadow-lg shadow-accent-blue/30 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer"
       >
         <MessageCircle size={22} />
       </button>
@@ -134,7 +134,7 @@ export const LiveChat = () => {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-36 right-6 z-50 w-[360px] h-[500px] bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl border border-neutral-200 dark:border-neutral-700 flex flex-col overflow-hidden"
+            className="fixed inset-0 sm:inset-auto sm:bottom-36 sm:right-6 z-50 w-full sm:w-[360px] h-full sm:h-[500px] bg-white dark:bg-neutral-900 sm:rounded-2xl shadow-2xl border-0 sm:border border-neutral-200 dark:border-neutral-700 flex flex-col overflow-hidden"
           >
             {/* Header */}
             <div className="bg-accent-blue text-white p-4 flex items-center gap-3">
