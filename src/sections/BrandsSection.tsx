@@ -52,10 +52,10 @@ export const BrandsSection: React.FC<Props> = ({ searchLoc, setSearchLoc, search
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block">Pickup</label>
-                  <div className="flex items-center border border-neutral-200 p-3 bg-white rounded-lg">
+                  <div className="flex items-center border border-neutral-200 dark:border-neutral-700 p-3 bg-white dark:bg-neutral-800 rounded-lg">
                     <Calendar size={15} className="text-neutral-400 mr-2 shrink-0" />
                     <input type="date" value={searchPickup} onChange={(e) => setSearchPickup(e.target.value)}
-                      className="bg-transparent text-xs text-neutral-800 outline-none w-full" />
+                      className="bg-transparent text-xs text-neutral-800 dark:text-neutral-200 outline-none w-full" />
                   </div>
                 </div>
                 <div>
