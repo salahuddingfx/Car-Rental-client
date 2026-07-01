@@ -110,6 +110,7 @@ export const Navbar: React.FC = () => {
             <Link to="/cars" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 dark:text-neutral-100 border-b border-neutral-100 dark:border-neutral-800 pb-2">{t('browseCars')}</Link>
             {user && <Link to="/driver/cars" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 dark:text-neutral-100 border-b border-neutral-100 dark:border-neutral-800 pb-2">{t('listYourCar')}</Link>}
             <Link to="/about" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 dark:text-neutral-100 border-b border-neutral-100 dark:border-neutral-800 pb-2">{t('aboutUs')}</Link>
+            <Link to="/reviews" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 dark:text-neutral-100 border-b border-neutral-100 dark:border-neutral-800 pb-2">{t('reviews') || 'Reviews'}</Link>
             <Link to="/contact" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 dark:text-neutral-100 border-b border-neutral-100 dark:border-neutral-800 pb-2">{t('contact')}</Link>
             <div><span className="font-display text-xs font-bold tracking-wider text-neutral-400 uppercase block mb-2">Categories</span>
               <div className="grid grid-cols-2 gap-2 pl-2">{categories.map(c => <Link key={c.name} to={`/cars?category=${c.name}`} className="text-neutral-600 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-white text-sm py-0.5">{c.name}</Link>)}</div>
