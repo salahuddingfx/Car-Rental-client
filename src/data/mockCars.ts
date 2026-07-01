@@ -175,6 +175,11 @@ export const INITIAL_CARS: Car[] = [
     rating: 4.92,
     reviewsCount: 15,
     image: 'https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&q=80&w=800',
+    images: [
+      'https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1632245889027-e406faaa19ca?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=800',
+    ],
     fuel: 'Petrol',
     transmission: 'Automatic',
     seats: 4,
