@@ -7,6 +7,7 @@ import { useLanguageStore } from '../../store/useLanguageStore';
 import { Button } from '../ui/Button';
 import { ThemeToggle } from '../ui/ThemeToggle';
 import { LanguageToggle } from '../ui/LanguageToggle';
+import { NotificationBell } from '../ui/NotificationBell';
 
 const categories = [
   { name: 'Electric', desc: 'Zero emission, maximum torque', img: 'https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&q=80&w=200' },
@@ -63,23 +64,7 @@ export const Navbar: React.FC = () => {
               <Heart size={18} />
               {wishlist.length > 0 && <span className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-accent-blue text-white font-sans text-[8px] font-bold rounded-full flex items-center justify-center">{wishlist.length}</span>}
             </Link>
-            <div className="relative">
-              <button onClick={() => setIsNotificationsOpen(!isNotificationsOpen)} className={`transition-colors cursor-pointer ${isScrolled ? 'text-neutral-500 hover:text-neutral-800' : 'text-white/60 hover:text-white'}`}><Bell size={18} /></button>
-              <AnimatePresence>{isNotificationsOpen && (
-                <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
-                  className="absolute right-0 mt-3 w-72 bg-white border border-neutral-200/60 shadow-lg p-4 z-50 rounded-xl">
-                  <h4 className="font-display text-xs font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2 mb-3">Notifications</h4>
-                  <div className="text-xs p-2.5 bg-amber-50 border-l-2 border-accent-blue rounded mb-2">
-                    <p className="text-neutral-800 font-semibold mb-0.5">Booking Verified</p>
-                    <p className="text-neutral-500">Your rental for the 911 GT3 RS has been verified.</p>
-                  </div>
-                  <div className="text-xs p-2.5 bg-neutral-50 rounded">
-                    <p className="text-neutral-800 font-semibold mb-0.5">New Car Added</p>
-                    <p className="text-neutral-500">A Lamborghini Huracán is now available in Dhaka.</p>
-                  </div>
-                </motion.div>
-              )}</AnimatePresence>
-            </div>
+            <NotificationBell className={isScrolled ? '' : 'text-white/60 hover:text-white'} />
             {user ? (
               <div className="relative">
                 <button onClick={() => setIsProfileOpen(!isProfileOpen)} className="flex items-center gap-2 border border-neutral-200 hover:border-neutral-300 p-1.5 bg-white hover:bg-neutral-50 transition-colors rounded-lg cursor-pointer">
