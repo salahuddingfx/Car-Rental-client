@@ -40,7 +40,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-500 ${isScrolled ? 'bg-white/80 backdrop-blur-md py-3 border-b border-neutral-200/60 shadow-sm' : 'bg-neutral-950/60 backdrop-blur-sm py-5 border-b border-white/5'}`}>
+      <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-500 ${isScrolled ? 'bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md py-3 border-b border-neutral-200/60 dark:border-neutral-700/60 shadow-sm' : 'bg-neutral-950/60 backdrop-blur-sm py-5 border-b border-white/5'}`}>
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
 <Link to="/" className={`font-display font-bold text-xl tracking-widest flex items-center gap-1.5 ${isScrolled ? 'text-neutral-900' : 'text-white'}`}>
              <span className="text-accent-amber font-extrabold text-2xl">A</span>pex Ride
@@ -54,7 +54,7 @@ export const Navbar: React.FC = () => {
               { to: '/about', label: t('aboutUs') },
               { to: '/contact', label: t('contact') },
             ].map(l => (
-              <Link key={l.to} to={l.to} className={`font-display text-xs tracking-widest uppercase hover:text-accent-blue transition-colors ${location.pathname === l.to ? 'text-accent-blue' : isScrolled ? 'text-neutral-600' : 'text-white/70'}`}>{l.label}</Link>
+              <Link key={l.to} to={l.to} className={`font-display text-xs tracking-widest uppercase hover:text-accent-blue transition-colors ${location.pathname === l.to ? 'text-accent-blue' : isScrolled ? 'text-neutral-600 dark:text-neutral-400' : 'text-white/70'}`}>{l.label}</Link>
             ))}
           </div>
 
