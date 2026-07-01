@@ -56,7 +56,7 @@ export const Auth: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-light-bg dark:bg-neutral-900 relative overflow-hidden px-6">
+    <div className="min-h-screen flex items-center justify-center bg-light-bg dark:bg-neutral-900 relative overflow-hidden px-6 pt-20">
       <CssWave />
 
       <div className="relative z-10 w-full max-w-md">
