@@ -70,7 +70,7 @@ export const Bookings: React.FC = () => {
       carId: car.id, userId: user.id,
       pickupDate: pickup, returnDate: returnD,
       totalDays: days, totalPrice: total, status: 'Upcoming',
-      driverInfo: { fullName: name, email, phone, licenseNumber: license, licenseExpiry: '' },
+      driverInfo: { fullName: name, email, phone, licenseNumber: 'N/A - Company Driver', licenseExpiry: '' },
     });
     setStep(4);
   };
