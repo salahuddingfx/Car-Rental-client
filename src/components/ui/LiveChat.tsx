@@ -4,7 +4,7 @@ import { MessageCircle, X, Send, ArrowLeft, User, Phone, Mail, MapPin } from 'lu
 import { useChatStore, type Chat } from '../../store/useChatStore';
 import { useStore } from '../../store/useStore';
 
-type View = 'list' | 'chat' | 'contact';
+type View = 'contact' | 'chat';
 
 export const LiveChat = () => {
   const { user } = useStore();
