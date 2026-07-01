@@ -42,8 +42,9 @@ export const Navbar: React.FC = () => {
     <>
       <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-500 ${isScrolled ? 'bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md py-3 border-b border-neutral-200/60 dark:border-neutral-700/60 shadow-sm' : 'bg-neutral-950/60 backdrop-blur-sm py-5 border-b border-white/5'}`}>
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-<Link to="/" className={`font-display font-bold text-xl tracking-widest flex items-center gap-1.5 ${isScrolled ? 'text-neutral-900' : 'text-white'}`}>
-             <span className="text-accent-amber font-extrabold text-2xl">A</span>pex Ride
+<Link to="/" className="flex items-center gap-1.5 group">
+             <span className={`font-extrabold font-display transition-all duration-500 ${isScrolled ? 'text-xl text-accent-amber' : 'text-2xl text-accent-amber'}`}>A</span>
+             <span className={`font-display font-bold tracking-widest transition-all duration-500 ${isScrolled ? 'text-base text-neutral-900 dark:text-white' : 'text-xl text-white'}`}>pex Ride</span>
            </Link>
 
           <div className="hidden lg:flex items-center gap-7">
