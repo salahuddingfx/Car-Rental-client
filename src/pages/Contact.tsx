@@ -55,7 +55,7 @@ export const Contact = () => {
             <div className="bg-white border border-neutral-200/60 shadow-sm p-6 sm:p-8 rounded-2xl dark:bg-neutral-900 dark:border-neutral-800">
               {sent ? (
                 <div className="text-center py-12">
-                  <div className="w-14 h-14 rounded-2xl bg-green-50 flex items-center justify-center mx-auto mb-4">
+                  <div className="w-14 h-14 rounded-2xl bg-green-50 flex items-center justify-center mx-auto mb-4 dark:bg-green-900/30">
                     <Send size={24} className="text-green-600" />
                   </div>
                   <h3 className="font-display text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-1">Message Sent</h3>
