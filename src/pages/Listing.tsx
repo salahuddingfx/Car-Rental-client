@@ -76,7 +76,6 @@ export const Listing = () => {
     return result;
   }, [cars, search, category, fuel, sort, priceRange]);
 
-  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
   const paginated = filtered.slice(0, visibleCount);
   const hasMore = visibleCount < filtered.length;
 
