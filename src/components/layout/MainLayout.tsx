@@ -3,10 +3,6 @@ import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { ScrollToTopButton } from '../ScrollToTopButton';
 import { ToastContainer } from '../ui/Toast';
-import { initTheme } from '../../store/useThemeStore';
-
-// Initialize theme on load
-initTheme();
 
 export const MainLayout = () => {
   return (

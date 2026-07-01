@@ -8,6 +8,19 @@
     <meta name="description" content="Apex Ride - Premium luxury car rental platform" />
     <link rel="manifest" href="/manifest.json" />
     <title>Apex Ride — Premium Car Rental</title>
+    <script>
+      (function() {
+        try {
+          var stored = localStorage.getItem('theme-storage');
+          if (stored) {
+            var state = JSON.parse(stored).state;
+            if (state && state.isDark) {
+              document.documentElement.classList.add('dark');
+            }
+          }
+        } catch(e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -16,15 +16,15 @@ export const useThemeStore = create<ThemeState>()(
         return { isDark: newDark };
       }),
     }),
-    { name: 'theme-storage' }
+    {
+      name: 'theme-storage',
+      onRehydrateStorage: () => (state) => {
+        if (state?.isDark) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      },
+    }
   )
 );
-
-// Initialize theme on load
-export function initTheme() {
-  const stored = localStorage.getItem('theme-storage');
-  if (stored) {
-    const { state } = JSON.parse(stored);
-    document.documentElement.classList.toggle('dark', state.isDark);
-  }
-}
