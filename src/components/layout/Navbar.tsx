@@ -69,14 +69,14 @@ export const Navbar: React.FC = () => {
             <NotificationBell className={isScrolled ? '' : 'text-white/60 hover:text-white'} />
             {user ? (
               <div className="relative">
-                <button onClick={() => setIsProfileOpen(!isProfileOpen)} className="flex items-center gap-2 border border-neutral-200 hover:border-neutral-300 p-1.5 bg-white hover:bg-neutral-50 transition-colors rounded-lg cursor-pointer">
+                <button onClick={() => setIsProfileOpen(!isProfileOpen)} className="flex items-center gap-2 border border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 p-1.5 bg-white dark:bg-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors rounded-lg cursor-pointer">
                   <img src={user.avatar} alt="" className="w-6 h-6 object-cover rounded" />
-                  <span className="font-display text-[10px] uppercase font-bold tracking-widest text-neutral-700 max-w-[70px] truncate">{user.name}</span>
+                  <span className="font-display text-[10px] uppercase font-bold tracking-widest text-neutral-700 dark:text-neutral-300 max-w-[70px] truncate">{user.name}</span>
                 </button>
                 <AnimatePresence>{isProfileOpen && (
                   <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
-                    className="absolute right-0 mt-3 w-48 bg-white border border-neutral-200/60 shadow-lg p-1.5 z-50 rounded-xl">
-                    <div className="px-3 py-1.5 border-b border-neutral-100 mb-1"><p className="text-xs font-bold text-neutral-800 truncate">{user.name}</p><p className="text-[10px] text-neutral-500 truncate">{user.email}</p></div>
+                    className="absolute right-0 mt-3 w-48 bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-700/60 shadow-lg p-1.5 z-50 rounded-xl">
+                    <div className="px-3 py-1.5 border-b border-neutral-100 dark:border-neutral-800 mb-1"><p className="text-xs font-bold text-neutral-800 dark:text-neutral-200 truncate">{user.name}</p><p className="text-[10px] text-neutral-500 truncate">{user.email}</p></div>
                     {[
                       { icon: UserIcon, label: t('myProfile'), to: '/dashboard' },
                       { icon: Calendar, label: t('myBookings'), to: '/dashboard?tab=bookings' },
