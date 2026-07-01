@@ -3,6 +3,7 @@ import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { ScrollToTopButton } from '../ScrollToTopButton';
 import { ToastContainer } from '../ui/Toast';
+import { CookieConsent } from '../ui/CookieConsent';
 
 export const MainLayout = () => {
   return (
@@ -14,6 +15,7 @@ export const MainLayout = () => {
       <Footer />
       <ScrollToTopButton />
       <ToastContainer />
+      <CookieConsent />
     </div>
   );
 };
