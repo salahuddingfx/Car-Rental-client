@@ -65,7 +65,7 @@ export const Contact = () => {
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block">Your Name</label>
+                      <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block dark:text-neutral-500">Your Name</label>
                       <input required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
                         placeholder="e.g. Rahim Uddin"
                         className="w-full border border-neutral-200 text-sm text-neutral-800 p-3 rounded-xl outline-none focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/10 transition-all duration-200 placeholder:text-neutral-300" />
