@@ -17,6 +17,7 @@ const DriverCars = lazy(() => import('./pages/DriverCars').then(m => ({ default:
 const PolicyPage = lazy(() => import('./pages/PolicyPage').then(m => ({ default: m.PolicyPage })));
 const About = lazy(() => import('./pages/About').then(m => ({ default: m.About })));
 const Contact = lazy(() => import('./pages/Contact').then(m => ({ default: m.Contact })));
+const Reviews = lazy(() => import('./pages/Reviews').then(m => ({ default: m.Reviews })));
 const DeveloperCredits = lazy(() => import('./pages/DeveloperCredits'));
 
 function PageLoader() {
@@ -53,6 +54,7 @@ function App() {
           <Route path="dashboard" element={<Suspense fallback={<PageLoader />}><Dashboard /></Suspense>} />
           <Route path="driver/cars" element={<Suspense fallback={<PageLoader />}><DriverCars /></Suspense>} />
           <Route path="about" element={<Suspense fallback={<PageLoader />}><About /></Suspense>} />
+          <Route path="reviews" element={<Suspense fallback={<PageLoader />}><Reviews /></Suspense>} />
           <Route path="contact" element={<Suspense fallback={<PageLoader />}><Contact /></Suspense>} />
           <Route path="developer" element={<Suspense fallback={<PageLoader />}><DeveloperCredits /></Suspense>} />
           <Route path=":policyType" element={<Suspense fallback={<PageLoader />}><PolicyPage /></Suspense>} />
