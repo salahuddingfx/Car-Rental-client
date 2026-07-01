@@ -171,8 +171,11 @@ export const Details: React.FC = () => {
                 <div className="border-t border-neutral-100 pt-2 flex justify-between font-display text-sm font-bold text-neutral-900"><span>Total</span><span>{formatPrice(total)}</span></div>
               </div>
 
-              <Button variant="primary" className="w-full rounded-lg mb-3" onClick={() => navigate(`/bookings/${car.id}`)}>
+              <Button variant="primary" className="w-full rounded-lg mb-2" onClick={() => navigate(`/bookings/${car.id}`)}>
                 Reserve Now
+              </Button>
+              <Button variant="outline" className="w-full rounded-lg mb-3" onClick={() => navigate(`/guest-book/${car.id}`)}>
+                Book as Guest
               </Button>
               <p className="text-[10px] text-neutral-400 text-center leading-relaxed">
                 <Shield size={12} className="inline mr-1" />

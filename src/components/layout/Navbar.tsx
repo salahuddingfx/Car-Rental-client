@@ -43,6 +43,7 @@ export const Navbar: React.FC = () => {
             {[
               { to: '/', label: 'Home' },
               { to: '/cars', label: 'Browse Cars' },
+              ...(user ? [{ to: '/driver/cars', label: 'List Your Car' }] : []),
               { to: '/about', label: 'About Us' },
               { to: '/contact', label: 'Contact' },
             ].map(l => (
@@ -108,6 +109,7 @@ export const Navbar: React.FC = () => {
           <div className="flex flex-col gap-5 text-left mb-8">
             <Link to="/" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">Home</Link>
             <Link to="/cars" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">Browse Cars</Link>
+            {user && <Link to="/driver/cars" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">List Your Car</Link>}
             <Link to="/about" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">About Us</Link>
             <Link to="/contact" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">Contact</Link>
             <div><span className="font-display text-xs font-bold tracking-wider text-neutral-400 uppercase block mb-2">Categories</span>
