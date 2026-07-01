@@ -225,7 +225,7 @@ export const Listing = () => {
               <div className="flex items-center gap-3">
                 <span className="text-sm text-neutral-600 dark:text-neutral-400">
                   {filtered.length > 0 ? (
-                    <>Showing <strong className="text-neutral-900 dark:text-neutral-100">{(page - 1) * PAGE_SIZE + 1}-{Math.min(page * PAGE_SIZE, filtered.length)}</strong> of <strong className="text-neutral-900 dark:text-neutral-100">{filtered.length}</strong> vehicles</>
+                    <>Showing <strong className="text-neutral-900 dark:text-neutral-100">{Math.min(visibleCount, filtered.length)}</strong> of <strong className="text-neutral-900 dark:text-neutral-100">{filtered.length}</strong> vehicles</>
                   ) : (
                     <><strong className="text-neutral-900 dark:text-neutral-100">0</strong> vehicles</>
                   )}
