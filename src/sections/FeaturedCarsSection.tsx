@@ -42,7 +42,7 @@ export const FeaturedCarsSection: React.FC<Props> = ({ cars }) => {
         >
           <div>
             <p className="font-display text-[10px] tracking-[0.25em] text-accent-blue uppercase font-bold mb-2">The Chosen Collection</p>
-            <h2 className="font-display text-3xl md:text-4xl font-extrabold text-neutral-900">Featured Vehicles</h2>
+            <h2 className="font-display text-3xl md:text-4xl font-extrabold text-neutral-900 dark:text-neutral-100">Featured Vehicles</h2>
             <p className="text-neutral-500 text-sm mt-1.5 max-w-md">Handpicked luxury and performance machines waiting for your next journey.</p>
           </div>
           <div className="flex items-center gap-4">

@@ -75,17 +75,17 @@ export const BrandsSection: React.FC<Props> = ({ searchLoc, setSearchLoc, search
         <div className="lg:col-span-3 order-1 lg:order-2 space-y-7">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <p className="font-display text-[10px] tracking-widest text-accent-blue uppercase font-bold mb-2">Available In Bangladesh</p>
-            <h2 className="font-display text-2xl md:text-3xl font-extrabold uppercase text-neutral-900">Popular Brands</h2>
+            <h2 className="font-display text-2xl md:text-3xl font-extrabold uppercase text-neutral-900 dark:text-neutral-100">Popular Brands</h2>
           </motion.div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {brands.map((brand, i) => (
               <motion.div key={brand.name} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.04 }} onClick={() => navigate(`/cars?brand=${brand.name}`)}
-                className="p-5 border border-neutral-200 hover:border-accent-amber/30 bg-white hover:bg-amber-50/30 transition-all duration-300 group cursor-pointer flex flex-col justify-between h-24 rounded-xl shadow-sm"
+                className="p-5 border border-neutral-200 dark:border-neutral-700 hover:border-accent-amber/30 bg-white dark:bg-neutral-800 hover:bg-amber-50/30 dark:hover:bg-neutral-750 transition-all duration-300 group cursor-pointer flex flex-col justify-between h-24 rounded-xl shadow-sm"
               >
                 <span className="font-display text-xs text-neutral-400 group-hover:text-neutral-500 tracking-widest">{brand.logo}</span>
                 <div className="flex justify-between items-baseline">
-                  <span className="text-sm font-bold text-neutral-800 group-hover:text-accent-amber transition-colors">{brand.name}</span>
+                  <span className="text-sm font-bold text-neutral-800 dark:text-neutral-200 group-hover:text-accent-amber transition-colors">{brand.name}</span>
                   <span className="text-[10px] text-neutral-400">{brand.count} cars</span>
                 </div>
               </motion.div>

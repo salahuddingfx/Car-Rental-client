@@ -21,7 +21,7 @@ export const WhyChooseUsSection: React.FC = () => (
     <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
       <div className="space-y-5">
         <p className="font-display text-[10px] tracking-widest text-accent-blue uppercase font-bold">Why Apex Ride</p>
-        <h2 className="font-display text-3xl md:text-4xl font-extrabold uppercase text-neutral-900 leading-tight">
+        <h2 className="font-display text-3xl md:text-4xl font-extrabold uppercase text-neutral-900 dark:text-neutral-100 leading-tight">
           Luxury Mobility, Redefined for Bangladesh
         </h2>
         <p className="text-neutral-500 text-base leading-relaxed">

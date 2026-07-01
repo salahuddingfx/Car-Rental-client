@@ -79,9 +79,9 @@ export const PolicyPage: React.FC = () => {
 
   if (!policy) {
     return (
-      <div className="min-h-screen bg-light-bg flex items-center justify-center pt-20">
+      <div className="min-h-screen bg-light-bg dark:bg-neutral-900 flex items-center justify-center pt-20 transition-colors">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-neutral-900 mb-2">Page Not Found</h1>
+          <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">Page Not Found</h1>
           <p className="text-neutral-500 mb-6">This policy page doesn't exist.</p>
           <Link to="/" className="text-accent-blue hover:underline text-sm">Return Home</Link>
         </div>
@@ -92,7 +92,7 @@ export const PolicyPage: React.FC = () => {
   const Icon = policy.icon;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-light-bg to-white pt-24 pb-16">
+    <div className="min-h-screen bg-gradient-to-b from-light-bg to-white dark:from-neutral-900 dark:to-neutral-900 pt-24 pb-16 transition-colors">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <Breadcrumbs items={[
           { label: policy.title },
@@ -103,7 +103,7 @@ export const PolicyPage: React.FC = () => {
           <div className="w-12 h-12 rounded-2xl bg-accent-blue/10 flex items-center justify-center mb-4">
             <Icon size={22} className="text-accent-blue" />
           </div>
-          <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-neutral-900 tracking-tight">{policy.title}</h1>
+          <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-neutral-900 dark:text-neutral-100 tracking-tight">{policy.title}</h1>
           <p className="text-neutral-500 text-sm mt-2">Last updated: June 2026</p>
         </motion.div>
 
@@ -111,15 +111,15 @@ export const PolicyPage: React.FC = () => {
         <div className="space-y-8">
           {policy.sections.map((section, i) => (
             <motion.div key={section.heading} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}>
-              <h2 className="font-display text-lg font-bold text-neutral-900 mb-2">{section.heading}</h2>
-              <p className="text-neutral-600 text-sm leading-relaxed">{section.body}</p>
+              <h2 className="font-display text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-2">{section.heading}</h2>
+              <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">{section.body}</p>
             </motion.div>
           ))}
         </div>
 
         {/* Footer note */}
-        <div className="mt-12 p-5 bg-neutral-50 border border-neutral-200/60 rounded-xl">
-          <p className="text-sm text-neutral-600">
+        <div className="mt-12 p-5 bg-neutral-50 dark:bg-neutral-800 border border-neutral-200/60 dark:border-neutral-700/60 rounded-xl">
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">
 Have questions about our policies? Contact us at{' '}
              <a href="mailto:support@apexride.com" className="text-accent-blue hover:underline">support@apexride.com</a>
           </p>

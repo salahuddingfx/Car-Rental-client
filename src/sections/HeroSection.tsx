@@ -68,7 +68,7 @@ export const HeroSection: React.FC<Props> = ({
           <motion.h1 initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
             className="hero-text-large font-display font-extrabold tracking-tight mb-4"
           >
-            <span className="block text-neutral-900 mb-1">Experience Bangladesh</span>
+            <span className="block text-neutral-900 dark:text-neutral-100 mb-1">Experience Bangladesh</span>
             <span className="block text-accent-blue">In Pure Luxury</span>
           </motion.h1>
 

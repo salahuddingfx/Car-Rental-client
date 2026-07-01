@@ -18,7 +18,7 @@ export const OfferSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row justify-between items-center gap-10">
         <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-4 max-w-xl">
           <span className="font-display text-[9px] uppercase font-bold tracking-widest text-accent-amber border border-accent-amber/30 px-2 py-0.5 bg-amber-50 rounded">Limited — Bangladesh Special</span>
-          <h2 className="font-display text-3xl font-extrabold uppercase text-neutral-900 leading-tight">Cox's Bazar Road Trip Package</h2>
+          <h2 className="font-display text-3xl font-extrabold uppercase text-neutral-900 dark:text-neutral-100 leading-tight">Cox's Bazar Road Trip Package</h2>
           <p className="text-base text-neutral-500">
             Book a luxury SUV for 3+ days and get a complimentary chauffeur, fuel coverage, and a curated Cox's Bazar itinerary. Perfect for a weekend escape from Dhaka to the world's longest sea beach.
           </p>

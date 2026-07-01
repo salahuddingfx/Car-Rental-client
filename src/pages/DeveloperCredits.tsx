@@ -49,47 +49,47 @@ const DeveloperCredits: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-pink-50 py-8 sm:py-12 md:py-16 px-4">
+    <div className="min-h-screen bg-pink-50 dark:bg-neutral-900 py-8 sm:py-12 md:py-16 px-4 transition-colors">
       <Breadcrumbs items={[{ label: 'Developer' }]} />
 
       <div className="max-w-4xl mx-auto">
-        <Link to="/" className="text-red-700 text-sm font-semibold hover:underline inline-flex items-center gap-1.5 mb-6">
+        <Link to="/" className="text-red-700 dark:text-red-400 text-sm font-semibold hover:underline inline-flex items-center gap-1.5 mb-6">
           <ArrowLeft className="h-4 w-4" />
           Back to Home
         </Link>
 
-        <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 mb-6">
+        <div className="bg-white dark:bg-neutral-800 rounded-2xl border border-gray-100 dark:border-neutral-700 p-6 sm:p-8 mb-6 transition-colors">
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
             <div className="relative shrink-0">
               <img
                 src="https://github.com/salahuddingfx.png"
                 alt="Salah Uddin Kader"
-                className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover border-2 border-gray-100"
+                className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover border-2 border-gray-100 dark:border-neutral-600"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                   e.currentTarget.nextElementSibling?.classList.remove('hidden');
                 }}
               />
-              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gray-100 items-center justify-center text-4xl font-black hidden">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gray-100 dark:bg-neutral-700 items-center justify-center text-4xl font-black hidden">
                 SK
               </div>
-              <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white" />
+              <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white dark:border-neutral-800" />
             </div>
 
             <div className="text-center sm:text-left">
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Salah Uddin Kader</h1>
-              <p className="text-gray-500 text-sm sm:text-base mt-1">Full Stack Developer &mdash; MERN Stack</p>
-              <div className="flex items-center justify-center sm:justify-start gap-1.5 mt-2 text-gray-400 text-sm">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">Salah Uddin Kader</h1>
+              <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base mt-1">Full Stack Developer &mdash; MERN Stack</p>
+              <div className="flex items-center justify-center sm:justify-start gap-1.5 mt-2 text-gray-400 dark:text-gray-500 text-sm">
                 <MapPin className="h-4 w-4" />
                 <span>Cox's Bazar, Bangladesh</span>
               </div>
               <div className="flex flex-wrap justify-center sm:justify-start gap-2 mt-4">
-                <a href="https://salahuddin.codes" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-200 hover:border-accent-amber text-gray-700 hover:text-accent-amber rounded-xl text-sm font-medium transition-colors">
+                <a href="https://salahuddin.codes" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-neutral-600 hover:border-accent-amber text-gray-700 dark:text-gray-300 hover:text-accent-amber rounded-xl text-sm font-medium transition-colors">
                   <Globe className="h-4 w-4" />
                   salahuddin.codes
                   <ExternalLink className="h-3.5 w-3.5" />
                 </a>
-                <a href="https://nextorastudio.tech" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-200 hover:border-accent-amber text-gray-700 hover:text-accent-amber rounded-xl text-sm font-medium transition-colors">
+                <a href="https://nextorastudio.tech" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-200 dark:border-neutral-600 hover:border-accent-amber text-gray-700 dark:text-gray-300 hover:text-accent-amber rounded-xl text-sm font-medium transition-colors">
                   <Briefcase className="h-4 w-4" />
                   Nextora Studio
                   <ExternalLink className="h-3.5 w-3.5" />
@@ -105,54 +105,54 @@ const DeveloperCredits: React.FC = () => {
                 { icon: Coffee, label: 'Experience', value: '1.5+ Yrs' },
                 { icon: Heart, label: 'Clients', value: '20+' },
               ].map((item) => (
-                <div key={item.label} className="bg-pink-50 rounded-2xl p-4 text-center">
+                <div key={item.label} className="bg-pink-50 dark:bg-neutral-700/50 rounded-2xl p-4 text-center">
                   <item.icon className="h-5 w-5 text-accent-amber mx-auto mb-2" />
-                  <div className="text-xl font-bold text-gray-900">{item.value}</div>
-                  <div className="text-xs text-gray-500">{item.label}</div>
+                  <div className="text-xl font-bold text-gray-900 dark:text-gray-100">{item.value}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">{item.label}</div>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 mb-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
+        <div className="bg-white dark:bg-neutral-800 rounded-2xl border border-gray-100 dark:border-neutral-700 p-6 sm:p-8 mb-6 transition-colors">
+          <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2">
             <GraduationCap className="h-5 w-5 text-accent-amber" />
             About
           </h2>
-          <p className="text-sm text-gray-600 leading-relaxed mb-4">
+          <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
             Passionate MERN Stack Developer with 1.5+ years of hands-on experience building scalable web applications.
             I specialize in crafting beautiful, responsive interfaces and robust backend systems. From e-commerce platforms
             to SaaS dashboards, I deliver end-to-end solutions that businesses and users love.
           </p>
-          <p className="text-sm text-gray-600 leading-relaxed">
-            When I'm not coding, I'm running <strong>Nextora Studio</strong> — a digital agency providing web development,
+          <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+            When I'm not coding, I'm running <strong className="text-gray-800 dark:text-gray-200">Nextora Studio</strong> — a digital agency providing web development,
             UI/UX design, and brand identity services to clients worldwide. Available for freelance projects and full-time opportunities.
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 mb-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+        <div className="bg-white dark:bg-neutral-800 rounded-2xl border border-gray-100 dark:border-neutral-700 p-6 sm:p-8 mb-6 transition-colors">
+          <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
             <Zap className="h-5 w-5 text-accent-amber" />
             Services
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {services.map((svc) => (
-              <div key={svc.title} className="flex items-start gap-3 p-3 rounded-xl bg-gray-50">
+              <div key={svc.title} className="flex items-start gap-3 p-3 rounded-xl bg-gray-50 dark:bg-neutral-700/50">
                 <div className="w-9 h-9 rounded-lg bg-accent-amber/10 flex items-center justify-center shrink-0">
                   <svc.icon className="h-4.5 w-4.5 text-accent-amber" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-900">{svc.title}</h3>
-                  <p className="text-xs text-gray-500 mt-0.5">{svc.desc}</p>
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">{svc.title}</h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{svc.desc}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 mb-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+        <div className="bg-white dark:bg-neutral-800 rounded-2xl border border-gray-100 dark:border-neutral-700 p-6 sm:p-8 mb-6 transition-colors">
+          <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
             <Rocket className="h-5 w-5 text-accent-amber" />
             Tech Stack
           </h2>
@@ -165,21 +165,21 @@ const DeveloperCredits: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 mb-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+        <div className="bg-white dark:bg-neutral-800 rounded-2xl border border-gray-100 dark:border-neutral-700 p-6 sm:p-8 mb-6 transition-colors">
+          <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
             <Code2 className="h-5 w-5 text-accent-amber" />
             Featured Projects
           </h2>
           <div className="space-y-3">
             {projects.map((project) => (
-              <div key={project.name} className={`p-4 rounded-xl border ${project.highlight ? 'border-accent-amber/20 bg-accent-amber/5' : 'border-gray-100 bg-gray-50'}`}>
+              <div key={project.name} className={`p-4 rounded-xl border ${project.highlight ? 'border-accent-amber/20 bg-accent-amber/5 dark:bg-accent-amber/10' : 'border-gray-100 dark:border-neutral-600 bg-gray-50 dark:bg-neutral-700/50'}`}>
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="text-sm font-bold text-gray-900">{project.name}</h3>
-                    <p className="text-xs text-gray-500 mt-1 leading-relaxed">{project.description}</p>
+                    <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100">{project.name}</h3>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">{project.description}</p>
                     <div className="flex flex-wrap gap-1.5 mt-2">
                       {project.tech.map((t) => (
-                        <span key={t} className="text-[10px] px-2 py-0.5 rounded-full bg-white border border-gray-200 text-gray-600 font-medium">
+                        <span key={t} className="text-[10px] px-2 py-0.5 rounded-full bg-white dark:bg-neutral-600 border border-gray-200 dark:border-neutral-500 text-gray-600 dark:text-gray-300 font-medium">
                           {t}
                         </span>
                       ))}
@@ -196,18 +196,18 @@ const DeveloperCredits: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden mb-6">
+        <div className="bg-white dark:bg-neutral-800 rounded-2xl border border-gray-100 dark:border-neutral-700 overflow-hidden mb-6 transition-colors">
           <div className="p-6 sm:p-8">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
-                <Briefcase className="h-5 w-5 text-gray-600" />
+              <div className="w-10 h-10 bg-gray-100 dark:bg-neutral-700 rounded-xl flex items-center justify-center">
+                <Briefcase className="h-5 w-5 text-gray-600 dark:text-gray-300" />
               </div>
               <div>
-                <h2 className="text-lg font-bold text-gray-900">Nextora Studio</h2>
-                <p className="text-gray-500 text-xs">Digital Agency</p>
+                <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">Nextora Studio</h2>
+                <p className="text-gray-500 dark:text-gray-400 text-xs">Digital Agency</p>
               </div>
             </div>
-            <p className="text-sm text-gray-600 leading-relaxed">
+            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
               A full-service digital agency specializing in web development, UI/UX design,
               and brand identity. We build digital experiences that transform businesses.
             </p>
@@ -215,7 +215,7 @@ const DeveloperCredits: React.FC = () => {
               href="https://nextorastudio.tech"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-4 px-4 py-2 border border-gray-200 hover:border-accent-amber text-gray-700 hover:text-accent-amber rounded-xl text-sm font-medium transition-colors"
+              className="inline-flex items-center gap-2 mt-4 px-4 py-2 border border-gray-200 dark:border-neutral-600 hover:border-accent-amber text-gray-700 dark:text-gray-300 hover:text-accent-amber rounded-xl text-sm font-medium transition-colors"
             >
               Visit Website
               <ExternalLink className="h-4 w-4" />
@@ -228,17 +228,17 @@ const DeveloperCredits: React.FC = () => {
                 { label: 'UI/UX Design', desc: 'User-centered interfaces' },
                 { label: 'Brand Identity', desc: 'Logo, guidelines, assets' },
               ].map(({ label, desc }) => (
-                <div key={label} className="text-center p-3 rounded-xl bg-gray-50">
-                  <h3 className="text-sm font-semibold text-gray-900">{label}</h3>
-                  <p className="text-xs text-gray-500 mt-1">{desc}</p>
+                <div key={label} className="text-center p-3 rounded-xl bg-gray-50 dark:bg-neutral-700/50">
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">{label}</h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 mb-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+        <div className="bg-white dark:bg-neutral-800 rounded-2xl border border-gray-100 dark:border-neutral-700 p-6 sm:p-8 mb-6 transition-colors">
+          <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
             <Mail className="h-5 w-5 text-accent-amber" />
             Connect
           </h2>
@@ -254,14 +254,14 @@ const DeveloperCredits: React.FC = () => {
                 href={link.url}
                 target={link.url.startsWith('mailto') ? undefined : '_blank'}
                 rel={link.url.startsWith('mailto') ? undefined : 'noopener noreferrer'}
-                className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 hover:bg-accent-amber/5 hover:border-accent-amber/20 border border-transparent transition-all group"
+                className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-neutral-700/50 hover:bg-accent-amber/5 hover:border-accent-amber/20 border border-transparent transition-all group"
               >
                 <div className="w-9 h-9 rounded-lg bg-accent-amber/10 flex items-center justify-center shrink-0">
                   <link.icon className="h-4 w-4 text-accent-amber" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-gray-900">{link.label}</p>
-                  <p className="text-xs text-gray-500 truncate">{link.sub}</p>
+                  <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{link.label}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{link.sub}</p>
                 </div>
                 <ExternalLink className="h-3.5 w-3.5 text-gray-400 group-hover:text-accent-amber ml-auto shrink-0 transition-colors" />
               </a>
