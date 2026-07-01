@@ -58,7 +58,7 @@ export const Bookings: React.FC = () => {
   if (!car) {
     return (
       <div className="pt-28 pb-20 text-center min-h-screen flex flex-col items-center justify-center">
-        <p className="text-neutral-500 mb-4">Vehicle not found</p>
+        <p className="text-neutral-500 dark:text-neutral-400 mb-4">Vehicle not found</p>
         <Button variant="outline" onClick={() => navigate('/cars')}>Back to Fleet</Button>
       </div>
     );
@@ -79,7 +79,7 @@ export const Bookings: React.FC = () => {
   };
 
   return (
-    <div className="pt-28 pb-20 bg-light-bg min-h-screen">
+    <div className="pt-28 pb-20 bg-light-bg dark:bg-neutral-950 min-h-screen">
       <div className="max-w-4xl mx-auto px-6">
         <Breadcrumbs items={[
           { label: 'Our Cars', href: '/cars' },
@@ -90,8 +90,8 @@ export const Bookings: React.FC = () => {
         <div className="flex items-center justify-center gap-0 mb-10">
           {steps.map((s, i) => (
             <div key={s.num} className="flex items-center">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold font-display transition-colors ${step >= s.num ? 'bg-accent-blue text-white' : 'bg-neutral-100 text-neutral-400'}`}>{step > s.num ? <Check size={14} /> : s.num}</div>
-              {i < steps.length - 1 && <div className={`w-12 h-[1.5px] ${step > s.num ? 'bg-accent-blue' : 'bg-neutral-200'}`} />}
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold font-display transition-colors ${step >= s.num ? 'bg-accent-blue text-white' : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-400 dark:text-neutral-500'}`}>{step > s.num ? <Check size={14} /> : s.num}</div>
+              {i < steps.length - 1 && <div className={`w-12 h-[1.5px] ${step > s.num ? 'bg-accent-blue' : 'bg-neutral-200 dark:bg-neutral-700'}`} />}
             </div>
           ))}
         </div>
@@ -99,29 +99,29 @@ export const Bookings: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           <div className="lg:col-span-3">
             {step === 1 && (
-              <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="bg-white border border-neutral-200/60 shadow-sm p-6 rounded-xl">
-                <h3 className="font-display text-sm font-bold text-neutral-800 uppercase tracking-wider mb-4">Review Your Booking</h3>
-                <div className="flex gap-4 mb-5 pb-4 border-b border-neutral-100">
-                  <img src={car.image} alt={car.name} className="w-20 h-14 object-cover rounded-lg bg-neutral-100" />
+              <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 shadow-sm p-6 rounded-xl">
+                <h3 className="font-display text-sm font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wider mb-4">Review Your Booking</h3>
+                <div className="flex gap-4 mb-5 pb-4 border-b border-neutral-100 dark:border-neutral-800">
+                  <img src={car.image} alt={car.name} className="w-20 h-14 object-cover rounded-lg bg-neutral-100 dark:bg-neutral-800" />
                   <div>
                     <p className="font-display text-xs text-accent-blue uppercase tracking-wider font-bold">{car.brand}</p>
-                    <h4 className="font-display text-base font-bold text-neutral-800">{car.name}</h4>
-                    <p className="text-xs text-neutral-500">{car.location}</p>
+                    <h4 className="font-display text-base font-bold text-neutral-800 dark:text-neutral-200">{car.name}</h4>
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400">{car.location}</p>
                   </div>
                 </div>
                 <div className="space-y-3 text-sm">
-                  <div className="flex justify-between"><span className="text-neutral-500">Pickup</span><span className="font-semibold text-neutral-800">{pickup}</span></div>
-                  <div className="flex justify-between"><span className="text-neutral-500">Return</span><span className="font-semibold text-neutral-800">{returnD}</span></div>
-                  <div className="flex justify-between"><span className="text-neutral-500">Duration</span><span className="font-semibold text-neutral-800">{days} day{days > 1 ? 's' : ''}</span></div>
-                  <div className="flex justify-between"><span className="text-neutral-500">Daily Rate</span><span className="font-semibold text-neutral-800">{formatPrice(car.price)}</span></div>
+                  <div className="flex justify-between"><span className="text-neutral-500 dark:text-neutral-400">Pickup</span><span className="font-semibold text-neutral-800 dark:text-neutral-200">{pickup}</span></div>
+                  <div className="flex justify-between"><span className="text-neutral-500 dark:text-neutral-400">Return</span><span className="font-semibold text-neutral-800 dark:text-neutral-200">{returnD}</span></div>
+                  <div className="flex justify-between"><span className="text-neutral-500 dark:text-neutral-400">Duration</span><span className="font-semibold text-neutral-800 dark:text-neutral-200">{days} day{days > 1 ? 's' : ''}</span></div>
+                  <div className="flex justify-between"><span className="text-neutral-500 dark:text-neutral-400">Daily Rate</span><span className="font-semibold text-neutral-800 dark:text-neutral-200">{formatPrice(car.price)}</span></div>
                 </div>
                 <Button variant="primary" className="w-full mt-6 rounded-lg" onClick={() => setStep(2)}>Continue</Button>
               </motion.div>
             )}
 
             {step === 2 && (
-              <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="bg-white border border-neutral-200/60 shadow-sm p-6 rounded-xl">
-                <h3 className="font-display text-sm font-bold text-neutral-800 uppercase tracking-wider mb-5">Driver Information</h3>
+              <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 shadow-sm p-6 rounded-xl">
+                <h3 className="font-display text-sm font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wider mb-5">Driver Information</h3>
                 <div className="space-y-4">
                   {[
                     { key: 'name', icon: User, label: 'Full Name', value: name, set: setName, type: 'text', ph: 'Your name' },
@@ -132,11 +132,11 @@ export const Bookings: React.FC = () => {
                     const fieldKey = f.key as keyof DriverErrors;
                     return (
                       <div key={f.key}>
-                        <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block">{f.label}</label>
-                        <div className="flex items-center border border-neutral-200 p-3 bg-white rounded-lg">
-                          <f.icon size={15} className="text-neutral-400 mr-2 shrink-0" />
+                        <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">{f.label}</label>
+                        <div className="flex items-center border border-neutral-200 dark:border-neutral-700 p-3 bg-white dark:bg-neutral-800 rounded-lg">
+                          <f.icon size={15} className="text-neutral-400 dark:text-neutral-500 mr-2 shrink-0" />
                           <input type={f.type} placeholder={f.ph} value={f.value} onChange={(e) => { f.set(e.target.value); if (touched) setErrors(validateDriverInfo()); }}
-                            className="bg-transparent text-sm text-neutral-800 placeholder-neutral-400 outline-none w-full font-sans" />
+                            className="bg-transparent text-sm text-neutral-800 dark:text-neutral-200 placeholder-neutral-400 dark:placeholder-neutral-600 outline-none w-full font-sans" />
                         </div>
                         {errors[fieldKey] && <p className="text-[10px] text-red-500 mt-1">{errors[fieldKey]}</p>}
                       </div>
@@ -151,12 +151,12 @@ export const Bookings: React.FC = () => {
             )}
 
             {step === 3 && (
-              <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="bg-white border border-neutral-200/60 shadow-sm p-6 rounded-xl">
-                <h3 className="font-display text-sm font-bold text-neutral-800 uppercase tracking-wider mb-5">Payment</h3>
+              <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 shadow-sm p-6 rounded-xl">
+                <h3 className="font-display text-sm font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wider mb-5">Payment</h3>
                 <div className="space-y-4">
-                  <div className="p-4 border border-neutral-200 rounded-lg bg-neutral-50 flex items-center gap-3">
-                    <CreditCard size={20} className="text-neutral-400" />
-                    <span className="text-sm text-neutral-500">Pay on pickup — no card details needed</span>
+                  <div className="p-4 border border-neutral-200 dark:border-neutral-700 rounded-lg bg-neutral-50 dark:bg-neutral-800 flex items-center gap-3">
+                    <CreditCard size={20} className="text-neutral-400 dark:text-neutral-500" />
+                    <span className="text-sm text-neutral-500 dark:text-neutral-400">Pay on pickup — no card details needed</span>
                   </div>
                   {[
                     { label: 'Driver', value: name },
@@ -165,8 +165,8 @@ export const Bookings: React.FC = () => {
                     { label: 'Duration', value: `${days} day${days > 1 ? 's' : ''}` },
                   ].map((f) => (
                     <div key={f.label} className="flex justify-between text-sm">
-                      <span className="text-neutral-500">{f.label}</span>
-                      <span className="font-semibold text-neutral-800">{f.value}</span>
+                      <span className="text-neutral-500 dark:text-neutral-400">{f.label}</span>
+                      <span className="font-semibold text-neutral-800 dark:text-neutral-200">{f.value}</span>
                     </div>
                   ))}
                 </div>
@@ -180,36 +180,36 @@ export const Bookings: React.FC = () => {
             )}
 
             {step === 4 && (
-              <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-white border border-neutral-200/60 shadow-sm p-8 rounded-xl text-center">
-                <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 shadow-sm p-8 rounded-xl text-center">
+                <div className="w-14 h-14 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Check size={28} className="text-green-600" />
                 </div>
-                <h3 className="font-display text-lg font-bold text-neutral-800 mb-2">Booking Confirmed!</h3>
-                <p className="text-sm text-neutral-500 mb-1">Your {car.name} has been reserved.</p>
-                <p className="text-xs text-neutral-400 mb-6">Pickup: {pickup} · Return: {returnD}</p>
+                <h3 className="font-display text-lg font-bold text-neutral-800 dark:text-neutral-200 mb-2">Booking Confirmed!</h3>
+                <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-1">Your {car.name} has been reserved.</p>
+                <p className="text-xs text-neutral-400 dark:text-neutral-500 mb-6">Pickup: {pickup} · Return: {returnD}</p>
                 <Button variant="primary" onClick={() => navigate('/dashboard?tab=bookings')} className="rounded-lg">View My Bookings</Button>
               </motion.div>
             )}
           </div>
 
           <div className="lg:col-span-2">
-            <div className="bg-white border border-neutral-200/60 shadow-sm p-5 rounded-xl sticky top-28">
-              <h4 className="font-display text-xs font-bold text-neutral-800 uppercase tracking-wider mb-3">Price Summary</h4>
-              <div className="flex gap-3 mb-4 pb-3 border-b border-neutral-100">
-                <img src={car.image} alt={car.name} className="w-14 h-10 object-cover rounded bg-neutral-100" />
+            <div className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 shadow-sm p-5 rounded-xl sticky top-28">
+              <h4 className="font-display text-xs font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wider mb-3">Price Summary</h4>
+              <div className="flex gap-3 mb-4 pb-3 border-b border-neutral-100 dark:border-neutral-800">
+                <img src={car.image} alt={car.name} className="w-14 h-10 object-cover rounded bg-neutral-100 dark:bg-neutral-800" />
                 <div>
-                  <p className="font-display text-xs font-bold text-neutral-800">{car.name}</p>
-                  <p className="text-[10px] text-neutral-500">{car.brand}</p>
+                  <p className="font-display text-xs font-bold text-neutral-800 dark:text-neutral-200">{car.name}</p>
+                  <p className="text-[10px] text-neutral-500 dark:text-neutral-400">{car.brand}</p>
                 </div>
               </div>
               <div className="space-y-2 text-sm">
-                <div className="flex justify-between text-neutral-500">
+                <div className="flex justify-between text-neutral-500 dark:text-neutral-400">
                   <span>{formatPrice(car.price)} × {days} day{days > 1 ? 's' : ''}</span>
-                  <span className="text-neutral-800 font-semibold">{formatPrice(subtotal)}</span>
+                  <span className="text-neutral-800 dark:text-neutral-200 font-semibold">{formatPrice(subtotal)}</span>
                 </div>
-                <div className="flex justify-between text-neutral-500"><span>Trip fee</span><span className="text-neutral-800 font-semibold">{formatPrice(tripFee)}</span></div>
-                <div className="flex justify-between text-neutral-500"><span>Tax</span><span className="text-neutral-800 font-semibold">{formatPrice(tax)}</span></div>
-                <div className="border-t border-neutral-100 pt-2 flex justify-between font-display text-sm font-bold text-neutral-900"><span>Total</span><span>{formatPrice(total)}</span></div>
+                <div className="flex justify-between text-neutral-500 dark:text-neutral-400"><span>Trip fee</span><span className="text-neutral-800 dark:text-neutral-200 font-semibold">{formatPrice(tripFee)}</span></div>
+                <div className="flex justify-between text-neutral-500 dark:text-neutral-400"><span>Tax</span><span className="text-neutral-800 dark:text-neutral-200 font-semibold">{formatPrice(tax)}</span></div>
+                <div className="border-t border-neutral-100 dark:border-neutral-800 pt-2 flex justify-between font-display text-sm font-bold text-neutral-900 dark:text-neutral-100"><span>Total</span><span>{formatPrice(total)}</span></div>
               </div>
             </div>
           </div>
