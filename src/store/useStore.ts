@@ -7,10 +7,12 @@ interface AppState {
   user: User | null;
   wishlist: string[];
   bookings: Booking[];
-  login: (email: string, role?: 'user' | 'host' | 'company') => void;
+  guestBookings: Booking[];
+  login: (email: string, role?: 'user' | 'host' | 'company' | 'driver') => void;
   logout: () => void;
   toggleWishlist: (carId: string) => void;
   addBooking: (booking: Omit<Booking, 'id'>) => Booking;
+  addGuestBooking: (booking: Omit<Booking, 'id' | 'userId'>) => Booking;
   cancelBooking: (bookingId: string) => void;
   addCar: (car: Omit<Car, 'id' | 'rating' | 'reviewsCount' | 'reviews' | 'ratingBreakdown' | 'hostName' | 'hostAvatar' | 'hostRating'>) => void;
   editCar: (carId: string, updatedCar: Partial<Car>) => void;
@@ -38,6 +40,7 @@ export const useStore = create<AppState>()(
         balance: 12500,
       },
       wishlist: ['car-1', 'car-3'],
+      guestBookings: [],
       bookings: [
         {
           id: 'booking-1',
@@ -93,6 +96,18 @@ export const useStore = create<AppState>()(
         return booking;
       },
 
+      addGuestBooking: (newBooking) => {
+        const booking: Booking = {
+          ...newBooking,
+          id: crypto.randomUUID(),
+          userId: 'guest-' + crypto.randomUUID(),
+        };
+        set((state) => ({
+          guestBookings: [booking, ...state.guestBookings]
+        }));
+        return booking;
+      },
+
       cancelBooking: (bookingId) => set((state) => ({
         bookings: state.bookings.map(b => b.id === bookingId ? { ...b, status: 'Cancelled' as const } : b)
       })),
@@ -140,6 +155,7 @@ export const useStore = create<AppState>()(
         user: state.user,
         wishlist: state.wishlist,
         bookings: state.bookings,
+        guestBookings: state.guestBookings,
         cars: state.cars,
       }),
     }
