@@ -7,7 +7,7 @@ import { Button } from '../components/ui/Button';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { CarImageSlider } from '../components/ui/CarImageSlider';
 import { PriceCalculator } from '../components/ui/PriceCalculator';
-import { LiveChat } from '../components/ui/LiveChat';
+
 import { formatPrice } from '../lib/pricing';
 
 export const Details: React.FC = () => {
