@@ -21,9 +21,9 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
   };
 
   return (
-    <div className="group relative bg-white border border-neutral-200/60 shadow-sm flex flex-col h-full overflow-hidden text-left transition-all duration-500 rounded-2xl hover:shadow-xl hover:shadow-neutral-900/5 hover:border-accent-blue/20 hover:-translate-y-1">
+    <div className="group relative bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 shadow-sm flex flex-col h-full overflow-hidden text-left transition-all duration-500 rounded-2xl hover:shadow-xl hover:shadow-neutral-900/5 hover:border-accent-blue/20 hover:-translate-y-1">
       {/* Image */}
-      <div className="w-full h-48 overflow-hidden bg-neutral-100 relative">
+      <div className="w-full h-48 overflow-hidden bg-neutral-100 dark:bg-neutral-800 relative">
         <img src={car.image} alt={car.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
         <div className="absolute top-3 left-3 flex gap-1.5">
@@ -49,36 +49,36 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
       <div className="p-5 flex-1 flex flex-col gap-3">
         <div>
           <div className="flex items-center gap-2 mb-0.5">
-            <span className="text-[10px] text-neutral-400 font-display uppercase tracking-widest">{car.brand}</span>
-            <span className="w-1 h-1 rounded-full bg-neutral-300" />
-            <span className="text-[10px] text-neutral-400 font-display uppercase tracking-widest">{car.location}</span>
+            <span className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest">{car.brand}</span>
+            <span className="w-1 h-1 rounded-full bg-neutral-300 dark:bg-neutral-600" />
+            <span className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest">{car.location}</span>
           </div>
-          <h3 className="text-base font-bold text-neutral-900 group-hover:text-accent-blue transition-colors">{car.name}</h3>
+          <h3 className="text-base font-bold text-neutral-900 dark:text-neutral-100 group-hover:text-accent-blue transition-colors">{car.name}</h3>
         </div>
 
         {/* Specs */}
-        <div className="grid grid-cols-3 gap-2 bg-neutral-50 rounded-xl p-3">
+        <div className="grid grid-cols-3 gap-2 bg-neutral-50 dark:bg-neutral-800 rounded-xl p-3">
           {[
             { icon: car.fuel === 'Electric' ? Zap : Flame, label: car.fuel === 'Electric' ? 'Electric' : car.fuel === 'Petrol' ? 'Petrol' : car.fuel },
             { icon: Disc, label: car.transmission === 'Automatic' ? 'Auto' : 'Manual' },
             { icon: User, label: `${car.seats} seats` },
           ].map((f) => (
             <div key={f.label} className="flex flex-col items-center gap-0.5">
-              <f.icon size={13} className={car.fuel === 'Electric' ? 'text-accent-amber' : 'text-neutral-400'} />
-              <span className="text-[10px] text-neutral-500 font-medium">{f.label}</span>
+              <f.icon size={13} className={car.fuel === 'Electric' ? 'text-accent-amber' : 'text-neutral-400 dark:text-neutral-500'} />
+              <span className="text-[10px] text-neutral-500 dark:text-neutral-400 font-medium">{f.label}</span>
             </div>
           ))}
         </div>
 
         <div className="flex items-center justify-between pt-1 mt-auto">
           <div>
-            <span className="text-neutral-400 text-[9px] font-display uppercase tracking-widest block">Daily Rate</span>
+            <span className="text-neutral-400 dark:text-neutral-500 text-[9px] font-display uppercase tracking-widest block">Daily Rate</span>
             <div className="flex flex-col">
               <div className="flex items-baseline gap-0.5">
-                <span className="text-xl font-bold text-neutral-900 group-hover:text-accent-blue transition-colors">৳{car.price}</span>
-                <span className="text-[10px] text-neutral-400">/ day</span>
+                <span className="text-xl font-bold text-neutral-900 dark:text-neutral-100 group-hover:text-accent-blue transition-colors">৳{car.price}</span>
+                <span className="text-[10px] text-neutral-400 dark:text-neutral-500">/ day</span>
               </div>
-              <span className="text-[9px] text-neutral-500">৳{getHourlyRate(car.price)}/hr • ৳{getHourlyRate(car.price) * 24}/full day</span>
+              <span className="text-[9px] text-neutral-500 dark:text-neutral-400">৳{getHourlyRate(car.price)}/hr • ৳{getHourlyRate(car.price) * 24}/full day</span>
             </div>
           </div>
           <Link to={`/cars/${car.id}`}>

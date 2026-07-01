@@ -60,15 +60,19 @@ export const DriverCars = () => {
     setShowForm(true);
   };
 
+  const inputClass = "w-full border border-neutral-200 dark:border-neutral-700 text-sm text-neutral-800 dark:text-neutral-200 p-2.5 rounded-lg outline-none focus:border-accent-blue bg-white dark:bg-neutral-800";
+  const inputClassPh = "w-full border border-neutral-200 dark:border-neutral-700 text-sm text-neutral-800 dark:text-neutral-200 p-2.5 rounded-lg outline-none focus:border-accent-blue bg-white dark:bg-neutral-800 placeholder:text-neutral-300 dark:placeholder:text-neutral-600";
+  const selectClass = "w-full border border-neutral-200 dark:border-neutral-700 text-sm text-neutral-800 dark:text-neutral-200 p-2.5 rounded-lg outline-none focus:border-accent-blue bg-white dark:bg-neutral-800";
+
   return (
-    <div className="pt-24 pb-20 bg-light-bg min-h-screen">
+    <div className="pt-24 pb-20 bg-light-bg dark:bg-neutral-950 min-h-screen">
       <div className="max-w-5xl mx-auto px-6">
         <Breadcrumbs items={[{ label: 'My Cars' }]} />
 
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="font-display text-2xl font-extrabold text-neutral-900">My Cars</h1>
-            <p className="text-sm text-neutral-500 mt-1">List your car and start earning</p>
+            <h1 className="font-display text-2xl font-extrabold text-neutral-900 dark:text-neutral-100">My Cars</h1>
+            <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">List your car and start earning</p>
           </div>
           <Button variant="primary" className="rounded-xl flex items-center gap-1.5" onClick={() => { resetForm(); setShowForm(true); }}>
             <PlusCircle size={14} /> Add Car
@@ -76,29 +80,29 @@ export const DriverCars = () => {
         </div>
 
         {!user ? (
-          <div className="bg-white border border-neutral-200/60 shadow-sm p-12 rounded-2xl text-center">
-            <Car size={32} className="mx-auto text-neutral-300 mb-3" />
-            <p className="text-neutral-600 font-semibold mb-1">Sign in to list your car</p>
-            <p className="text-neutral-400 text-sm mb-4">You need an account to manage your listings.</p>
+          <div className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 shadow-sm p-12 rounded-2xl text-center">
+            <Car size={32} className="mx-auto text-neutral-300 dark:text-neutral-600 mb-3" />
+            <p className="text-neutral-600 dark:text-neutral-400 font-semibold mb-1">Sign in to list your car</p>
+            <p className="text-neutral-400 dark:text-neutral-500 text-sm mb-4">You need an account to manage your listings.</p>
             <Button variant="primary" onClick={() => navigate('/auth')} className="rounded-xl">Sign In</Button>
           </div>
         ) : driverCars.length > 0 ? (
           <div className="space-y-3">
             {driverCars.map(car => (
-              <div key={car.id} className="bg-white border border-neutral-200/60 shadow-sm p-4 rounded-2xl flex items-center gap-4">
-                <div className="w-24 h-18 bg-neutral-100 rounded-xl overflow-hidden shrink-0">
+              <div key={car.id} className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 shadow-sm p-4 rounded-2xl flex items-center gap-4">
+                <div className="w-24 h-18 bg-neutral-100 dark:bg-neutral-800 rounded-xl overflow-hidden shrink-0">
                   <img src={car.image} alt={car.name} className="w-full h-full object-cover" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <h4 className="text-sm font-bold text-neutral-800">{car.name}</h4>
+                    <h4 className="text-sm font-bold text-neutral-800 dark:text-neutral-200">{car.name}</h4>
                     <span className="text-[9px] font-display font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-accent-blue/10 text-accent-blue">{car.category}</span>
-                    <span className={`text-[9px] font-display font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${car.isAvailable ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-500'}`}>
+                    <span className={`text-[9px] font-display font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${car.isAvailable ? 'bg-green-50 dark:bg-green-900/30 text-green-600' : 'bg-red-50 dark:bg-red-900/30 text-red-500'}`}>
                       {car.isAvailable ? 'Active' : 'Paused'}
                     </span>
                   </div>
-                  <p className="text-[10px] text-neutral-500">{car.brand} · {car.location} · ৳{car.price}/day</p>
-                  <div className="flex items-center gap-3 mt-1.5 text-[10px] text-neutral-400">
+                  <p className="text-[10px] text-neutral-500 dark:text-neutral-400">{car.brand} · {car.location} · ৳{car.price}/day</p>
+                  <div className="flex items-center gap-3 mt-1.5 text-[10px] text-neutral-400 dark:text-neutral-500">
                     <span className="flex items-center gap-1"><Fuel size={11} /> {car.fuel}</span>
                     <span className="flex items-center gap-1"><Disc size={11} /> {car.transmission}</span>
                     <span className="flex items-center gap-1"><Users size={11} /> {car.seats} seats</span>
@@ -116,10 +120,10 @@ export const DriverCars = () => {
             ))}
           </div>
         ) : (
-          <div className="bg-white border border-neutral-200/60 shadow-sm p-12 rounded-2xl text-center">
-            <Car size={32} className="mx-auto text-neutral-300 mb-3" />
-            <p className="text-neutral-600 font-semibold mb-1">No cars listed yet</p>
-            <p className="text-neutral-400 text-sm mb-4">Add your first car to start earning.</p>
+          <div className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 shadow-sm p-12 rounded-2xl text-center">
+            <Car size={32} className="mx-auto text-neutral-300 dark:text-neutral-600 mb-3" />
+            <p className="text-neutral-600 dark:text-neutral-400 font-semibold mb-1">No cars listed yet</p>
+            <p className="text-neutral-400 dark:text-neutral-500 text-sm mb-4">Add your first car to start earning.</p>
             <Button variant="primary" onClick={() => { resetForm(); setShowForm(true); }} className="rounded-xl">Add Your First Car</Button>
           </div>
         )}
@@ -127,91 +131,91 @@ export const DriverCars = () => {
         {/* Add/Edit Form Modal */}
         {showForm && (
           <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={resetForm}>
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-6" onClick={e => e.stopPropagation()}>
+            <div className="bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-6" onClick={e => e.stopPropagation()}>
               <div className="flex items-center justify-between mb-5">
-                <h3 className="font-display text-sm font-bold text-neutral-800 uppercase tracking-wider">{editId ? 'Edit Car' : 'Add New Car'}</h3>
-                <button onClick={resetForm} className="text-neutral-400 hover:text-neutral-600 cursor-pointer"><X size={18} /></button>
+                <h3 className="font-display text-sm font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wider">{editId ? 'Edit Car' : 'Add New Car'}</h3>
+                <button onClick={resetForm} className="text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 cursor-pointer"><X size={18} /></button>
               </div>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Car Name</label>
+                    <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1 block">Car Name</label>
                     <input required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
-                      className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 rounded-lg outline-none focus:border-accent-blue" />
+                      className={inputClass} />
                   </div>
                   <div>
-                    <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Brand</label>
+                    <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1 block">Brand</label>
                     <input required value={form.brand} onChange={e => setForm({ ...form, brand: e.target.value })}
-                      className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 rounded-lg outline-none focus:border-accent-blue" />
+                      className={inputClass} />
                   </div>
                 </div>
                 <div className="grid grid-cols-3 gap-3">
                   <div>
-                    <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Category</label>
+                    <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1 block">Category</label>
                     <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value as CarType['category'] })}
-                      className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 rounded-lg outline-none focus:border-accent-blue bg-white">
+                      className={selectClass}>
                       {['Luxury', 'Sports', 'Supercar', 'SUV', 'Electric'].map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
                   </div>
                   <div>
-                    <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Price/day (৳)</label>
+                    <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1 block">Price/day (৳)</label>
                     <input type="number" required value={form.price || ''} onChange={e => setForm({ ...form, price: Number(e.target.value) })}
-                      className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 rounded-lg outline-none focus:border-accent-blue" />
+                      className={inputClass} />
                   </div>
                   <div>
-                    <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Seats</label>
+                    <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1 block">Seats</label>
                     <input type="number" value={form.seats} onChange={e => setForm({ ...form, seats: Number(e.target.value) })}
-                      className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 rounded-lg outline-none focus:border-accent-blue" />
+                      className={inputClass} />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Fuel</label>
+                    <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1 block">Fuel</label>
                     <select value={form.fuel} onChange={e => setForm({ ...form, fuel: e.target.value as CarType['fuel'] })}
-                      className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 rounded-lg outline-none focus:border-accent-blue bg-white">
+                      className={selectClass}>
                       {['Petrol', 'Electric', 'Hybrid', 'Diesel'].map(f => <option key={f} value={f}>{f}</option>)}
                     </select>
                   </div>
                   <div>
-                    <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Transmission</label>
+                    <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1 block">Transmission</label>
                     <select value={form.transmission} onChange={e => setForm({ ...form, transmission: e.target.value as CarType['transmission'] })}
-                      className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 rounded-lg outline-none focus:border-accent-blue bg-white">
+                      className={selectClass}>
                       {['Automatic', 'Manual'].map(t => <option key={t} value={t}>{t}</option>)}
                     </select>
                   </div>
                 </div>
                 <div>
-                  <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Location</label>
+                  <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1 block">Location</label>
                   <div className="relative">
-                    <MapPin size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
+                    <MapPin size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 dark:text-neutral-500" />
                     <input value={form.location} onChange={e => setForm({ ...form, location: e.target.value })}
                       placeholder="e.g. Dhaka, Bangladesh"
-                      className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 pl-9 rounded-lg outline-none focus:border-accent-blue placeholder:text-neutral-300" />
+                      className="w-full border border-neutral-200 dark:border-neutral-700 text-sm text-neutral-800 dark:text-neutral-200 p-2.5 pl-9 rounded-lg outline-none focus:border-accent-blue placeholder:text-neutral-300 dark:placeholder:text-neutral-600 bg-white dark:bg-neutral-800" />
                   </div>
                 </div>
                 <div>
-                  <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Image URL</label>
+                  <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1 block">Image URL</label>
                   <input required value={form.image} onChange={e => setForm({ ...form, image: e.target.value })}
                     placeholder="https://..."
-                    className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 rounded-lg outline-none focus:border-accent-blue placeholder:text-neutral-300" />
+                    className={inputClassPh} />
                 </div>
                 <div>
-                  <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Extra Images (comma separated)</label>
+                  <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1 block">Extra Images (comma separated)</label>
                   <input value={form.images} onChange={e => setForm({ ...form, images: e.target.value })}
                     placeholder="https://img1.jpg, https://img2.jpg"
-                    className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 rounded-lg outline-none focus:border-accent-blue placeholder:text-neutral-300" />
+                    className={inputClassPh} />
                 </div>
                 <div>
-                  <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Features (comma separated)</label>
+                  <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1 block">Features (comma separated)</label>
                   <input value={form.features} onChange={e => setForm({ ...form, features: e.target.value })}
                     placeholder="e.g. Sunroof, Leather Seats, GPS"
-                    className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 rounded-lg outline-none focus:border-accent-blue placeholder:text-neutral-300" />
+                    className={inputClassPh} />
                 </div>
                 <div>
-                  <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Description</label>
+                  <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1 block">Description</label>
                   <textarea rows={3} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })}
                     placeholder="Tell renters about your car..."
-                    className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 rounded-lg outline-none focus:border-accent-blue resize-none placeholder:text-neutral-300" />
+                    className="w-full border border-neutral-200 dark:border-neutral-700 text-sm text-neutral-800 dark:text-neutral-200 p-2.5 rounded-lg outline-none focus:border-accent-blue resize-none placeholder:text-neutral-300 dark:placeholder:text-neutral-600 bg-white dark:bg-neutral-800" />
                 </div>
                 <div className="flex gap-3 pt-2">
                   <Button type="submit" variant="primary" size="sm" className="rounded-xl flex-1">
