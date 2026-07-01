@@ -69,7 +69,7 @@ export const DashboardMyCars = () => {
   const startEdit = (car: CarType) => {
     setForm({
       name: car.name, brand: car.brand, category: car.category, price: car.price,
-      image: car.image, fuel: car.fuel, transmission: car.transmission, seats: car.seats,
+      image: car.image, images: car.images?.join(', ') || '', fuel: car.fuel, transmission: car.transmission, seats: car.seats,
       power: car.power, speed: car.speed, description: car.description, location: car.location,
       features: car.features.join(', '),
     });
