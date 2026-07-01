@@ -1,16 +1,25 @@
+import { useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Star, MapPin, Users, Zap, Disc, Calendar, Shield, Check } from 'lucide-react';
 import { useStore } from '../store/useStore';
+import { useRecentlyViewed } from '../store/useRecentlyViewed';
 import { Button } from '../components/ui/Button';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { CarImageSlider } from '../components/ui/CarImageSlider';
+import { CarCalendar } from '../components/ui/CarCalendar';
+import { PriceCalculator } from '../components/ui/PriceCalculator';
 import { calculateBookingCost, formatPrice } from '../lib/pricing';
 
 export const Details: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { cars } = useStore();
+  const { addItem } = useRecentlyViewed();
   const car = cars.find(c => c.id === id);
+
+  useEffect(() => {
+    if (id) addItem(id);
+  }, [id, addItem]);
 
   if (!car) {
     return (
@@ -143,7 +152,9 @@ export const Details: React.FC = () => {
             </section>
           </div>
 
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 space-y-5">
+            <PriceCalculator pricePerDay={car.price} />
+
             <div className="bg-white border border-neutral-200/60 shadow-sm p-6 rounded-xl sticky top-28">
               <div className="flex items-baseline gap-1 mb-4">
                 <span className="text-2xl font-bold text-neutral-900 font-display">{formatPrice(car.price)}</span>
@@ -152,24 +163,6 @@ export const Details: React.FC = () => {
               <span className="text-xs text-green-600 font-medium flex items-center gap-1 mb-5">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-500" /> Available Now
               </span>
-
-              <div className="space-y-3 mb-5">
-                <div className="flex items-center gap-3 p-3 border border-neutral-200 rounded-lg">
-                  <Calendar size={15} className="text-neutral-400 shrink-0" />
-                  <div className="flex gap-2 text-xs text-neutral-600">
-                    <span>3-day estimate</span>
-                    <span className="text-neutral-300">|</span>
-                    <span className="font-semibold text-neutral-800">{formatPrice(subtotal)}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-2 text-sm border-t border-neutral-100 pt-4 mb-5">
-                <div className="flex justify-between text-neutral-500"><span>Subtotal (3 days)</span><span className="text-neutral-800 font-semibold">{formatPrice(subtotal)}</span></div>
-                <div className="flex justify-between text-neutral-500"><span>Trip fee</span><span className="text-neutral-800 font-semibold">{formatPrice(tripFee)}</span></div>
-                <div className="flex justify-between text-neutral-500"><span>Tax</span><span className="text-neutral-800 font-semibold">{formatPrice(tax)}</span></div>
-                <div className="border-t border-neutral-100 pt-2 flex justify-between font-display text-sm font-bold text-neutral-900"><span>Total</span><span>{formatPrice(total)}</span></div>
-              </div>
 
               <Button variant="primary" className="w-full rounded-lg mb-2" onClick={() => navigate(`/bookings/${car.id}`)}>
                 Reserve Now

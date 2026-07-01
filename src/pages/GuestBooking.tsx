@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { User, Mail, Phone, CreditCard, Calendar, Shield, Check } from 'lucide-react';
 import { useStore } from '../store/useStore';
+import { useToastStore } from '../store/useToastStore';
 import { Button } from '../components/ui/Button';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { calculateBookingCost, formatPrice } from '../lib/pricing';
@@ -11,6 +12,7 @@ export const GuestBooking = () => {
   const { carId } = useParams();
   const navigate = useNavigate();
   const { cars, addGuestBooking } = useStore();
+  const { addToast } = useToastStore();
   const car = cars.find(c => c.id === carId);
 
   const [form, setForm] = useState({
@@ -60,6 +62,7 @@ export const GuestBooking = () => {
       },
     });
 
+    addToast('Booking confirmed! Check your email for details.', 'success');
     setSubmitted(true);
   };
 

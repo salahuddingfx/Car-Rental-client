@@ -45,9 +45,19 @@ export const FeaturedCarsSection: React.FC<Props> = ({ cars }) => {
             <h2 className="font-display text-3xl md:text-4xl font-extrabold text-neutral-900">Featured Vehicles</h2>
             <p className="text-neutral-500 text-sm mt-1.5 max-w-md">Handpicked luxury and performance machines waiting for your next journey.</p>
           </div>
-          <Link to="/cars" className="group font-display text-xs text-neutral-400 hover:text-accent-blue uppercase tracking-widest flex items-center gap-1.5 transition-colors border-b border-transparent hover:border-accent-blue pb-0.5">
-            Explore All <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link to="/cars" className="group font-display text-xs text-neutral-400 hover:text-accent-blue uppercase tracking-widest flex items-center gap-1.5 transition-colors border-b border-transparent hover:border-accent-blue pb-0.5">
+              Explore All <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <div className="flex items-center gap-2">
+              <button onClick={scrollPrev} disabled={!canScrollPrev} className="w-9 h-9 rounded-full bg-white border border-neutral-200 shadow-md flex items-center justify-center text-neutral-600 hover:text-accent-blue hover:border-accent-blue/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer">
+                <ChevronLeft size={16} />
+              </button>
+              <button onClick={scrollNext} disabled={!canScrollNext} className="w-9 h-9 rounded-full bg-white border border-neutral-200 shadow-md flex items-center justify-center text-neutral-600 hover:text-accent-blue hover:border-accent-blue/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer">
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          </div>
         </motion.div>
 
         {/* Category filters */}
@@ -70,16 +80,6 @@ export const FeaturedCarsSection: React.FC<Props> = ({ cars }) => {
                 </div>
               ))}
             </div>
-          </div>
-
-          {/* Arrows */}
-          <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
-            <button onClick={scrollPrev} disabled={!canScrollPrev} className="w-9 h-9 rounded-full bg-white border border-neutral-200 shadow-md flex items-center justify-center text-neutral-600 hover:text-accent-blue disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer">
-              <ChevronLeft size={16} />
-            </button>
-            <button onClick={scrollNext} disabled={!canScrollNext} className="w-9 h-9 rounded-full bg-white border border-neutral-200 shadow-md flex items-center justify-center text-neutral-600 hover:text-accent-blue disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer">
-              <ChevronRight size={16} />
-            </button>
           </div>
         </div>
       </div>
