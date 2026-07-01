@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, Disc, Zap, Flame, User, Star } from 'lucide-react';
 import { useStore } from '../../store/useStore';
+import { useToastStore } from '../../store/useToastStore';
 import type { Car } from '../../data/mockCars';
 import { getHourlyRate } from '../../lib/pricing';
 import { Button } from './Button';
@@ -10,7 +11,14 @@ interface CarCardProps { car: Car }
 
 export const CarCard: React.FC<CarCardProps> = ({ car }) => {
   const { wishlist, toggleWishlist } = useStore();
+  const { addToast } = useToastStore();
   const isWishlisted = wishlist.includes(car.id);
+
+  const handleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    toggleWishlist(car.id);
+    addToast(isWishlisted ? `${car.name} removed from wishlist` : `${car.name} added to wishlist`, isWishlisted ? 'info' : 'success');
+  };
 
   return (
     <div className="group relative bg-white border border-neutral-200/60 shadow-sm flex flex-col h-full overflow-hidden text-left transition-all duration-500 rounded-2xl hover:shadow-xl hover:shadow-neutral-900/5 hover:border-accent-blue/20 hover:-translate-y-1">
@@ -26,7 +34,7 @@ export const CarCard: React.FC<CarCardProps> = ({ car }) => {
             </span>
           )}
         </div>
-        <button onClick={(e) => { e.preventDefault(); toggleWishlist(car.id); }}
+        <button onClick={handleWishlist}
           className="absolute top-3 right-3 z-10 p-2 bg-black/20 backdrop-blur-sm text-white/70 hover:text-red-400 hover:bg-black/40 transition-all duration-300 rounded-full cursor-pointer">
           <Heart size={15} className={`transition-all duration-300 ${isWishlisted ? 'fill-red-400 text-red-400 scale-110' : ''}`} />
         </button>
