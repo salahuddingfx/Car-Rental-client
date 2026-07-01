@@ -3,7 +3,7 @@ import { Star, MapPin, Users, Zap, Disc, Calendar, Shield, Check } from 'lucide-
 import { useStore } from '../store/useStore';
 import { Button } from '../components/ui/Button';
 import { Breadcrumbs } from '../components/Breadcrumbs';
-import { CarViewer } from '../components/three/CarViewer';
+import { CarImageSlider } from '../components/ui/CarImageSlider';
 import { calculateBookingCost, formatPrice } from '../lib/pricing';
 
 export const Details: React.FC = () => {
@@ -33,7 +33,7 @@ export const Details: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-14">
           <div className="h-[420px] lg:h-[520px] rounded-xl overflow-hidden border border-neutral-200/60 bg-white shadow-sm">
-            <CarViewer />
+            <CarImageSlider images={car.images} alt={car.name} />
           </div>
 
           <div className="space-y-5">
