@@ -100,7 +100,7 @@ export const FeaturedCarsSection: React.FC<Props> = ({ cars }) => {
           <div className="overflow-hidden rounded-2xl" ref={emblaRef}>
             <div className="flex gap-5">
               {filtered.slice(0, 6).map(car => (
-                <div key={car.id} className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.33%] min-w-0">
+                <div key={car.id} className="flex-[0_0_100%] sm:flex-[0_0_calc(50%-10px)] lg:flex-[0_0_calc(33.33%-14px)] min-w-0">
                   <CarCard car={car} />
                 </div>
               ))}
