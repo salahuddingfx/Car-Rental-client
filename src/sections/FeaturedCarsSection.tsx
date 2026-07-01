@@ -62,29 +62,29 @@ export const FeaturedCarsSection: React.FC<Props> = ({ cars }) => {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="mb-6"
         >
-          <div>
-            <p className="font-display text-[10px] tracking-[0.25em] text-accent-blue uppercase font-bold mb-2">The Chosen Collection</p>
-            <h2 className="font-display text-3xl md:text-4xl font-extrabold text-neutral-900 dark:text-neutral-100">Featured Vehicles</h2>
-            <p className="text-neutral-500 text-sm mt-1.5 max-w-md">Handpicked luxury and performance machines waiting for your next journey.</p>
+          <div className="flex items-end justify-between">
+            <div>
+              <p className="font-display text-[10px] tracking-[0.25em] text-accent-blue uppercase font-bold mb-2">The Chosen Collection</p>
+              <h2 className="font-display text-3xl md:text-4xl font-extrabold text-neutral-900 dark:text-neutral-100">Featured Vehicles</h2>
+            </div>
+            <Link to="/cars" className="group font-display text-xs text-neutral-400 hover:text-accent-blue uppercase tracking-widest flex items-center gap-1.5 transition-colors border-b border-transparent hover:border-accent-blue pb-0.5 shrink-0">
+              Explore All <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
+          <p className="text-neutral-500 text-sm mt-1.5 max-w-md">Handpicked luxury and performance machines waiting for your next journey.</p>
         </motion.div>
 
-        {/* Explore All + Controls row */}
-        <div className="flex items-center justify-between mb-6">
-          <Link to="/cars" className="group font-display text-xs text-neutral-400 hover:text-accent-blue uppercase tracking-widest flex items-center gap-1.5 transition-colors border-b border-transparent hover:border-accent-blue pb-0.5">
-            Explore All <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-          <div className="flex items-center gap-2">
-            <button onClick={scrollPrev} className="w-9 h-9 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-md flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:text-accent-blue hover:border-accent-blue/30 transition-all cursor-pointer">
-              <ChevronLeft size={16} />
-            </button>
-            <button onClick={scrollNext} className="w-9 h-9 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-md flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:text-accent-blue hover:border-accent-blue/30 transition-all cursor-pointer">
-              <ChevronRight size={16} />
-            </button>
-            <button onClick={toggleAutoScroll} className={`w-9 h-9 rounded-full border shadow-md flex items-center justify-center transition-all cursor-pointer ${isAutoScrolling ? 'bg-accent-blue text-white border-accent-blue' : 'bg-white dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-300 hover:text-accent-blue hover:border-accent-blue/30'}`}>
-              {isAutoScrolling ? <Pause size={14} /> : <Play size={14} />}
-            </button>
-          </div>
+        {/* Controls row */}
+        <div className="flex items-center justify-end gap-2 mb-6">
+          <button onClick={scrollPrev} className="w-9 h-9 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-md flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:text-accent-blue hover:border-accent-blue/30 transition-all cursor-pointer">
+            <ChevronLeft size={16} />
+          </button>
+          <button onClick={scrollNext} className="w-9 h-9 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-md flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:text-accent-blue hover:border-accent-blue/30 transition-all cursor-pointer">
+            <ChevronRight size={16} />
+          </button>
+          <button onClick={toggleAutoScroll} className={`w-9 h-9 rounded-full border shadow-md flex items-center justify-center transition-all cursor-pointer ${isAutoScrolling ? 'bg-accent-blue text-white border-accent-blue' : 'bg-white dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-300 hover:text-accent-blue hover:border-accent-blue/30'}`}>
+            {isAutoScrolling ? <Pause size={14} /> : <Play size={14} />}
+          </button>
         </div>
 
         {/* Category filters */}
