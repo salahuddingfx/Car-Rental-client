@@ -60,7 +60,7 @@ export interface User {
   name: string;
   email: string;
   avatar: string;
-  role: 'user' | 'host' | 'company';
+  role: 'user' | 'host' | 'company' | 'driver';
   drivingLicense?: {
     licenseNumber: string;
     expiryDate: string;
