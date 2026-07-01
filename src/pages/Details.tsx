@@ -1,15 +1,14 @@
 import { useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Star, MapPin, Users, Zap, Disc, Calendar, Shield, Check } from 'lucide-react';
+import { Star, MapPin, Users, Zap, Disc, Shield, Check } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { useRecentlyViewed } from '../store/useRecentlyViewed';
 import { Button } from '../components/ui/Button';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { CarImageSlider } from '../components/ui/CarImageSlider';
-import { CarCalendar } from '../components/ui/CarCalendar';
 import { PriceCalculator } from '../components/ui/PriceCalculator';
 import { LiveChat } from '../components/ui/LiveChat';
-import { calculateBookingCost, formatPrice } from '../lib/pricing';
+import { formatPrice } from '../lib/pricing';
 
 export const Details: React.FC = () => {
   const { id } = useParams();
@@ -30,8 +29,6 @@ export const Details: React.FC = () => {
       </div>
     );
   }
-
-  const { subtotal, tripFee, tax, total } = calculateBookingCost(car.price, 3);
 
   return (
     <div className="pt-24 pb-20 bg-light-bg min-h-screen">
