@@ -4,6 +4,7 @@ import { Footer } from './Footer';
 import { ScrollToTopButton } from '../ScrollToTopButton';
 import { ToastContainer } from '../ui/Toast';
 import { CookieConsent } from '../ui/CookieConsent';
+import { LiveChat } from '../ui/LiveChat';
 
 export const MainLayout = () => {
   return (
@@ -14,6 +15,7 @@ export const MainLayout = () => {
       </main>
       <Footer />
       <ScrollToTopButton />
+      <LiveChat />
       <ToastContainer />
       <CookieConsent />
     </div>

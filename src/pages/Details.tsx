@@ -203,14 +203,6 @@ export const Details: React.FC = () => {
         </div>
       </div>
 
-      {/* Live Chat */}
-      <LiveChat
-        hostId={car.hostName}
-        hostName={car.hostName}
-        hostAvatar={car.hostAvatar}
-        carId={car.id}
-        carName={car.name}
-      />
     </div>
   );
 };
