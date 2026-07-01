@@ -27,7 +27,7 @@ export const Details: React.FC = () => {
     <div className="pt-24 pb-20 bg-light-bg min-h-screen">
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs items={[
-          { label: 'Fleet', href: '/cars' },
+          { label: 'Our Cars', href: '/cars' },
           { label: car.name },
         ]} />
 

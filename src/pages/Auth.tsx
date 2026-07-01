@@ -61,7 +61,7 @@ export const Auth: React.FC = () => {
 
       <div className="relative z-10 w-full max-w-md">
         <div className="mb-4">
-          <Breadcrumbs items={[{ label: 'Sign In' }]} />
+          <Breadcrumbs items={[{ label: 'Login' }]} />
         </div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
         <div className="bg-white/90 backdrop-blur-md border border-neutral-200/60 shadow-sm p-8 rounded-xl">

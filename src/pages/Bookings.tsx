@@ -82,9 +82,9 @@ export const Bookings: React.FC = () => {
     <div className="pt-28 pb-20 bg-light-bg min-h-screen">
       <div className="max-w-4xl mx-auto px-6">
         <Breadcrumbs items={[
-          { label: 'Fleet', href: '/cars' },
+          { label: 'Our Cars', href: '/cars' },
           { label: car.name, href: `/cars/${car.id}` },
-          { label: 'Booking' },
+          { label: 'My Booking' },
         ]} />
 
         <div className="flex items-center justify-center gap-0 mb-10">

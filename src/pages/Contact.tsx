@@ -24,7 +24,7 @@ export const Contact = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-light-bg to-white pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <Breadcrumbs items={[{ label: 'Contact' }]} />
+        <Breadcrumbs items={[{ label: 'Talk to Us' }]} />
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center max-w-2xl mx-auto mb-12">
           <p className="font-display text-[10px] tracking-[0.25em] text-accent-blue uppercase font-bold mb-4">Get in Touch</p>

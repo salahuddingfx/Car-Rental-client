@@ -75,7 +75,7 @@ export const Dashboard = () => {
     <div className="min-h-screen bg-gradient-to-b from-light-bg to-white pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <DashboardHeader userRole={userRole} />
-        <Breadcrumbs items={[{ label: 'Dashboard' }]} />
+        <Breadcrumbs items={[{ label: 'My Dashboard' }]} />
 
         <div className="flex flex-col lg:flex-row gap-8">
           <DashboardSidebar

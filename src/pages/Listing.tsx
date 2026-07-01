@@ -87,7 +87,7 @@ export const Listing = () => {
           <div className="absolute bottom-0 left-0 w-[350px] h-[350px] bg-accent-amber/5 rounded-full blur-[100px]" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
-          <Breadcrumbs items={[{ label: 'Fleet' }]} />
+          <Breadcrumbs items={[{ label: 'Our Cars' }]} />
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center lg:text-left">
             <p className="font-display text-[10px] tracking-[0.25em] text-accent-blue uppercase font-bold mb-3">Apex Ride Fleet Collection</p>
             <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-3">Explore Our Fleet</h1>
