@@ -100,13 +100,13 @@ export const Auth: React.FC = () => {
             </div>
 
             <div>
-              <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block">Password</label>
-              <div className="flex items-center border border-neutral-200 p-3 bg-white rounded-lg focus-within:border-accent-blue transition-colors">
-                <Lock size={15} className="text-neutral-400 mr-2 shrink-0" />
+              <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Password</label>
+              <div className="flex items-center border border-neutral-200 dark:border-neutral-700 p-3 bg-white dark:bg-neutral-800 rounded-lg focus-within:border-accent-blue transition-colors">
+                <Lock size={15} className="text-neutral-400 dark:text-neutral-500 mr-2 shrink-0" />
                 <input type={showPw ? 'text' : 'password'} placeholder="••••••••" value={password} onChange={(e) => { setPassword(e.target.value); if (touched) setErrors(validate()); }}
                   onBlur={handleBlur}
-                  className="bg-transparent text-sm text-neutral-800 placeholder-neutral-400 outline-none w-full font-sans" />
-                <button type="button" onClick={() => setShowPw(!showPw)} className="text-neutral-400 hover:text-neutral-600 cursor-pointer shrink-0">
+                  className="bg-transparent text-sm text-neutral-800 dark:text-neutral-200 placeholder-neutral-400 dark:placeholder-neutral-500 outline-none w-full font-sans" />
+                <button type="button" onClick={() => setShowPw(!showPw)} className="text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 cursor-pointer shrink-0">
                   {showPw ? <EyeOff size={15} /> : <Eye size={15} />}
                 </button>
               </div>
@@ -125,7 +125,7 @@ export const Auth: React.FC = () => {
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-xs text-neutral-500">
+            <p className="text-xs text-neutral-500 dark:text-neutral-400">
               {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
               <button onClick={() => setIsLogin(!isLogin)} className="text-accent-blue hover:text-accent-blue-hover font-semibold cursor-pointer transition-colors">
                 {isLogin ? 'Sign Up' : 'Sign In'}
@@ -133,8 +133,8 @@ export const Auth: React.FC = () => {
             </p>
           </div>
 
-          <div className="mt-5 pt-4 border-t border-neutral-100">
-            <p className="text-[10px] text-neutral-400 text-center">
+          <div className="mt-5 pt-4 border-t border-neutral-100 dark:border-neutral-700">
+            <p className="text-[10px] text-neutral-400 dark:text-neutral-500 text-center">
               Demo: click Sign In with the pre-filled email
             </p>
           </div>
