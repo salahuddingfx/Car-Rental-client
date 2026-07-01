@@ -16,6 +16,7 @@ export interface Car {
   rating: number;
   reviewsCount: number;
   image: string;
+  images: string[];
   fuel: 'Electric' | 'Petrol' | 'Hybrid' | 'Diesel';
   transmission: 'Automatic' | 'Manual';
   seats: number;
@@ -80,6 +81,11 @@ export const INITIAL_CARS: Car[] = [
     rating: 4.95,
     reviewsCount: 42,
     image: '/luxury_car.png',
+    images: [
+      '/luxury_car.png',
+      'https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=800',
+    ],
     fuel: 'Electric',
     transmission: 'Automatic',
     seats: 5,
