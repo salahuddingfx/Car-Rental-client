@@ -156,7 +156,7 @@ export const Bookings: React.FC = () => {
                     <span className="text-sm text-neutral-500 dark:text-neutral-400">Pay on pickup — no card details needed</span>
                   </div>
                   {[
-                    { label: 'Driver', value: name },
+                    { label: 'Passenger', value: name },
                     { label: 'Email', value: email },
                     { label: 'Vehicle', value: `${car.brand} ${car.name}` },
                     { label: 'Duration', value: `${days} day${days > 1 ? 's' : ''}` },
