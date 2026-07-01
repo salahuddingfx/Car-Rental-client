@@ -34,19 +34,19 @@ export const BrandsSection: React.FC<Props> = ({ searchLoc, setSearchLoc, search
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-5 gap-14 items-start">
         <div className="lg:col-span-2 order-2 lg:order-1">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="bg-white border border-neutral-200/60 shadow-sm p-7 rounded-xl"
+            className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-700/60 shadow-sm p-7 rounded-xl"
           >
-            <h3 className="font-display text-sm font-bold text-neutral-800 uppercase tracking-wider mb-5 pb-2 border-b border-neutral-100">
+            <h3 className="font-display text-sm font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wider mb-5 pb-2 border-b border-neutral-100 dark:border-neutral-700">
               Quick Booking
             </h3>
             <form onSubmit={onSearch} className="space-y-5">
               <div>
                 <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block">Location</label>
-                <div className="flex items-center border border-neutral-200 p-3 bg-white rounded-lg">
+                <div className="flex items-center border border-neutral-200 dark:border-neutral-700 p-3 bg-white dark:bg-neutral-800 rounded-lg">
                   <MapPin size={15} className="text-neutral-400 mr-2 shrink-0" />
                   <input type="text" placeholder="e.g. Gulshan, Dhaka" value={searchLoc}
                     onChange={(e) => setSearchLoc(e.target.value)}
-                    className="bg-transparent text-sm text-neutral-800 placeholder-neutral-400 outline-none w-full font-sans" />
+                    className="bg-transparent text-sm text-neutral-800 dark:text-neutral-200 placeholder-neutral-400 outline-none w-full font-sans" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
