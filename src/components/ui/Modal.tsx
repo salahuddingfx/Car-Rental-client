@@ -17,7 +17,6 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   size = 'md'
 }) => {
-  // Prevent background scroll when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -41,27 +40,24 @@ export const Modal: React.FC<ModalProps> = ({
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/80 backdrop-blur-md cursor-pointer"
+            className="fixed inset-0 bg-black/50 dark:bg-black/80 backdrop-blur-md cursor-pointer"
           />
 
-          {/* Modal Container */}
           <motion.div
             initial={{ scale: 0.95, y: 15, opacity: 0 }}
             animate={{ scale: 1, y: 0, opacity: 1 }}
             exit={{ scale: 0.95, y: 15, opacity: 0 }}
             transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-            className={`relative w-full ${sizes[size]} glass-panel-dark bg-graphite border border-white/5 shadow-2xl overflow-hidden flex flex-col max-h-[90vh] rounded-none z-10`}
+            className={`relative w-full ${sizes[size]} bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 shadow-2xl overflow-hidden flex flex-col max-h-[90vh] rounded-2xl z-10`}
           >
-            {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-white/5">
+            <div className="flex items-center justify-between p-6 border-b border-neutral-100 dark:border-neutral-800">
               {title ? (
-                <h3 className="font-display text-lg font-semibold tracking-wider text-white uppercase">
+                <h3 className="font-display text-lg font-semibold tracking-wider text-neutral-900 dark:text-white uppercase">
                   {title}
                 </h3>
               ) : (
@@ -69,14 +65,13 @@ export const Modal: React.FC<ModalProps> = ({
               )}
               <button
                 onClick={onClose}
-                className="text-neutral-400 hover:text-white transition-colors duration-200 cursor-pointer"
+                className="text-neutral-400 hover:text-neutral-800 dark:hover:text-white transition-colors duration-200 cursor-pointer"
               >
                 <X size={20} />
               </button>
             </div>
 
-            {/* Content */}
-            <div className="flex-1 overflow-y-auto p-6 scrollbar">
+            <div className="flex-1 overflow-y-auto p-6">
               {children}
             </div>
           </motion.div>
