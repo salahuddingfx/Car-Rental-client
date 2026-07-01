@@ -96,7 +96,7 @@ export const FeaturedCarsSection: React.FC<Props> = ({ cars }) => {
         </div>
 
         {/* Carousel */}
-        <div className="relative">
+        <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <div className="overflow-hidden rounded-2xl" ref={emblaRef}>
             <div className="flex gap-5">
               {filtered.slice(0, 6).map(car => (
