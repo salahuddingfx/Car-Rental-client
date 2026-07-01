@@ -119,11 +119,38 @@ export const LiveChat = () => {
 
   const hasExistingChat = user ? getChatsByUser(user.id).length > 0 : false;
 
+  const [showGreeting, setShowGreeting] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setShowGreeting(true), 2000);
+    const hide = setTimeout(() => setShowGreeting(false), 8000);
+    return () => { clearTimeout(t); clearTimeout(hide); };
+  }, []);
+
   return (
     <>
+      {/* Greeting popup */}
+      <AnimatePresence>
+        {showGreeting && !isOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: 20, scale: 0.9 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 20, scale: 0.9 }}
+            transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+            className="fixed bottom-36 right-4 sm:right-6 z-50 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-xl rounded-2xl rounded-br-sm p-4 max-w-[220px]"
+          >
+            <p className="text-xs font-bold text-neutral-800 dark:text-neutral-200 mb-0.5">Hello! 👋</p>
+            <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
+              Need a car? Chat with us!
+            </p>
+            <div className="absolute bottom-0 right-4 w-3 h-3 bg-white dark:bg-neutral-800 border-r border-b border-neutral-200 dark:border-neutral-700 transform translate-y-1/2 rotate-45" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-20 right-4 sm:right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 bg-accent-blue text-white rounded-full shadow-lg shadow-accent-blue/30 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer"
+        onClick={() => { setIsOpen(!isOpen); setShowGreeting(false); }}
+        className={`fixed bottom-20 right-4 sm:right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 bg-accent-blue text-white rounded-full shadow-lg shadow-accent-blue/30 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer ${showGreeting ? 'animate-bounce' : ''}`}
       >
         <MessageCircle size={22} />
       </button>
