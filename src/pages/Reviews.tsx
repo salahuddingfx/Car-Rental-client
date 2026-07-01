@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Star, MapPin, ExternalLink, Quote, ThumbsUp, Filter } from 'lucide-react';
+import { Star, ThumbsUp } from 'lucide-react';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { useStore } from '../store/useStore';
 
