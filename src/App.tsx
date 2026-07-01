@@ -1,9 +1,10 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { MainLayout } from './components/layout/MainLayout';
 import { Home } from './pages/Home';
 import { ScrollToTop } from './components/ScrollToTop';
 import { IntroLoader } from './components/IntroLoader';
+import { useThemeStore } from './store/useThemeStore';
 
 const Listing = lazy(() => import('./pages/Listing').then(m => ({ default: m.Listing })));
 const Details = lazy(() => import('./pages/Details').then(m => ({ default: m.Details })));
@@ -30,6 +31,12 @@ function PageLoader() {
 }
 
 function App() {
+  const isDark = useThemeStore(s => s.isDark);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', isDark);
+  }, [isDark]);
+
   return (
     <BrowserRouter>
       <IntroLoader />

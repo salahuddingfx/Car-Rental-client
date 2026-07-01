@@ -10,21 +10,8 @@ export const useThemeStore = create<ThemeState>()(
   persist(
     (set) => ({
       isDark: false,
-      toggleTheme: () => set((state) => {
-        const newDark = !state.isDark;
-        document.documentElement.classList.toggle('dark', newDark);
-        return { isDark: newDark };
-      }),
+      toggleTheme: () => set((state) => ({ isDark: !state.isDark })),
     }),
-    {
-      name: 'theme-storage',
-      onRehydrateStorage: () => (state) => {
-        if (state?.isDark) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-      },
-    }
+    { name: 'theme-storage' }
   )
 );
