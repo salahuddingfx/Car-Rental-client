@@ -67,18 +67,21 @@ export const Contact = () => {
                     <div>
                       <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block">Your Name</label>
                       <input required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
-                        className="w-full border border-neutral-200 text-sm text-neutral-800 p-3 rounded-xl outline-none focus:border-accent-blue transition-colors" />
+                        placeholder="e.g. Rahim Uddin"
+                        className="w-full border border-neutral-200 text-sm text-neutral-800 p-3 rounded-xl outline-none focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/10 transition-all duration-200 placeholder:text-neutral-300" />
                     </div>
                     <div>
                       <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block">Your Email</label>
                       <input required type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}
-                        className="w-full border border-neutral-200 text-sm text-neutral-800 p-3 rounded-xl outline-none focus:border-accent-blue transition-colors" />
+                        placeholder="e.g. rahim@gmail.com"
+                        className="w-full border border-neutral-200 text-sm text-neutral-800 p-3 rounded-xl outline-none focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/10 transition-all duration-200 placeholder:text-neutral-300" />
                     </div>
                   </div>
                   <div>
                     <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block">Message</label>
                     <textarea required rows={5} value={form.message} onChange={e => setForm({ ...form, message: e.target.value })}
-                      className="w-full border border-neutral-200 text-sm text-neutral-800 p-3 rounded-xl outline-none focus:border-accent-blue transition-colors resize-none" />
+                      placeholder="Tell us what's on your mind..."
+                      className="w-full border border-neutral-200 text-sm text-neutral-800 p-3 rounded-xl outline-none focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/10 transition-all duration-200 placeholder:text-neutral-300 resize-none" />
                   </div>
                   <Button type="submit" variant="primary" className="rounded-xl">
                     <Send size={14} className="mr-1.5" /> Send Message
