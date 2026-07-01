@@ -87,7 +87,7 @@ export const Navbar: React.FC = () => {
                       {isDark ? <Sun size={13} /> : <Moon size={13} />}
                       {isDark ? 'Light Mode' : 'Dark Mode'}
                     </button>
-                    <button onClick={() => { logout(); navigate('/'); }} className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-left text-red-500 hover:bg-red-50 transition-colors rounded cursor-pointer"><LogOut size={13} />{t('logout')}</button>
+                    <button onClick={() => { logout(); navigate('/'); }} className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-left text-red-500 hover:bg-red-50 dark:hover:bg-red-950 transition-colors rounded cursor-pointer"><LogOut size={13} />{t('logout')}</button>
                   </motion.div>
                 )}</AnimatePresence>
               </div>
@@ -96,7 +96,7 @@ export const Navbar: React.FC = () => {
             )}
           </div>
 
-          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className={`lg:hidden transition-colors cursor-pointer ${isScrolled ? 'text-neutral-600 hover:text-neutral-800' : 'text-white/70 hover:text-white'}`}>{isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}</button>
+          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className={`lg:hidden transition-colors cursor-pointer ${isScrolled ? 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-white' : 'text-white/70 hover:text-white'}`}>{isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}</button>
         </div>
       </nav>
 

@@ -24,10 +24,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   
   const variants = {
     primary: 'bg-accent-blue text-white hover:bg-accent-blue-hover shadow-lg shadow-accent-blue/20 border border-accent-blue',
-    secondary: 'bg-neutral-900 text-white hover:bg-neutral-800 border border-neutral-700',
-    glass: 'bg-white/70 text-neutral-800 hover:bg-white border border-neutral-200/60 shadow-sm backdrop-blur-sm',
-    outline: 'bg-transparent text-neutral-700 border border-neutral-300 hover:border-accent-amber/50 hover:text-accent-amber hover:bg-accent-amber/5',
-    ghost: 'bg-transparent text-neutral-400 hover:text-neutral-700 hover:bg-neutral-100'
+    secondary: 'bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-200 border border-neutral-700 dark:border-neutral-300',
+    glass: 'bg-white/70 dark:bg-neutral-800/70 text-neutral-800 dark:text-neutral-200 hover:bg-white dark:hover:bg-neutral-700 border border-neutral-200/60 dark:border-neutral-600/60 shadow-sm backdrop-blur-sm',
+    outline: 'bg-transparent text-neutral-700 dark:text-neutral-300 border border-neutral-300 dark:border-neutral-600 hover:border-accent-amber/50 hover:text-accent-amber hover:bg-accent-amber/5',
+    ghost: 'bg-transparent text-neutral-400 dark:text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800'
   };
 
   const sizes = {
