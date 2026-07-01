@@ -1,13 +1,12 @@
 import { useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Star, MapPin, Users, Zap, Disc, Shield, Check } from 'lucide-react';
+import { Star, MapPin, Users, Zap, Disc, Shield, Check, Share2 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { useRecentlyViewed } from '../store/useRecentlyViewed';
 import { Button } from '../components/ui/Button';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { CarImageSlider } from '../components/ui/CarImageSlider';
 import { PriceCalculator } from '../components/ui/PriceCalculator';
-
 import { formatPrice } from '../lib/pricing';
 
 export const Details: React.FC = () => {
@@ -165,9 +164,17 @@ export const Details: React.FC = () => {
               <Button variant="primary" className="w-full rounded-lg mb-2" onClick={() => navigate(`/bookings/${car.id}`)}>
                 Reserve Now
               </Button>
-              <Button variant="outline" className="w-full rounded-lg mb-3" onClick={() => navigate(`/guest-book/${car.id}`)}>
+              <Button variant="outline" className="w-full rounded-lg mb-2" onClick={() => navigate(`/guest-book/${car.id}`)}>
                 Book as Guest
               </Button>
+              <a
+                href={`https://wa.me/?text=${encodeURIComponent(`Check out this ${car.brand} ${car.name} on Apex Ride!\n৳${car.price}/day · ${car.location}\n${window.location.href}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-2.5 border border-green-300 dark:border-green-700 text-green-600 dark:text-green-400 text-xs font-bold rounded-lg hover:bg-green-50 dark:hover:bg-green-950/30 transition-colors"
+              >
+                <Share2 size={14} /> Share on WhatsApp
+              </a>
               <p className="text-[10px] text-neutral-400 dark:text-neutral-500 text-center leading-relaxed">
                 <Shield size={12} className="inline mr-1" />
                 Concierge Verified · Free cancellation within 48h
