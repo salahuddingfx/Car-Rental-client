@@ -8,6 +8,7 @@ import { Breadcrumbs } from '../components/Breadcrumbs';
 import { CarImageSlider } from '../components/ui/CarImageSlider';
 import { CarCalendar } from '../components/ui/CarCalendar';
 import { PriceCalculator } from '../components/ui/PriceCalculator';
+import { LiveChat } from '../components/ui/LiveChat';
 import { calculateBookingCost, formatPrice } from '../lib/pricing';
 
 export const Details: React.FC = () => {
@@ -204,6 +205,15 @@ export const Details: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Live Chat */}
+      <LiveChat
+        hostId={car.hostName}
+        hostName={car.hostName}
+        hostAvatar={car.hostAvatar}
+        carId={car.id}
+        carName={car.name}
+      />
     </div>
   );
 };
