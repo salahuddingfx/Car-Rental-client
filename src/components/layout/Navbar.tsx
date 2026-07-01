@@ -3,7 +3,10 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Bell, User as UserIcon, Menu, X, Heart, LogOut, Calendar } from 'lucide-react';
 import { useStore } from '../../store/useStore';
+import { useLanguageStore } from '../../store/useLanguageStore';
 import { Button } from '../ui/Button';
+import { ThemeToggle } from '../ui/ThemeToggle';
+import { LanguageToggle } from '../ui/LanguageToggle';
 
 const categories = [
   { name: 'Electric', desc: 'Zero emission, maximum torque', img: 'https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&q=80&w=200' },
@@ -17,6 +20,7 @@ export const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, wishlist, logout, cars } = useStore();
+  const { t } = useLanguageStore();
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -41,17 +45,19 @@ export const Navbar: React.FC = () => {
 
           <div className="hidden lg:flex items-center gap-7">
             {[
-              { to: '/', label: 'Home' },
-              { to: '/cars', label: 'Browse Cars' },
-              ...(user ? [{ to: '/driver/cars', label: 'List Your Car' }] : []),
-              { to: '/about', label: 'About Us' },
-              { to: '/contact', label: 'Contact' },
+              { to: '/', label: t('home') },
+              { to: '/cars', label: t('browseCars') },
+              ...(user ? [{ to: '/driver/cars', label: t('listYourCar') }] : []),
+              { to: '/about', label: t('aboutUs') },
+              { to: '/contact', label: t('contact') },
             ].map(l => (
               <Link key={l.to} to={l.to} className={`font-display text-xs tracking-widest uppercase hover:text-accent-blue transition-colors ${location.pathname === l.to ? 'text-accent-blue' : isScrolled ? 'text-neutral-600' : 'text-white/70'}`}>{l.label}</Link>
             ))}
           </div>
 
-          <div className="hidden lg:flex items-center gap-5">
+          <div className="hidden lg:flex items-center gap-3">
+            <ThemeToggle />
+            <LanguageToggle />
             <button onClick={() => setIsSearchOpen(true)} className={`transition-colors cursor-pointer ${isScrolled ? 'text-neutral-500 hover:text-neutral-800' : 'text-white/60 hover:text-white'}`}><Search size={18} /></button>
             <Link to="/dashboard?tab=wishlist" className={`transition-colors relative ${isScrolled ? 'text-neutral-500 hover:text-neutral-800' : 'text-white/60 hover:text-white'}`}>
               <Heart size={18} />
@@ -85,17 +91,17 @@ export const Navbar: React.FC = () => {
                     className="absolute right-0 mt-3 w-48 bg-white border border-neutral-200/60 shadow-lg p-1.5 z-50 rounded-xl">
                     <div className="px-3 py-1.5 border-b border-neutral-100 mb-1"><p className="text-xs font-bold text-neutral-800 truncate">{user.name}</p><p className="text-[10px] text-neutral-500 truncate">{user.email}</p></div>
                     {[
-                      { icon: UserIcon, label: 'My Profile', to: '/dashboard' },
-                      { icon: Calendar, label: 'My Bookings', to: '/dashboard?tab=bookings' },
+                      { icon: UserIcon, label: t('myProfile'), to: '/dashboard' },
+                      { icon: Calendar, label: t('myBookings'), to: '/dashboard?tab=bookings' },
                     ].map(l => (
                       <Link key={l.label} to={l.to} className="flex items-center gap-2 px-3 py-1.5 text-xs text-neutral-600 hover:text-neutral-800 hover:bg-neutral-50 transition-colors rounded">{<l.icon size={13} />}{l.label}</Link>
                     ))}
-                    <button onClick={() => { logout(); navigate('/'); }} className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-left text-red-500 hover:bg-red-50 transition-colors rounded cursor-pointer"><LogOut size={13} />Logout</button>
+                    <button onClick={() => { logout(); navigate('/'); }} className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-left text-red-500 hover:bg-red-50 transition-colors rounded cursor-pointer"><LogOut size={13} />{t('logout')}</button>
                   </motion.div>
                 )}</AnimatePresence>
               </div>
             ) : (
-              <Button variant="glass" size="sm" onClick={() => navigate('/auth')} className="rounded-lg">Sign In</Button>
+              <Button variant="glass" size="sm" onClick={() => navigate('/auth')} className="rounded-lg">{t('signIn')}</Button>
             )}
           </div>
 
@@ -107,11 +113,11 @@ export const Navbar: React.FC = () => {
         <motion.div initial={{ opacity: 0, x: '100%' }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: '100%' }} transition={{ type: 'tween', duration: 0.25 }}
           className="fixed inset-0 bg-white z-30 flex flex-col p-8 pt-28 overflow-y-auto lg:hidden">
           <div className="flex flex-col gap-5 text-left mb-8">
-            <Link to="/" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">Home</Link>
-            <Link to="/cars" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">Browse Cars</Link>
-            {user && <Link to="/driver/cars" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">List Your Car</Link>}
-            <Link to="/about" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">About Us</Link>
-            <Link to="/contact" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">Contact</Link>
+            <Link to="/" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">{t('home')}</Link>
+            <Link to="/cars" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">{t('browseCars')}</Link>
+            {user && <Link to="/driver/cars" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">{t('listYourCar')}</Link>}
+            <Link to="/about" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">{t('aboutUs')}</Link>
+            <Link to="/contact" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 border-b border-neutral-100 pb-2">{t('contact')}</Link>
             <div><span className="font-display text-xs font-bold tracking-wider text-neutral-400 uppercase block mb-2">Categories</span>
               <div className="grid grid-cols-2 gap-2 pl-2">{categories.map(c => <Link key={c.name} to={`/cars?category=${c.name}`} className="text-neutral-600 hover:text-neutral-800 text-sm py-0.5">{c.name}</Link>)}</div>
             </div>
