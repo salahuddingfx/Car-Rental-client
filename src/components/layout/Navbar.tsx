@@ -61,8 +61,8 @@ export const Navbar: React.FC = () => {
           <div className="hidden lg:flex items-center gap-3">
             <ThemeToggle />
             <LanguageToggle />
-            <button onClick={() => setIsSearchOpen(true)} className={`transition-colors cursor-pointer ${isScrolled ? 'text-neutral-500 hover:text-neutral-800' : 'text-white/60 hover:text-white'}`}><Search size={18} /></button>
-            <Link to="/dashboard?tab=wishlist" className={`transition-colors relative ${isScrolled ? 'text-neutral-500 hover:text-neutral-800' : 'text-white/60 hover:text-white'}`}>
+            <button onClick={() => setIsSearchOpen(true)} className={`transition-colors cursor-pointer ${isScrolled ? 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-white' : 'text-white/60 hover:text-white'}`}><Search size={18} /></button>
+            <Link to="/dashboard?tab=wishlist" className={`transition-colors relative ${isScrolled ? 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-white' : 'text-white/60 hover:text-white'}`}>
               <Heart size={18} />
               {wishlist.length > 0 && <span className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-accent-blue text-white font-sans text-[8px] font-bold rounded-full flex items-center justify-center">{wishlist.length}</span>}
             </Link>
