@@ -33,7 +33,7 @@ export const Details: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-14">
           <div className="h-[420px] lg:h-[520px] rounded-xl overflow-hidden border border-neutral-200/60 bg-white shadow-sm">
-            <CarImageSlider images={car.images} alt={car.name} />
+            <CarImageSlider images={car.images || [car.image]} alt={car.name} />
           </div>
 
           <div className="space-y-5">
