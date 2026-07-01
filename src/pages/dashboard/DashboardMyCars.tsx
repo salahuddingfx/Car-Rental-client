@@ -52,6 +52,7 @@ export const DashboardMyCars = () => {
       editCar(editCarId, {
         ...form,
         features: form.features.split(',').map(f => f.trim()).filter(Boolean),
+        images: form.images ? form.images.split(',').map(i => i.trim()).filter(Boolean) : [form.image],
       });
     } else {
       addCar({
@@ -214,6 +215,12 @@ export const DashboardMyCars = () => {
                 <input value={form.image} onChange={e => setForm({ ...form, image: e.target.value })}
                   className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 rounded-lg outline-none focus:border-accent-blue" />
                 {errors.image && <p className="text-[10px] text-red-500 mt-1">{errors.image}</p>}
+              </div>
+              <div>
+                <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Additional Images (comma separated URLs)</label>
+                <input value={form.images} onChange={e => setForm({ ...form, images: e.target.value })}
+                  placeholder="https://img1.jpg, https://img2.jpg"
+                  className="w-full border border-neutral-200 text-sm text-neutral-800 p-2.5 rounded-lg outline-none focus:border-accent-blue" />
               </div>
               <div>
                 <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Features (comma separated)</label>
