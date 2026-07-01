@@ -186,7 +186,7 @@ export const Details: React.FC = () => {
         <div className="mt-16 border-t border-neutral-200/60 dark:border-neutral-800 pt-10">
           <h2 className="font-display text-xl font-bold uppercase text-neutral-800 dark:text-neutral-200 tracking-widest mb-6">Similar Vehicles</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {cars.filter(c => c.id !== car.id && c.category === car.category).slice(0, 4).length > 0
+            {(cars.filter(c => c.id !== car.id && c.category === car.category).slice(0, 4).length > 0
               ? cars.filter(c => c.id !== car.id && c.category === car.category).slice(0, 4)
               : cars.filter(c => c.id !== car.id).slice(0, 4)
             ).map(c => (
