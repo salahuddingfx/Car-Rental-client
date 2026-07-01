@@ -12,7 +12,7 @@ export const Footer: React.FC = () => {
     <footer className="bg-white dark:bg-neutral-900 border-t border-neutral-200/60 dark:border-neutral-700/60 pt-16 pb-8 text-neutral-500 dark:text-neutral-400 relative z-10">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 pb-12">
         <div className="lg:col-span-2 space-y-5">
-          <Link to="/" className="font-display font-bold text-xl tracking-widest text-neutral-900 flex items-center gap-1.5">
+          <Link to="/" className="font-display font-bold text-xl tracking-widest text-neutral-900 dark:text-neutral-100 flex items-center gap-1.5">
             <span className="text-accent-amber font-extrabold text-2xl">A</span>pex Ride
           </Link>
           <p className="text-sm leading-relaxed max-w-sm">Experience the pinnacle of automotive engineering and modern luxury across Bangladesh. Premium hypercars, sports coupés, and electric tourers for discerning drivers.</p>
@@ -40,7 +40,7 @@ export const Footer: React.FC = () => {
           <div key={col.title} className="space-y-3">
             <h4 className="font-display text-[10px] font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-widest">{col.title}</h4>
             <ul className="space-y-1.5 text-xs">{col.links.map(l => (
-              <li key={l.label}><Link to={l.to} className="hover:text-neutral-800 transition-colors">{l.label}</Link></li>
+              <li key={l.label}><Link to={l.to} className="hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors">{l.label}</Link></li>
             ))}</ul>
           </div>
         ))}
@@ -59,11 +59,11 @@ export const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 border-t border-neutral-200/60 dark:border-neutral-700/60 pt-6 mt-8 flex flex-col md:flex-row items-center justify-between text-xs text-neutral-500 dark:text-neutral-400 gap-3">
         <div>© {new Date().getFullYear()} Apex Ride. All rights reserved.</div>
         <div className="flex gap-5">
-          <Link to="/terms" className="hover:text-neutral-800 transition-colors">Terms of Service</Link>
-          <Link to="/privacy" className="hover:text-neutral-800 transition-colors">Privacy Policy</Link>
-          <Link to="/cookies" className="hover:text-neutral-800 transition-colors">Cookie Policy</Link>
-          <Link to="/refund" className="hover:text-neutral-800 transition-colors">Refund Policy</Link>
-          <Link to="/security" className="hover:text-neutral-800 transition-colors">Security</Link>
+          <Link to="/terms" className="hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors">Terms of Service</Link>
+          <Link to="/privacy" className="hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors">Privacy Policy</Link>
+          <Link to="/cookies" className="hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors">Cookie Policy</Link>
+          <Link to="/refund" className="hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors">Refund Policy</Link>
+          <Link to="/security" className="hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors">Security</Link>
         </div>
       </div>
     </footer>
