@@ -17,7 +17,7 @@ export const RecentlyViewedSection = () => {
   if (recentCars.length === 0) return null;
 
   return (
-    <section className="py-16 bg-white dark:bg-neutral-900">
+    <section className="py-16 bg-white dark:bg-neutral-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8"

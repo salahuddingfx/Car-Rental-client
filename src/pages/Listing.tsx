@@ -199,13 +199,13 @@ export const Listing = () => {
           {/* ===== CAR GRID ===== */}
           <div className="flex-1 min-w-0">
             {/* Toolbar */}
-            <div className="flex items-center justify-between gap-4 mb-6 bg-white border border-neutral-200/60 rounded-2xl px-5 py-3 shadow-sm">
+            <div className="flex items-center justify-between gap-4 mb-6 bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-700/60 rounded-2xl px-5 py-3 shadow-sm">
               <div className="flex items-center gap-3">
-                <span className="text-sm text-neutral-600">
+                <span className="text-sm text-neutral-600 dark:text-neutral-400">
                   {filtered.length > 0 ? (
-                    <>Showing <strong className="text-neutral-900">{(page - 1) * PAGE_SIZE + 1}-{Math.min(page * PAGE_SIZE, filtered.length)}</strong> of <strong className="text-neutral-900">{filtered.length}</strong> vehicles</>
+                    <>Showing <strong className="text-neutral-900 dark:text-neutral-100">{(page - 1) * PAGE_SIZE + 1}-{Math.min(page * PAGE_SIZE, filtered.length)}</strong> of <strong className="text-neutral-900 dark:text-neutral-100">{filtered.length}</strong> vehicles</>
                   ) : (
-                    <><strong className="text-neutral-900">0</strong> vehicles</>
+                    <><strong className="text-neutral-900 dark:text-neutral-100">0</strong> vehicles</>
                   )}
                 </span>
                 <div className="hidden sm:flex items-center gap-1.5">
@@ -219,7 +219,7 @@ export const Listing = () => {
               </div>
               <div className="flex items-center gap-2">
                 <button onClick={() => setShowFilters(true)}
-                  className="lg:hidden flex items-center gap-1.5 text-xs text-neutral-600 border border-neutral-200 px-3 py-1.5 rounded-lg hover:bg-neutral-50 transition-colors cursor-pointer">
+                  className="lg:hidden flex items-center gap-1.5 text-xs text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700 px-3 py-1.5 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors cursor-pointer">
                   <SlidersHorizontal size={14} /> Filters
                 </button>
               </div>
@@ -238,12 +238,12 @@ export const Listing = () => {
                 </motion.div>
               ) : (
                 <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                  className="flex flex-col items-center justify-center py-24 bg-white border border-neutral-200/60 rounded-2xl shadow-sm">
-                  <div className="w-16 h-16 rounded-full bg-neutral-100 flex items-center justify-center mb-4">
-                    <Search size={24} className="text-neutral-400" />
+                  className="flex flex-col items-center justify-center py-24 bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-700/60 rounded-2xl shadow-sm">
+                  <div className="w-16 h-16 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center mb-4">
+                    <Search size={24} className="text-neutral-400 dark:text-neutral-500" />
                   </div>
-                  <p className="text-neutral-600 font-semibold mb-1">No vehicles found</p>
-                  <p className="text-neutral-400 text-sm mb-6">Try adjusting your filters or search terms.</p>
+                  <p className="text-neutral-600 dark:text-neutral-400 font-semibold mb-1">No vehicles found</p>
+                  <p className="text-neutral-400 dark:text-neutral-500 text-sm mb-6">Try adjusting your filters or search terms.</p>
                   <Button variant="outline" size="sm" onClick={() => { setSearch(''); setCategory('All'); setFuel('All'); setPriceRange(1000); }}
                     className="rounded-lg">Reset All Filters</Button>
                 </motion.div>
@@ -255,7 +255,7 @@ export const Listing = () => {
                 <button
                   onClick={() => setPage(p => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="px-3 py-2 text-xs font-semibold rounded-xl border border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
+                  className="px-3 py-2 text-xs font-semibold rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
                 >
                   Previous
                 </button>
@@ -266,7 +266,7 @@ export const Listing = () => {
                     className={`w-9 h-9 text-xs font-bold rounded-xl transition-all cursor-pointer ${
                       page === p
                         ? 'bg-accent-blue text-white shadow-sm shadow-accent-blue/20'
-                        : 'bg-white border border-neutral-200 text-neutral-600 hover:bg-neutral-50'
+                        : 'bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800'
                     }`}
                   >
                     {p}
@@ -275,7 +275,7 @@ export const Listing = () => {
                 <button
                   onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                   disabled={page === totalPages}
-                  className="px-3 py-2 text-xs font-semibold rounded-xl border border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
+                  className="px-3 py-2 text-xs font-semibold rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
                 >
                   Next
                 </button>

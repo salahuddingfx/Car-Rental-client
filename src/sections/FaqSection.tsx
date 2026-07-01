@@ -19,15 +19,15 @@ export const FaqSection: React.FC = () => {
       <div className="max-w-3xl mx-auto px-6 space-y-10">
         <div className="text-center space-y-1">
           <HelpCircle className="text-accent-amber mx-auto" size={22} />
-          <h2 className="font-display text-2xl font-extrabold uppercase text-neutral-900">Frequently Asked</h2>
+          <h2 className="font-display text-2xl font-extrabold uppercase text-neutral-900 dark:text-neutral-100">Frequently Asked</h2>
         </div>
         <div className="space-y-3">
           {faqs.map((faq, i) => {
             const open = active === i;
             return (
-              <div key={faq.q} className={`border border-neutral-200 bg-white transition-colors overflow-hidden rounded-xl shadow-sm ${open ? 'border-accent-amber/30' : 'hover:bg-amber-50/20'}`}>
+              <div key={faq.q} className={`border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 transition-colors overflow-hidden rounded-xl shadow-sm ${open ? 'border-accent-amber/30' : 'hover:bg-amber-50/20 dark:hover:bg-neutral-750'}`}>
                 <button onClick={() => setActive(open ? null : i)}
-                  className="w-full p-5 text-left flex justify-between items-center text-neutral-800 font-bold text-sm cursor-pointer group"
+                  className="w-full p-5 text-left flex justify-between items-center text-neutral-800 dark:text-neutral-200 font-bold text-sm cursor-pointer group"
                 >
                   <span className="group-hover:text-accent-amber transition-colors">{faq.q}</span>
                   <ChevronDown size={16} className={`text-neutral-400 transition-transform duration-300 shrink-0 ml-3 ${open ? 'rotate-180 text-accent-amber' : ''}`} />

@@ -56,7 +56,7 @@ export const Auth: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-light-bg relative overflow-hidden px-6">
+    <div className="min-h-screen flex items-center justify-center bg-light-bg dark:bg-neutral-900 relative overflow-hidden px-6">
       <CssWave />
 
       <div className="relative z-10 w-full max-w-md">
@@ -64,12 +64,12 @@ export const Auth: React.FC = () => {
           <Breadcrumbs items={[{ label: 'Login' }]} />
         </div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <div className="bg-white/90 backdrop-blur-md border border-neutral-200/60 shadow-sm p-8 rounded-xl">
+        <div className="bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md border border-neutral-200/60 dark:border-neutral-700/60 shadow-sm p-8 rounded-xl">
           <div className="text-center mb-7">
-            <h2 className="font-display text-xl font-extrabold uppercase text-neutral-900 mb-1">
+            <h2 className="font-display text-xl font-extrabold uppercase text-neutral-900 dark:text-neutral-100 mb-1">
               {isLogin ? 'Welcome Back' : 'Create Account'}
             </h2>
-            <p className="text-xs text-neutral-500">
+            <p className="text-xs text-neutral-500 dark:text-neutral-400">
               {isLogin ? 'Access your Apex Ride portal' : 'Join Bangladesh\'s premium car rental'}
             </p>
           </div>
@@ -77,24 +77,24 @@ export const Auth: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (
               <div>
-                <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block">Full Name</label>
-                <div className="flex items-center border border-neutral-200 p-3 bg-white rounded-lg focus-within:border-accent-blue transition-colors">
-                  <User size={15} className="text-neutral-400 mr-2 shrink-0" />
+                <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Full Name</label>
+                <div className="flex items-center border border-neutral-200 dark:border-neutral-700 p-3 bg-white dark:bg-neutral-800 rounded-lg focus-within:border-accent-blue transition-colors">
+                  <User size={15} className="text-neutral-400 dark:text-neutral-500 mr-2 shrink-0" />
                   <input type="text" placeholder="Your name" value={name} onChange={(e) => { setName(e.target.value); if (touched) setErrors(validate()); }}
                     onBlur={handleBlur}
-                    className="bg-transparent text-sm text-neutral-800 placeholder-neutral-400 outline-none w-full font-sans" />
+                    className="bg-transparent text-sm text-neutral-800 dark:text-neutral-200 placeholder-neutral-400 dark:placeholder-neutral-500 outline-none w-full font-sans" />
                 </div>
                 {errors.name && <p className="text-[10px] text-red-500 mt-1">{errors.name}</p>}
               </div>
             )}
 
             <div>
-              <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block">Email</label>
-              <div className="flex items-center border border-neutral-200 p-3 bg-white rounded-lg focus-within:border-accent-blue transition-colors">
-                <Mail size={15} className="text-neutral-400 mr-2 shrink-0" />
+              <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Email</label>
+              <div className="flex items-center border border-neutral-200 dark:border-neutral-700 p-3 bg-white dark:bg-neutral-800 rounded-lg focus-within:border-accent-blue transition-colors">
+                <Mail size={15} className="text-neutral-400 dark:text-neutral-500 mr-2 shrink-0" />
                 <input type="email" placeholder="your@email.com" value={email} onChange={(e) => { setEmail(e.target.value); if (touched) setErrors(validate()); }}
                   onBlur={handleBlur}
-                  className="bg-transparent text-sm text-neutral-800 placeholder-neutral-400 outline-none w-full font-sans" />
+                  className="bg-transparent text-sm text-neutral-800 dark:text-neutral-200 placeholder-neutral-400 dark:placeholder-neutral-500 outline-none w-full font-sans" />
               </div>
               {errors.email && <p className="text-[10px] text-red-500 mt-1">{errors.email}</p>}
             </div>
