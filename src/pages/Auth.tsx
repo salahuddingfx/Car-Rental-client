@@ -27,6 +27,7 @@ export const Auth: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<AuthErrors>({});
   const [touched, setTouched] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const validate = (): AuthErrors => {
     const errs: AuthErrors = {};
@@ -114,7 +115,12 @@ export const Auth: React.FC = () => {
             </div>
 
             {isLogin && (
-              <div className="text-right">
+              <div className="flex items-center justify-between">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" checked={rememberMe} onChange={e => setRememberMe(e.target.checked)}
+                    className="w-4 h-4 rounded border-neutral-300 dark:border-neutral-600 text-accent-blue focus:ring-accent-blue/50 cursor-pointer" />
+                  <span className="text-xs text-neutral-500 dark:text-neutral-400">Remember me</span>
+                </label>
                 <button type="button" onClick={() => navigate('/forgot-password')} className="text-[11px] text-accent-blue hover:text-accent-blue-hover transition-colors cursor-pointer">Forgot password?</button>
               </div>
             )}

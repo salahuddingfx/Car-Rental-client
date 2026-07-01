@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { CreditCard, User, Mail, Phone, Shield, Check } from 'lucide-react';
+import { CreditCard, User, Mail, Phone, Check } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { Button } from '../components/ui/Button';
 import { Breadcrumbs } from '../components/Breadcrumbs';
@@ -9,18 +9,17 @@ import { calculateBookingCost, formatPrice } from '../lib/pricing';
 
 const steps = [
   { num: 1, label: 'Review' },
-  { num: 2, label: 'Driver Info' },
+  { num: 2, label: 'Your Info' },
   { num: 3, label: 'Payment' },
   { num: 4, label: 'Confirmation' },
 ];
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-interface DriverErrors {
+interface PassengerErrors {
   name?: string;
   email?: string;
   phone?: string;
-  license?: string;
 }
 
 export const Bookings: React.FC = () => {
@@ -33,24 +32,22 @@ export const Bookings: React.FC = () => {
   const [name, setName] = useState(user?.name || '');
   const [email, setEmail] = useState(user?.email || '');
   const [phone, setPhone] = useState('');
-  const [license, setLicense] = useState('');
   const [pickup] = useState(new Date().toISOString().split('T')[0]);
   const [returnD] = useState(new Date(Date.now() + 86400000).toISOString().split('T')[0]);
-  const [errors, setErrors] = useState<DriverErrors>({});
+  const [errors, setErrors] = useState<PassengerErrors>({});
   const [touched, setTouched] = useState(false);
 
-  const validateDriverInfo = (): DriverErrors => {
-    const errs: DriverErrors = {};
+  const validatePassengerInfo = (): PassengerErrors => {
+    const errs: PassengerErrors = {};
     if (name.trim().length < 2) errs.name = 'Name must be at least 2 characters';
     if (!emailRegex.test(email)) errs.email = 'Please enter a valid email';
     if (phone.trim().length < 8) errs.phone = 'Phone must be at least 8 characters';
-    if (license.trim().length < 5) errs.license = 'License must be at least 5 characters';
     return errs;
   };
 
   const goToStep3 = () => {
     setTouched(true);
-    const errs = validateDriverInfo();
+    const errs = validatePassengerInfo();
     setErrors(errs);
     if (Object.keys(errs).length === 0) setStep(3);
   };
