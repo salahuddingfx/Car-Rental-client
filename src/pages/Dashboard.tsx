@@ -400,8 +400,8 @@ export const Dashboard = () => {
                     <h4 className="text-sm font-bold text-neutral-800 dark:text-neutral-200 mb-3">Appearance</h4>
                     <div className="flex items-center justify-between p-3 bg-neutral-50 dark:bg-neutral-800 rounded-xl">
                       <span className="text-sm text-neutral-700 dark:text-neutral-300">Dark Mode</span>
-                      <button onClick={toggleTheme} className={`relative w-11 h-6 rounded-full transition-colors cursor-pointer ${isDark ? 'bg-accent-blue' : 'bg-neutral-300'}`}>
-                        <span className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${isDark ? 'left-5.5 translate-x-full' : 'left-0.5'}`} />
+                      <button onClick={toggleTheme} className={`relative w-11 h-6 rounded-full transition-colors cursor-pointer flex-shrink-0 ${isDark ? 'bg-accent-blue' : 'bg-neutral-300'}`}>
+                        <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${isDark ? 'translate-x-5' : 'translate-x-0'}`} />
                       </button>
                     </div>
                   </div>
