@@ -22,12 +22,12 @@ export const DashboardMyCars = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [form, setForm] = useState({
     name: '', brand: '', category: 'Luxury' as CarType['category'], price: 0,
-    image: '', fuel: 'Petrol' as CarType['fuel'], transmission: 'Automatic' as CarType['transmission'],
+    image: '', images: '', fuel: 'Petrol' as CarType['fuel'], transmission: 'Automatic' as CarType['transmission'],
     seats: 5, power: '', speed: '', description: '', location: '', features: '',
   });
 
   const resetForm = () => {
-    setForm({ name: '', brand: '', category: 'Luxury', price: 0, image: '', fuel: 'Petrol', transmission: 'Automatic', seats: 5, power: '', speed: '', description: '', location: '', features: '' });
+    setForm({ name: '', brand: '', category: 'Luxury', price: 0, image: '', images: '', fuel: 'Petrol', transmission: 'Automatic', seats: 5, power: '', speed: '', description: '', location: '', features: '' });
     setEditCarId(null);
     setShowAddForm(false);
     setErrors({});
@@ -60,6 +60,7 @@ export const DashboardMyCars = () => {
         seats: Number(form.seats),
         isAvailable: true,
         features: form.features.split(',').map(f => f.trim()).filter(Boolean),
+        images: form.images ? form.images.split(',').map(i => i.trim()).filter(Boolean) : [form.image],
       });
     }
     resetForm();
