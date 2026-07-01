@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { CarCard } from '../components/ui/CarCard';
 import useEmblaCarousel from 'embla-carousel-react';
 import type { Car } from '../data/mockCars';
@@ -15,6 +15,8 @@ export const FeaturedCarsSection: React.FC<Props> = ({ cars }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ dragFree: true, loop: true, align: 'start' });
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(true);
+  const [isAutoScrolling, setIsAutoScrolling] = useState(true);
+  const autoScrollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const filtered = activeCategory === 'All' ? cars : cars.filter(c => c.category === activeCategory);
 
@@ -33,6 +35,26 @@ export const FeaturedCarsSection: React.FC<Props> = ({ cars }) => {
     onSelect();
   }, [emblaApi, onSelect]);
 
+  // Auto-scroll logic
+  useEffect(() => {
+    if (!emblaApi || !isAutoScrolling) {
+      if (autoScrollRef.current) clearInterval(autoScrollRef.current);
+      return;
+    }
+    autoScrollRef.current = setInterval(() => {
+      emblaApi.scrollNext();
+    }, 3000);
+    return () => { if (autoScrollRef.current) clearInterval(autoScrollRef.current); };
+  }, [emblaApi, isAutoScrolling, activeCategory]);
+
+  const toggleAutoScroll = () => setIsAutoScrolling(p => !p);
+
+  // Pause on hover
+  const handleMouseEnter = () => { if (autoScrollRef.current) clearInterval(autoScrollRef.current); };
+  const handleMouseLeave = () => { if (isAutoScrolling && emblaApi) {
+    autoScrollRef.current = setInterval(() => emblaApi.scrollNext(), 3000);
+  }};
+
   return (
     <section id="featured-cars" className="relative py-20 lg:py-28 z-10 bg-gradient-to-b from-light-bg to-white dark:from-neutral-950 dark:to-neutral-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -50,11 +72,14 @@ export const FeaturedCarsSection: React.FC<Props> = ({ cars }) => {
               Explore All <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
             </Link>
             <div className="flex items-center gap-2">
-              <button onClick={scrollPrev} disabled={!canScrollPrev} className="w-9 h-9 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-md flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:text-accent-blue hover:border-accent-blue/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer">
+              <button onClick={scrollPrev} className="w-9 h-9 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-md flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:text-accent-blue hover:border-accent-blue/30 transition-all cursor-pointer">
                 <ChevronLeft size={16} />
               </button>
-              <button onClick={scrollNext} disabled={!canScrollNext} className="w-9 h-9 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-md flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:text-accent-blue hover:border-accent-blue/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer">
+              <button onClick={scrollNext} className="w-9 h-9 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-md flex items-center justify-center text-neutral-600 dark:text-neutral-300 hover:text-accent-blue hover:border-accent-blue/30 transition-all cursor-pointer">
                 <ChevronRight size={16} />
+              </button>
+              <button onClick={toggleAutoScroll} className={`w-9 h-9 rounded-full border shadow-md flex items-center justify-center transition-all cursor-pointer ${isAutoScrolling ? 'bg-accent-blue text-white border-accent-blue' : 'bg-white dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-300 hover:text-accent-blue hover:border-accent-blue/30'}`}>
+                {isAutoScrolling ? <Pause size={14} /> : <Play size={14} />}
               </button>
             </div>
           </div>
