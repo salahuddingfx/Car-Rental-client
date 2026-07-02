@@ -74,6 +74,34 @@ export const blogApi = {
   get: (slug: string) => api.get<BlogPost>(`/blog/${slug}`),
 };
 
+// Chat
+export const chatApi = {
+  create: (data: {
+    guest_id: string;
+    guest_name: string;
+    guest_email: string;
+    guest_phone?: string;
+    guest_country?: string;
+    guest_address?: string;
+  }) => api.post<ChatSession>('/chats', data),
+
+  byGuest: (guestId: string) =>
+    api.get<ChatSession | null>('/chats/by-guest', { params: { guest_id: guestId } }),
+
+  sendMessage: (chatId: number, data: {
+    sender_type: 'guest' | 'user' | 'admin' | 'system';
+    sender_id?: string;
+    sender_name: string;
+    message: string;
+  }) => api.post<ChatMessage>(`/chats/${chatId}/messages`, data),
+
+  getMessages: (chatId: number) =>
+    api.get<ChatMessage[]>(`/chats/${chatId}/messages`),
+
+  markRead: (chatId: number) =>
+    api.post(`/chats/${chatId}/read`),
+};
+
 // Profile
 export const profileApi = {
   update: (data: { name?: string; email?: string; phone?: string }) =>
@@ -142,4 +170,29 @@ export interface BlogPost {
   date: string;
   read_time?: string;
   image?: string;
+}
+
+export interface ChatSession {
+  id: number;
+  guest_id: string;
+  user_id?: number;
+  guest_name: string;
+  guest_email: string;
+  guest_phone?: string;
+  guest_country?: string;
+  guest_address?: string;
+  status: 'open' | 'closed';
+  last_message_at?: string;
+  messages: ChatMessage[];
+}
+
+export interface ChatMessage {
+  id: number;
+  chat_id: number;
+  sender_type: 'guest' | 'user' | 'admin' | 'system';
+  sender_id?: string;
+  sender_name: string;
+  message: string;
+  is_read: boolean;
+  created_at: string;
 }
