@@ -11,11 +11,10 @@ import { LanguageToggle } from '../ui/LanguageToggle';
 import { NotificationBell } from '../ui/NotificationBell';
 
 const categories = [
-  { name: 'Electric', desc: 'Zero emission, maximum torque', img: 'https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&q=80&w=200' },
-  { name: 'Supercar', desc: 'Raw horsepower, aggressive style', img: 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=200' },
-  { name: 'Sports', desc: 'Precision track and road weapons', img: 'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=200' },
-  { name: 'Luxury', desc: 'First-class prestige travel lounges', img: 'https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&q=80&w=200' },
-  { name: 'SUV', desc: 'Commanding heights, multi-terrain', img: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200' },
+  { name: 'SUV', desc: 'Family & adventure vehicles', img: 'https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&q=80&w=200' },
+  { name: 'Sedan', desc: 'Comfortable city cruisers', img: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&q=80&w=200' },
+  { name: 'Hatchback', desc: 'Compact & fuel efficient', img: 'https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=200' },
+  { name: 'Van', desc: 'Group travel & cargo', img: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&q=80&w=200' },
 ];
 
 export const Navbar: React.FC = () => {
@@ -38,14 +37,21 @@ export const Navbar: React.FC = () => {
   const filteredCars = searchQuery.trim() ? cars.filter(c => c.name.toLowerCase().includes(searchQuery.toLowerCase()) || c.brand.toLowerCase().includes(searchQuery.toLowerCase()) || c.location.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 5) : [];
 
 
+  const isHomePage = location.pathname === '/';
+  const showLightText = !isScrolled && isHomePage;
+
   return (
     <>
-      <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-500 ${isScrolled ? 'bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md py-3 border-b border-neutral-200/60 dark:border-neutral-700/60 shadow-sm' : 'bg-transparent py-5'}`}>
+      <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-500 ${
+        isScrolled || !isHomePage
+          ? 'bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md py-3 border-b border-neutral-200/60 dark:border-neutral-700/60 shadow-sm'
+          : 'bg-transparent py-5'
+      }`}>
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-<Link to="/" className="flex items-center gap-1.5 group">
-             <span className={`font-extrabold font-display transition-all duration-500 ${isScrolled ? 'text-xl text-accent-amber' : 'text-2xl text-accent-amber'}`}>A</span>
-             <span className={`font-display font-bold tracking-widest transition-all duration-500 ${isScrolled ? 'text-base text-neutral-900 dark:text-white' : 'text-xl text-white'}`}>pex Ride</span>
-           </Link>
+          <Link to="/" className="flex items-center gap-1.5 group">
+            <span className={`font-extrabold font-display transition-all duration-500 ${isScrolled || !isHomePage ? 'text-xl text-accent-amber' : 'text-2xl text-accent-amber'}`}>A</span>
+            <span className={`font-display font-bold tracking-widest transition-all duration-500 ${isScrolled || !isHomePage ? 'text-base text-neutral-900 dark:text-white' : 'text-xl text-white'}`}>pex Ride</span>
+          </Link>
 
           <div className="hidden lg:flex items-center gap-7">
             {[
@@ -54,21 +60,22 @@ export const Navbar: React.FC = () => {
               ...(user ? [{ to: '/driver/cars', label: t('listYourCar') }] : []),
               { to: '/about', label: t('aboutUs') },
               { to: '/reviews', label: t('reviews') || 'Reviews' },
+              { to: '/track-booking', label: 'Track' },
               { to: '/contact', label: t('contact') },
             ].map(l => (
-              <Link key={l.to} to={l.to} className={`font-display text-xs tracking-widest uppercase hover:text-accent-blue transition-colors ${location.pathname === l.to ? 'text-accent-blue' : isScrolled ? 'text-neutral-600 dark:text-neutral-400' : 'text-white/70'}`}>{l.label}</Link>
+              <Link key={l.to} to={l.to} className={`font-display text-xs tracking-widest uppercase hover:text-accent-blue transition-colors ${location.pathname === l.to ? 'text-accent-blue' : showLightText ? 'text-white/70' : 'text-neutral-600 dark:text-neutral-400'}`}>{l.label}</Link>
             ))}
           </div>
 
           <div className="hidden lg:flex items-center gap-3">
             <ThemeToggle />
             <LanguageToggle />
-            <button onClick={() => setIsSearchOpen(true)} className={`transition-colors cursor-pointer ${isScrolled ? 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-white' : 'text-white/60 hover:text-white'}`}><Search size={18} /></button>
-            <Link to="/dashboard?tab=wishlist" className={`transition-colors relative ${isScrolled ? 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-white' : 'text-white/60 hover:text-white'}`}>
+            <button onClick={() => setIsSearchOpen(true)} className={`transition-colors cursor-pointer ${showLightText ? 'text-white/60 hover:text-white' : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-white'}`}><Search size={18} /></button>
+            <Link to="/dashboard?tab=wishlist" className={`transition-colors relative ${showLightText ? 'text-white/60 hover:text-white' : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-white'}`}>
               <Heart size={18} />
               {wishlist.length > 0 && <span className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-accent-blue text-white font-sans text-[8px] font-bold rounded-full flex items-center justify-center">{wishlist.length}</span>}
             </Link>
-            <NotificationBell className={isScrolled ? '' : 'text-white/60 hover:text-white'} />
+            <NotificationBell className={showLightText ? 'text-white/60 hover:text-white' : ''} />
             {user ? (
               <div className="relative">
                 <button onClick={() => setIsProfileOpen(!isProfileOpen)} className="flex items-center gap-2 border border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 p-1.5 bg-white dark:bg-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors rounded-lg cursor-pointer">
@@ -98,7 +105,7 @@ export const Navbar: React.FC = () => {
             )}
           </div>
 
-          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className={`lg:hidden transition-colors cursor-pointer ${isScrolled ? 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-white' : 'text-white/70 hover:text-white'}`}>{isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}</button>
+          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className={`lg:hidden transition-colors cursor-pointer ${showLightText ? 'text-white/70 hover:text-white' : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-white'}`}>{isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}</button>
         </div>
       </nav>
 
@@ -111,6 +118,7 @@ export const Navbar: React.FC = () => {
             {user && <Link to="/driver/cars" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 dark:text-neutral-100 border-b border-neutral-100 dark:border-neutral-800 pb-2">{t('listYourCar')}</Link>}
             <Link to="/about" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 dark:text-neutral-100 border-b border-neutral-100 dark:border-neutral-800 pb-2">{t('aboutUs')}</Link>
             <Link to="/reviews" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 dark:text-neutral-100 border-b border-neutral-100 dark:border-neutral-800 pb-2">{t('reviews') || 'Reviews'}</Link>
+            <Link to="/track-booking" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 dark:text-neutral-100 border-b border-neutral-100 dark:border-neutral-800 pb-2">Track</Link>
             <Link to="/contact" className="font-display text-lg font-bold uppercase tracking-wider text-neutral-800 dark:text-neutral-100 border-b border-neutral-100 dark:border-neutral-800 pb-2">{t('contact')}</Link>
             <div><span className="font-display text-xs font-bold tracking-wider text-neutral-400 uppercase block mb-2">Categories</span>
               <div className="grid grid-cols-2 gap-2 pl-2">{categories.map(c => <Link key={c.name} to={`/cars?category=${c.name}`} className="text-neutral-600 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-white text-sm py-0.5">{c.name}</Link>)}</div>
