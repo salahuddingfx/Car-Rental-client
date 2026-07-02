@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, Lock, User, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, ArrowRight, CheckCircle } from 'lucide-react';
 import { useStore } from '../store/useStore';
+import { useToastStore } from '../store/useToastStore';
 import { Button } from '../components/ui/Button';
 import { CssWave } from '../components/CssWave';
 import { Breadcrumbs } from '../components/Breadcrumbs';
@@ -18,6 +19,7 @@ interface AuthErrors {
 export const Auth: React.FC = () => {
   const navigate = useNavigate();
   const { login, register, user } = useStore();
+  const { addToast } = useToastStore();
 
   useEffect(() => {
     if (user) {
@@ -34,6 +36,7 @@ export const Auth: React.FC = () => {
   const [errors, setErrors] = useState<AuthErrors>({});
   const [touched, setTouched] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [registered, setRegistered] = useState(false);
 
   const validate = (): AuthErrors => {
     const errs: AuthErrors = {};
@@ -50,16 +53,25 @@ export const Auth: React.FC = () => {
     setErrors(errs);
     if (Object.keys(errs).length > 0) return;
     setLoading(true);
-    let success: boolean;
+
     if (isLogin) {
-      success = await login(email, password);
+      const success = await login(email, password);
+      if (success) {
+        const currentUser = useStore.getState().user;
+        if (currentUser && !currentUser.drivingLicense) {
+          setTimeout(() => addToast('Welcome back! Please complete your profile for a smoother experience.', 'info'), 500);
+        }
+        navigate('/dashboard');
+      } else {
+        setErrors({ email: 'Invalid credentials or server unavailable' });
+      }
     } else {
-      success = await register(name, email, password);
-    }
-    if (success) {
-      navigate('/dashboard');
-    } else {
-      setErrors({ email: 'Invalid credentials or server unavailable' });
+      const success = await register(name, email, password);
+      if (success) {
+        setRegistered(true);
+      } else {
+        setErrors({ email: 'Registration failed. Email may already be taken.' });
+      }
     }
     setLoading(false);
   };
@@ -68,6 +80,33 @@ export const Auth: React.FC = () => {
     setTouched(true);
     setErrors(validate());
   };
+
+  if (registered) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-light-bg dark:bg-neutral-900 relative overflow-hidden px-6 pt-24 pb-20">
+        <CssWave />
+        <div className="relative z-10 w-full max-w-md">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+            <div className="bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md border border-neutral-200/60 dark:border-neutral-700/60 shadow-sm p-8 rounded-xl text-center">
+              <div className="w-16 h-16 rounded-2xl bg-green-50 dark:bg-green-900/30 flex items-center justify-center mx-auto mb-5">
+                <CheckCircle size={32} className="text-green-600" />
+              </div>
+              <h2 className="font-display text-xl font-extrabold uppercase text-neutral-900 dark:text-neutral-100 mb-2">Verify Your Account</h2>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-2">
+                We've sent a verification link to <span className="font-semibold text-neutral-700 dark:text-neutral-300">{email}</span>
+              </p>
+              <p className="text-xs text-neutral-400 dark:text-neutral-500 mb-6">
+                Please check your inbox and click the verification link to activate your account. Then sign in to continue.
+              </p>
+              <Button variant="primary" className="w-full rounded-lg" onClick={() => { setRegistered(false); setIsLogin(true); setEmail(email); }}>
+                <ArrowRight size={15} className="mr-1" /> Go to Sign In
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-light-bg dark:bg-neutral-900 relative overflow-hidden px-6 pt-24 pb-20">
@@ -138,7 +177,7 @@ export const Auth: React.FC = () => {
               </div>
             )}
 
-            <Button type="submit" variant="primary" className="w-full rounded-lg" isLoading={loading} disabled={Object.keys(validate()).length > 0}>
+            <Button type="submit" variant="primary" className="w-full rounded-lg" isLoading={loading}>
               {isLogin ? 'Sign In' : 'Create Account'} <ArrowRight size={15} />
             </Button>
           </form>
@@ -146,7 +185,7 @@ export const Auth: React.FC = () => {
           <div className="mt-6 text-center">
             <p className="text-xs text-neutral-500 dark:text-neutral-400">
               {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
-              <button onClick={() => setIsLogin(!isLogin)} className="text-accent-blue hover:text-accent-blue-hover font-semibold cursor-pointer transition-colors">
+              <button onClick={() => { setIsLogin(!isLogin); setErrors({}); }} className="text-accent-blue hover:text-accent-blue-hover font-semibold cursor-pointer transition-colors">
                 {isLogin ? 'Sign Up' : 'Sign In'}
               </button>
             </p>
