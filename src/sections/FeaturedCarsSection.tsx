@@ -8,13 +8,11 @@ import type { Car } from '../data/mockCars';
 
 interface Props { cars: Car[] }
 
-const categories = ['All', 'Luxury', 'Sports', 'Supercar', 'SUV', 'Electric'];
+const categories = ['All', 'SUV', 'Sedan', 'Hatchback', 'Van'];
 
 export const FeaturedCarsSection: React.FC<Props> = ({ cars }) => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [emblaRef, emblaApi] = useEmblaCarousel({ dragFree: true, loop: true, align: 'start' });
-  const [canScrollPrev, setCanScrollPrev] = useState(false);
-  const [canScrollNext, setCanScrollNext] = useState(true);
   const [isAutoScrolling, setIsAutoScrolling] = useState(true);
   const autoScrollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -25,8 +23,6 @@ export const FeaturedCarsSection: React.FC<Props> = ({ cars }) => {
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
-    setCanScrollPrev(emblaApi.canScrollPrev());
-    setCanScrollNext(emblaApi.canScrollNext());
   }, [emblaApi]);
 
   useEffect(() => {

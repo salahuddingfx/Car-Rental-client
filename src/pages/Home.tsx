@@ -8,6 +8,7 @@ import { WhyChooseUsSection } from '../sections/WhyChooseUsSection';
 import { OfferSection } from '../sections/OfferSection';
 import { FaqSection } from '../sections/FaqSection';
 import { RecentlyViewedSection } from '../components/sections/RecentlyViewedSection';
+import { PopularCarsSection } from '../components/sections/PopularCarsSection';
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -42,6 +43,8 @@ export const Home: React.FC = () => {
         />
 
         <FeaturedCarsSection cars={cars} />
+
+        <PopularCarsSection />
 
         <RecentlyViewedSection />
 

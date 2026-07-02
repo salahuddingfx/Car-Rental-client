@@ -7,20 +7,21 @@ import { useStore } from '../store/useStore';
 import { CarCard } from '../components/ui/CarCard';
 import { CarCardSkeleton } from '../components/ui/Skeleton';
 import { Button } from '../components/ui/Button';
+import { MapView } from '../components/ui/MapView';
+import { useSavedSearches } from '../store/useSavedSearches';
+import { Link } from 'react-router-dom';
 
 const categories = [
   { value: 'All', label: 'All Vehicles' },
-  { value: 'Luxury', label: 'Luxury' },
-  { value: 'Sports', label: 'Sports' },
-  { value: 'Supercar', label: 'Supercar' },
   { value: 'SUV', label: 'SUV' },
-  { value: 'Electric', label: 'Electric' },
+  { value: 'Sedan', label: 'Sedan' },
+  { value: 'Hatchback', label: 'Hatchback' },
+  { value: 'Van', label: 'Van' },
 ];
 const fuelTypes = [
   { value: 'All', label: 'All Fuels' },
   { value: 'Petrol', label: 'Petrol' },
-  { value: 'Electric', label: 'Electric' },
-  { value: 'Hybrid', label: 'Hybrid' },
+  { value: 'Diesel', label: 'Diesel' },
   { value: 'Diesel', label: 'Diesel' },
 ];
 const sortOptions = [
@@ -46,6 +47,8 @@ export const Listing = () => {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [showFilters, setShowFilters] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
+  const [mapView, setMapView] = useState(false);
+  const { searches, addSearch, removeSearch } = useSavedSearches();
 
   useEffect(() => { document.title = 'Explore Fleet — Apex Ride' }, []);
 
@@ -237,8 +240,24 @@ export const Listing = () => {
                     </span>
                   ))}
                 </div>
+                <button onClick={() => {
+                  const name = prompt('Name this search:');
+                  if (name) { addSearch({ name, search, category, fuel, sort, priceRange }); }
+                }}
+                  className="hidden sm:flex items-center gap-1 text-[10px] text-accent-blue hover:text-accent-blue-hover font-medium cursor-pointer">
+                  + Save Search
+                </button>
               </div>
               <div className="flex items-center gap-2">
+                <button onClick={() => setMapView(!mapView)}
+                  className={`flex items-center gap-1.5 text-xs border px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${mapView ? 'bg-accent-blue text-white border-accent-blue' : 'text-neutral-600 dark:text-neutral-400 border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800'}`}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                  {mapView ? 'List' : 'Map'}
+                </button>
+                <Link to="/compare"
+                  className="flex items-center gap-1.5 text-xs text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700 px-3 py-1.5 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
+                  Compare
+                </Link>
                 <button onClick={() => setShowFilters(true)}
                   className="lg:hidden flex items-center gap-1.5 text-xs text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700 px-3 py-1.5 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors cursor-pointer">
                   <SlidersHorizontal size={14} /> Filters
@@ -246,7 +265,25 @@ export const Listing = () => {
               </div>
             </div>
 
-            {/* Cars Grid */}
+            {/* Saved Searches */}
+            {searches.length > 0 && (
+              <div className="mb-4 flex items-center gap-2 flex-wrap">
+                <span className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest">Saved:</span>
+                {searches.slice(0, 3).map(s => (
+                  <button key={s.id}
+                    onClick={() => { setSearch(s.search); setCategory(s.category); setFuel(s.fuel); setSort(s.sort); setPriceRange(s.priceRange); }}
+                    className="flex items-center gap-1.5 text-[10px] bg-accent-blue/5 border border-accent-blue/20 text-accent-blue px-2.5 py-1 rounded-full hover:bg-accent-blue/10 transition-colors cursor-pointer">
+                    {s.name}
+                    <button onClick={(e) => { e.stopPropagation(); removeSearch(s.id); }} className="hover:text-red-500"><X size={10} /></button>
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Cars Grid or Map */}
+            {mapView ? (
+              <MapView search={search} category={category} fuel={fuel} sort={sort} priceRange={priceRange} />
+            ) : (
             <AnimatePresence mode="wait">
               {initialLoading ? (
                 <motion.div key="skeleton" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -277,6 +314,7 @@ export const Listing = () => {
                 </motion.div>
               )}
             </AnimatePresence>
+            )}
 
           </div>
         </div>

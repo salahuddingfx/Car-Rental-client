@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Star, MapPin, Users, Zap, Disc, Shield, Check, Share2 } from 'lucide-react';
 import { useStore } from '../store/useStore';
@@ -7,14 +7,19 @@ import { Button } from '../components/ui/Button';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { CarImageSlider } from '../components/ui/CarImageSlider';
 import { PriceCalculator } from '../components/ui/PriceCalculator';
+import { CarCalendar } from '../components/ui/CarCalendar';
+import { RatingsGraph } from '../components/ui/RatingsGraph';
 import { formatPrice } from '../lib/pricing';
 
 export const Details: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { cars } = useStore();
+  const { cars, bookings } = useStore();
   const { addItem } = useRecentlyViewed();
   const car = cars.find(c => c.id === id);
+
+  const [pickupDate, setPickupDate] = useState('');
+  const [returnDate, setReturnDate] = useState('');
 
   useEffect(() => {
     if (id) addItem(id);
@@ -116,6 +121,8 @@ export const Details: React.FC = () => {
               </div>
             </section>
 
+            <RatingsGraph ratingBreakdown={car.ratingBreakdown} overallRating={car.rating} reviewsCount={car.reviewsCount} />
+
             <section>
               <h3 className="font-display text-xs font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-widest border-b border-neutral-200 dark:border-neutral-800 pb-2 mb-4">Customer Reviews</h3>
               <div className="space-y-4">
@@ -150,7 +157,14 @@ export const Details: React.FC = () => {
           </div>
 
           <div className="lg:col-span-1 space-y-5">
-            <PriceCalculator pricePerDay={car.price} />
+            <PriceCalculator pricePerDay={car.price} pickupDate={pickupDate} returnDate={returnDate} onPickupChange={setPickupDate} onReturnChange={setReturnDate} />
+            <CarCalendar bookedDates={bookings.filter(b => b.carId === car.id).flatMap(b => {
+              const dates: string[] = [];
+              const start = new Date(b.pickupDate);
+              const end = new Date(b.returnDate);
+              while (start <= end) { dates.push(start.toISOString()); start.setDate(start.getDate() + 1); }
+              return dates;
+            })} />
 
             <div className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 shadow-sm p-6 rounded-xl sticky top-28">
               <div className="flex items-baseline gap-1 mb-4">
@@ -161,10 +175,20 @@ export const Details: React.FC = () => {
                 <span className="w-1.5 h-1.5 rounded-full bg-green-500" /> Available Now
               </span>
 
-              <Button variant="primary" className="w-full rounded-lg mb-2" onClick={() => navigate(`/bookings/${car.id}`)}>
+              <Button variant="primary" className="w-full rounded-lg mb-2" onClick={() => {
+                const params = new URLSearchParams();
+                if (pickupDate) params.set('pickup', pickupDate);
+                if (returnDate) params.set('return', returnDate);
+                navigate(`/bookings/${car.id}?${params.toString()}`);
+              }}>
                 Reserve Now
               </Button>
-              <Button variant="outline" className="w-full rounded-lg mb-2" onClick={() => navigate(`/guest-book/${car.id}`)}>
+              <Button variant="outline" className="w-full rounded-lg mb-2" onClick={() => {
+                const params = new URLSearchParams();
+                if (pickupDate) params.set('pickup', pickupDate);
+                if (returnDate) params.set('return', returnDate);
+                navigate(`/guest-book/${car.id}?${params.toString()}`);
+              }}>
                 Book as Guest
               </Button>
               <a

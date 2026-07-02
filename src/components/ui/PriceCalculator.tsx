@@ -1,14 +1,24 @@
 import { useState, useMemo } from 'react';
-import { Calendar, Calculator } from 'lucide-react';
+import { Calculator } from 'lucide-react';
 import { calculateBookingCost, formatPrice } from '../../lib/pricing';
+import { DatePicker } from './DatePicker';
 
 interface PriceCalculatorProps {
   pricePerDay: number;
+  pickupDate?: string;
+  returnDate?: string;
+  onPickupChange?: (date: string) => void;
+  onReturnChange?: (date: string) => void;
 }
 
-export const PriceCalculator = ({ pricePerDay }: PriceCalculatorProps) => {
-  const [pickupDate, setPickupDate] = useState('');
-  const [returnDate, setReturnDate] = useState('');
+export const PriceCalculator = ({ pricePerDay, pickupDate: propPickup, returnDate: propReturn, onPickupChange, onReturnChange }: PriceCalculatorProps) => {
+  const [internalPickup, setInternalPickup] = useState('');
+  const [internalReturn, setInternalReturn] = useState('');
+
+  const pickupDate = propPickup !== undefined ? propPickup : internalPickup;
+  const returnDate = propReturn !== undefined ? propReturn : internalReturn;
+  const setPickupDate = (v: string) => { if (onPickupChange) onPickupChange(v); else setInternalPickup(v); };
+  const setReturnDate = (v: string) => { if (onReturnChange) onReturnChange(v); else setInternalReturn(v); };
 
   const days = useMemo(() => {
     if (!pickupDate || !returnDate) return 0;
@@ -30,29 +40,11 @@ export const PriceCalculator = ({ pricePerDay }: PriceCalculatorProps) => {
       <div className="space-y-3 mb-4">
         <div>
           <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Pickup Date</label>
-          <div className="relative">
-            <Calendar size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
-            <input
-              type="date"
-              value={pickupDate}
-              onChange={(e) => setPickupDate(e.target.value)}
-              min={new Date().toISOString().split('T')[0]}
-              className="w-full border border-neutral-200 dark:border-neutral-600 text-sm text-neutral-800 dark:text-neutral-200 p-2.5 pl-9 rounded-xl outline-none focus:border-accent-blue transition-colors bg-white dark:bg-neutral-700"
-            />
-          </div>
+          <DatePicker value={pickupDate} onChange={setPickupDate} placeholder="Select pickup" />
         </div>
         <div>
           <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Return Date</label>
-          <div className="relative">
-            <Calendar size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
-            <input
-              type="date"
-              value={returnDate}
-              onChange={(e) => setReturnDate(e.target.value)}
-              min={pickupDate || new Date().toISOString().split('T')[0]}
-              className="w-full border border-neutral-200 dark:border-neutral-600 text-sm text-neutral-800 dark:text-neutral-200 p-2.5 pl-9 rounded-xl outline-none focus:border-accent-blue transition-colors bg-white dark:bg-neutral-700"
-            />
-          </div>
+          <DatePicker value={returnDate} onChange={setReturnDate} placeholder="Select return" min={pickupDate || undefined} />
         </div>
       </div>
 

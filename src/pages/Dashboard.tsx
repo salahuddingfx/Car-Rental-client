@@ -136,7 +136,7 @@ export const Dashboard = () => {
                         {userBookings.slice(0, 3).map(booking => {
                           const car = cars.find(c => c.id === booking.carId);
                           return (
-                            <div key={booking.id} className="flex items-center justify-between p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
+                            <div key={booking.id} onClick={() => navigate(`/tracking/${booking.id}`)} className="flex items-center justify-between p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors cursor-pointer">
                               <div className="flex items-center gap-3">
                                 <Car size={16} className="text-neutral-400" />
                                 <div>
@@ -165,7 +165,7 @@ export const Dashboard = () => {
                       {userBookings.map(booking => {
                         const car = cars.find(c => c.id === booking.carId);
                         return (
-                          <div key={booking.id} className="flex items-center justify-between p-4 border border-neutral-200 dark:border-neutral-800 rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
+                          <div key={booking.id} onClick={() => navigate(`/tracking/${booking.id}`)} className="flex items-center justify-between p-4 border border-neutral-200 dark:border-neutral-800 rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors cursor-pointer">
                             <div className="flex items-center gap-3">
                               <div className="w-16 h-12 bg-neutral-100 dark:bg-neutral-800 rounded-lg overflow-hidden shrink-0">
                                 {car && <img src={car.image} alt={car.name} className="w-full h-full object-cover" />}
@@ -181,7 +181,7 @@ export const Dashboard = () => {
                                 <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${booking.status === 'Upcoming' ? 'bg-accent-blue/10 text-accent-blue' : booking.status === 'Completed' ? 'bg-green-50 text-green-600' : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-500'}`}>{booking.status}</span>
                               </div>
                               {booking.status === 'Upcoming' && (
-                                <button onClick={() => cancelBooking(booking.id)} className="text-[10px] text-red-500 hover:text-red-700 cursor-pointer">Cancel</button>
+                                <button onClick={(e) => { e.stopPropagation(); cancelBooking(booking.id); }} className="text-[10px] text-red-500 hover:text-red-700 cursor-pointer">Cancel</button>
                               )}
                             </div>
                           </div>

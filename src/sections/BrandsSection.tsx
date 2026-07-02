@@ -1,8 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Calendar, MapPin } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { Button } from '../components/ui/Button';
+import { DatePicker } from '../components/ui/DatePicker';
 
 interface Props {
   searchLoc: string;
@@ -52,19 +53,11 @@ export const BrandsSection: React.FC<Props> = ({ searchLoc, setSearchLoc, search
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block">Pickup</label>
-                  <div className="flex items-center border border-neutral-200 dark:border-neutral-700 p-3 bg-white dark:bg-neutral-800 rounded-lg">
-                    <Calendar size={15} className="text-neutral-400 mr-2 shrink-0" />
-                    <input type="date" value={searchPickup} onChange={(e) => setSearchPickup(e.target.value)}
-                      className="bg-transparent text-xs text-neutral-800 dark:text-neutral-200 outline-none w-full" />
-                  </div>
+                  <DatePicker value={searchPickup} onChange={setSearchPickup} placeholder="Pickup date" />
                 </div>
                 <div>
                   <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1.5 block">Return</label>
-                  <div className="flex items-center border border-neutral-200 dark:border-neutral-700 p-3 bg-white dark:bg-neutral-800 rounded-lg">
-                    <Calendar size={15} className="text-neutral-400 mr-2 shrink-0" />
-                    <input type="date" value={searchReturn} onChange={(e) => setSearchReturn(e.target.value)}
-                      className="bg-transparent text-xs text-neutral-800 dark:text-neutral-200 outline-none w-full" />
-                  </div>
+                  <DatePicker value={searchReturn} onChange={setSearchReturn} placeholder="Return date" min={searchPickup || undefined} />
                 </div>
               </div>
               <Button type="submit" variant="primary" className="w-full rounded-lg">Search Fleet</Button>

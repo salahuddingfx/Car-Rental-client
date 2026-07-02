@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { CreditCard, User, Mail, Phone, Check, Upload, FileText } from 'lucide-react';
 import { useStore } from '../store/useStore';
@@ -26,8 +26,12 @@ interface PassengerErrors {
 export const Bookings: React.FC = () => {
   const { carId } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { cars, addBooking, user } = useStore();
   const car = cars.find(c => c.id === carId);
+
+  const today = new Date().toISOString().split('T')[0];
+  const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
 
   const [step, setStep] = useState(1);
   const [name, setName] = useState(user?.name || '');
@@ -35,8 +39,8 @@ export const Bookings: React.FC = () => {
   const [phone, setPhone] = useState('');
   const [nidFile, setNidFile] = useState<File | null>(null);
   const [nidPreview, setNidPreview] = useState('');
-  const [pickup] = useState(new Date().toISOString().split('T')[0]);
-  const [returnD] = useState(new Date(Date.now() + 86400000).toISOString().split('T')[0]);
+  const [pickup] = useState(searchParams.get('pickup') || today);
+  const [returnD] = useState(searchParams.get('return') || tomorrow);
   const [errors, setErrors] = useState<PassengerErrors>({});
   const [touched, setTouched] = useState(false);
 
@@ -77,14 +81,17 @@ export const Bookings: React.FC = () => {
   const days = Math.max(1, Math.ceil((new Date(returnD).getTime() - new Date(pickup).getTime()) / 86400000));
   const { subtotal, tripFee, tax, total } = calculateBookingCost(car.price, days);
 
+  const [createdBookingId, setCreatedBookingId] = useState('');
+
   const handleConfirm = () => {
     if (!user) { navigate('/auth'); return; }
-    addBooking({
+    const booking = addBooking({
       carId: car.id, userId: user.id,
       pickupDate: pickup, returnDate: returnD,
       totalDays: days, totalPrice: total, status: 'Upcoming',
       driverInfo: { fullName: name, email, phone, licenseNumber: 'N/A - Company Driver', licenseExpiry: '' },
     });
+    setCreatedBookingId(booking.id);
     setStep(4);
   };
 
@@ -229,7 +236,7 @@ export const Bookings: React.FC = () => {
                 <h3 className="font-display text-lg font-bold text-neutral-800 dark:text-neutral-200 mb-2">Booking Confirmed!</h3>
                 <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-1">Your {car.name} has been reserved.</p>
                 <p className="text-xs text-neutral-400 dark:text-neutral-500 mb-6">Pickup: {pickup} · Return: {returnD}</p>
-                <Button variant="primary" onClick={() => navigate('/dashboard?tab=bookings')} className="rounded-lg">View My Bookings</Button>
+                <Button variant="primary" onClick={() => navigate(`/tracking/${createdBookingId}`)} className="rounded-lg">Track My Booking</Button>
               </motion.div>
             )}
           </div>

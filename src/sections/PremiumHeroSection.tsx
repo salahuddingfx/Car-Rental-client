@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Pause, Play, MapPin, Calendar, Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { DatePicker } from '../components/ui/DatePicker';
 
 const slides = [
   {
@@ -99,8 +100,9 @@ export const PremiumHeroSection: React.FC = () => {
   };
 
   return (
-    <section className="relative w-full h-screen overflow-hidden bg-neutral-950">
-      {/* Slides with Ken Burns */}
+    <section className="relative w-full h-[100dvh] bg-neutral-950">
+      {/* Slides with Ken Burns - overflow hidden wrapper */}
+      <div className="absolute inset-0 overflow-hidden">
       {slides.map((s, i) => (
         <div key={s.alt} className={`absolute inset-0 transition-opacity duration-1000 ${i === current ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}>
           <div className={`absolute inset-0 transition-transform duration-[2s] ease-out ${i === current ? 'scale-100' : 'scale-110'}`}>
@@ -116,6 +118,7 @@ export const PremiumHeroSection: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-neutral-950/60 via-transparent to-transparent" />
         </div>
       ))}
+      </div>
 
       {/* Animated content */}
       <AnimatePresence mode="wait">
@@ -125,7 +128,7 @@ export const PremiumHeroSection: React.FC = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
-          className="absolute inset-0 z-20 flex flex-col justify-center px-6 sm:px-12 lg:px-16"
+          className="absolute inset-0 z-20 flex flex-col justify-center px-5 sm:px-12 lg:px-16 pt-20 sm:pt-0 pb-32 sm:pb-0"
         >
           <div className="max-w-7xl mx-auto w-full">
             <div className="max-w-2xl">
@@ -159,30 +162,18 @@ export const PremiumHeroSection: React.FC = () => {
                 {slide.subtitle}
               </motion.p>
 
-              {/* Search form + CTA */}
+              {/* Date picker + CTA */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.5 }}
+                className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-lg"
               >
-                <form onSubmit={handleSearch} className="bg-white/10 backdrop-blur-md border border-white/10 p-4 rounded-2xl flex flex-col sm:flex-row gap-3 mb-6 max-w-xl">
-                  <div className="flex-1 flex items-center gap-2 bg-white/10 rounded-xl px-3 py-2.5">
-                    <MapPin size={16} className="text-white/40 shrink-0" />
-                    <input type="text" placeholder="Where are you going?" value={searchLoc} onChange={e => setSearchLoc(e.target.value)}
-                      className="bg-transparent text-white text-sm outline-none w-full placeholder:text-white/30" />
-                  </div>
-                  <div className="flex-1 flex items-center gap-2 bg-white/10 rounded-xl px-3 py-2.5">
-                    <Calendar size={16} className="text-white/40 shrink-0" />
-                    <input type="date" value={searchPickup} onChange={e => setSearchPickup(e.target.value)}
-                      className="bg-transparent text-white text-sm outline-none w-full [color-scheme:dark]" />
-                  </div>
-                  <button type="submit" className="bg-accent-blue hover:bg-blue-600 text-white text-sm font-bold px-6 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-colors cursor-pointer shrink-0">
-                    <Search size={16} /> Search
-                  </button>
-                </form>
-
+                <div className="flex-1">
+                  <DatePicker value={searchPickup} onChange={setSearchPickup} placeholder="Pick a date" position="top" glass />
+                </div>
                 <button onClick={handleCta}
-                  className="bg-white text-neutral-900 text-sm font-bold px-8 py-3 rounded-xl hover:bg-neutral-100 transition-colors cursor-pointer">
+                  className="bg-white text-neutral-900 text-sm font-bold px-8 py-3 rounded-xl hover:bg-neutral-100 transition-colors cursor-pointer shrink-0">
                   {slide.cta}
                 </button>
               </motion.div>
@@ -191,53 +182,69 @@ export const PremiumHeroSection: React.FC = () => {
         </motion.div>
       </AnimatePresence>
 
-      {/* Stats bar */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 0.5 }}
-        className="absolute bottom-0 left-0 right-0 z-20 bg-white/5 backdrop-blur-sm border-t border-white/10"
-      >
-        <div className="max-w-7xl mx-auto px-6 py-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {stats.map((s) => (
-            <div key={s.label} className="text-center">
-              <p className="text-white font-display text-lg sm:text-xl font-bold">{s.value}</p>
-              <p className="text-white/40 text-[10px] sm:text-xs uppercase tracking-wider">{s.label}</p>
+      {/* Bottom controls row */}
+      <div className="absolute bottom-0 left-0 right-0 z-30">
+        {/* Stats bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2, duration: 0.5 }}
+          className="bg-white/5 backdrop-blur-sm border-t border-white/10"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 grid grid-cols-4 gap-2 sm:gap-4">
+            {stats.map((s) => (
+              <div key={s.label} className="text-center">
+                <p className="text-white font-display text-sm sm:text-xl font-bold">{s.value}</p>
+                <p className="text-white/40 text-[8px] sm:text-xs uppercase tracking-wider">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Dots + Arrows row above stats */}
+        <div className="absolute bottom-full left-0 right-0 mb-3 sm:mb-4 px-4 sm:px-8 flex items-center justify-between">
+          <div className="flex-1 flex sm:hidden justify-center">
+            <div className="flex items-center gap-2">
+              {slides.map((s, i) => (
+                <button key={s.title} onClick={() => goTo(i)}
+                  className={`rounded-full transition-all duration-500 cursor-pointer ${i === current ? 'w-7 h-1.5 bg-white shadow-lg shadow-white/20' : 'w-1.5 h-1.5 bg-white/30 hover:bg-white/50'}`} />
+              ))}
             </div>
-          ))}
+          </div>
+
+          <div className="hidden sm:flex flex-1 justify-center">
+            <div className="flex items-center gap-2.5">
+              {slides.map((s, i) => (
+                <button key={s.title} onClick={() => goTo(i)}
+                  className={`rounded-full transition-all duration-500 cursor-pointer ${i === current ? 'w-10 h-2 bg-white shadow-lg shadow-white/20' : 'w-2 h-2 bg-white/30 hover:bg-white/50'}`} />
+              ))}
+            </div>
+          </div>
+
+          {/* Arrows + Pause - hidden on mobile */}
+          <div className="hidden sm:flex items-center gap-2">
+            <button onClick={prev} className="w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/25 hover:scale-105 active:scale-95 transition-all cursor-pointer">
+              <ChevronLeft size={14} />
+            </button>
+            <button onClick={next} className="w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/25 hover:scale-105 active:scale-95 transition-all cursor-pointer">
+              <ChevronRight size={14} />
+            </button>
+            <button onClick={() => setIsPaused(p => !p)}
+              className="w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/25 hover:scale-105 active:scale-95 transition-all cursor-pointer ml-1">
+              {isPaused ? <Play size={14} /> : <Pause size={14} />}
+            </button>
+          </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Progress bar */}
-      <div className="absolute top-0 left-0 right-0 z-30 h-[3px] bg-white/5">
+      <div className="absolute top-0 left-0 right-0 z-30 h-[2px] sm:h-[3px] bg-white/5">
         <div className="h-full bg-gradient-to-r from-accent-blue to-blue-400 transition-all duration-[50ms] ease-linear rounded-r-full" style={{ width: `${progress}%` }} />
       </div>
 
       {/* Counter */}
-      <div className="absolute top-6 right-6 sm:right-8 z-30 text-white/30 font-display text-xs tracking-widest">
+      <div className="absolute top-16 sm:top-6 right-4 sm:right-8 z-30 text-white/30 font-display text-[10px] sm:text-xs tracking-widest">
         <span className="text-white/70 font-bold">{String(current + 1).padStart(2, '0')}</span> / {String(slides.length).padStart(2, '0')}
-      </div>
-
-      {/* Arrows + Pause */}
-      <div className="absolute right-4 sm:right-8 bottom-24 z-30 flex items-center gap-2">
-        <button onClick={prev} className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/25 hover:scale-105 active:scale-95 transition-all cursor-pointer">
-          <ChevronLeft size={16} />
-        </button>
-        <button onClick={next} className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/25 hover:scale-105 active:scale-95 transition-all cursor-pointer">
-          <ChevronRight size={16} />
-        </button>
-        <button onClick={() => setIsPaused(p => !p)}
-          className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/25 hover:scale-105 active:scale-95 transition-all cursor-pointer ml-1">
-          {isPaused ? <Play size={14} /> : <Pause size={14} />}
-        </button>
-      </div>
-
-      {/* Dots */}
-      <div className="absolute bottom-28 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2.5">
-        {slides.map((s, i) => (
-          <button key={s.title} onClick={() => goTo(i)}
-            className={`rounded-full transition-all duration-500 cursor-pointer ${i === current ? 'w-10 h-2 bg-white shadow-lg shadow-white/20' : 'w-2 h-2 bg-white/30 hover:bg-white/50'}`} />
-        ))}
       </div>
 
       {/* Scroll indicator */}
@@ -245,7 +252,7 @@ export const PremiumHeroSection: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2 }}
-        className="absolute bottom-28 left-6 sm:left-12 z-30 hidden sm:flex flex-col items-center gap-2"
+        className="absolute bottom-36 sm:bottom-24 left-4 sm:left-12 z-30 hidden sm:flex flex-col items-center gap-2"
       >
         <span className="text-[10px] text-white/30 font-display uppercase tracking-widest" style={{ writingMode: 'vertical-rl' }}>Scroll</span>
         <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}

@@ -1,16 +1,18 @@
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { User, Mail, Phone, CreditCard, Calendar, Shield, Check } from 'lucide-react';
+import { User, Mail, Phone, CreditCard, Shield, Check } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { useToastStore } from '../store/useToastStore';
 import { Button } from '../components/ui/Button';
 import { Breadcrumbs } from '../components/Breadcrumbs';
+import { DatePicker } from '../components/ui/DatePicker';
 import { calculateBookingCost, formatPrice } from '../lib/pricing';
 
 export const GuestBooking = () => {
   const { carId } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { cars, addGuestBooking } = useStore();
   const { addToast } = useToastStore();
   const car = cars.find(c => c.id === carId);
@@ -21,11 +23,13 @@ export const GuestBooking = () => {
     phone: '',
     licenseNumber: '',
     licenseExpiry: '',
-    pickupDate: '',
-    returnDate: '',
+    pickupDate: searchParams.get('pickup') || '',
+    returnDate: searchParams.get('return') || '',
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [createdBookingId, setCreatedBookingId] = useState('');
+  const [createdBookingId, setCreatedBookingId] = useState('');
 
   if (!car) {
     return (
@@ -46,7 +50,7 @@ export const GuestBooking = () => {
     e.preventDefault();
     if (!form.fullName || !form.email || !form.phone || !form.pickupDate || !form.returnDate) return;
 
-    addGuestBooking({
+    const booking = addGuestBooking({
       carId: car.id,
       pickupDate: form.pickupDate,
       returnDate: form.returnDate,
@@ -62,9 +66,13 @@ export const GuestBooking = () => {
       },
     });
 
+    setCreatedBookingId(booking.id);
     addToast('Booking confirmed! Check your email for details.', 'success');
     setSubmitted(true);
   };
+
+  const allGuestBookings = useStore.getState().guestBookings;
+  const latestBooking = allGuestBookings.find(b => b.id === createdBookingId);
 
   if (submitted) {
     return (
@@ -77,9 +85,10 @@ export const GuestBooking = () => {
           <p className="text-neutral-500 dark:text-neutral-400 text-sm mb-6">Your reservation for the {car.name} has been placed. We'll send details to {form.email}.</p>
           <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4 mb-6 text-left">
             <p className="text-xs text-neutral-400 dark:text-neutral-500 mb-1">Booking Reference</p>
-            <p className="font-display font-bold text-neutral-800 dark:text-neutral-200">GUEST-{Date.now().toString(36).toUpperCase()}</p>
+            <p className="font-display font-bold text-neutral-800 dark:text-neutral-200">{latestBooking?.bookingRef || createdBookingId}</p>
           </div>
-          <Button variant="primary" className="rounded-xl" onClick={() => navigate('/cars')}>Browse More Cars</Button>
+          <Button variant="primary" className="rounded-xl mb-2 w-full" onClick={() => navigate(`/tracking/${createdBookingId}`)}>Track My Booking</Button>
+          <Button variant="ghost" className="rounded-xl w-full" onClick={() => navigate('/cars')}>Browse More Cars</Button>
         </motion.div>
       </div>
     );
@@ -147,20 +156,11 @@ export const GuestBooking = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Pickup Date *</label>
-                    <div className="relative">
-                      <Calendar size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 dark:text-neutral-500" />
-                      <input required type="date" value={form.pickupDate} onChange={e => setForm({ ...form, pickupDate: e.target.value })}
-                        className="w-full border border-neutral-200 dark:border-neutral-700 text-sm text-neutral-800 dark:text-neutral-200 p-2.5 pl-9 rounded-xl outline-none focus:border-accent-blue transition-colors bg-white dark:bg-neutral-800" />
-                    </div>
+                    <DatePicker value={form.pickupDate} onChange={v => setForm({ ...form, pickupDate: v })} placeholder="Select pickup" />
                   </div>
                   <div>
                     <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Return Date *</label>
-                    <div className="relative">
-                      <Calendar size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 dark:text-neutral-500" />
-                      <input required type="date" value={form.returnDate} onChange={e => setForm({ ...form, returnDate: e.target.value })}
-                        min={form.pickupDate}
-                        className="w-full border border-neutral-200 dark:border-neutral-700 text-sm text-neutral-800 dark:text-neutral-200 p-2.5 pl-9 rounded-xl outline-none focus:border-accent-blue transition-colors bg-white dark:bg-neutral-800" />
-                    </div>
+                    <DatePicker value={form.returnDate} onChange={v => setForm({ ...form, returnDate: v })} placeholder="Select return" min={form.pickupDate || undefined} />
                   </div>
                 </div>
 
