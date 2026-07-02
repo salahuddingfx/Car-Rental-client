@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, User, Phone, Mail, MapPin } from 'lucide-react';
 import { useChatStore } from '../../store/useChatStore';
@@ -9,12 +9,23 @@ import { liveChatSchema } from '../../lib/validations';
 
 type View = 'contact' | 'chat';
 
+const GUEST_ID_KEY = 'apexride-guest-id';
+
+function getOrCreateGuestId(): string {
+  let id = localStorage.getItem(GUEST_ID_KEY);
+  if (!id) {
+    id = 'guest-' + crypto.randomUUID();
+    localStorage.setItem(GUEST_ID_KEY, id);
+  }
+  return id;
+}
+
 export const LiveChat = () => {
   const { user } = useStore();
-  const { createChat, sendMessage, getChat, markAsRead } = useChatStore();
+  const { createChat, sendMessage, getChat, markAsRead, chats } = useChatStore();
   const [isOpen, setIsOpen] = useState(false);
   const [view, setView] = useState<View>('contact');
-  const [activeChat, setActiveChat] = useState<string | null>(null);
+  const [activeChat, setActiveChat] = useState<string | null>(() => localStorage.getItem('apexride-active-chat'));
   const [message, setMessage] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -27,29 +38,45 @@ export const LiveChat = () => {
   const [contactSubmitted, setContactSubmitted] = useState(false);
   const [contactErrors, setContactErrors] = useState<Record<string, string>>({});
 
+  const myId = user?.id || getOrCreateGuestId();
   const currentChat = activeChat ? getChat(activeChat) : null;
+
+  const persistActiveChat = useCallback((chatId: string | null) => {
+    if (chatId) {
+      localStorage.setItem('apexride-active-chat', chatId);
+    } else {
+      localStorage.removeItem('apexride-active-chat');
+    }
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [currentChat?.messages]);
 
   useEffect(() => {
-    if (isOpen) {
-      if (user && activeChat) {
+    if (activeChat) {
+      persistActiveChat(activeChat);
+    }
+  }, [activeChat, persistActiveChat]);
+
+  useEffect(() => {
+    if (isOpen && !activeChat) {
+      const existing = chats.find(
+        c => c.participants.includes(myId) && c.carId === 'general-inquiry'
+      );
+      if (existing) {
+        setActiveChat(existing.id);
         setView('chat');
-      } else {
-        setView('contact');
-        setContactSubmitted(false);
       }
     }
-  }, [isOpen, user, activeChat]);
+  }, [isOpen, activeChat, chats, myId]);
 
-  const handleSend = () => {
-    if (!message.trim() || !activeChat || !user) return;
+  const handleSend = useCallback(() => {
+    if (!message.trim() || !activeChat) return;
     sendMessage(activeChat, {
-      senderId: user.id,
-      senderName: user.name,
-      senderAvatar: user.avatar,
+      senderId: myId,
+      senderName: user?.name || contactName || 'Guest',
+      senderAvatar: user?.avatar || '',
       text: message.trim(),
     });
     setMessage('');
@@ -61,7 +88,7 @@ export const LiveChat = () => {
         text: getAutoReply(),
       });
     }, 1500);
-  };
+  }, [message, activeChat, myId, user, contactName, sendMessage]);
 
   const getAutoReply = () => {
     const replies = [
@@ -96,14 +123,10 @@ export const LiveChat = () => {
     setContactErrors({});
     setContactSubmitted(true);
 
-    const userId = user?.id || 'guest-' + Date.now();
-    const userName = user?.name || contactName;
-    const userAvatar = user?.avatar || '';
-
     const chatId = createChat({
-      userId,
-      userName,
-      userAvatar,
+      userId: myId,
+      userName: user?.name || contactName,
+      userAvatar: user?.avatar || '',
       hostId: 'host-support',
       hostName: 'Apex Support',
       hostAvatar: '/avatars/support.png',
@@ -112,9 +135,9 @@ export const LiveChat = () => {
     });
 
     sendMessage(chatId, {
-      senderId: userId,
-      senderName: userName,
-      senderAvatar: userAvatar,
+      senderId: myId,
+      senderName: user?.name || contactName,
+      senderAvatar: user?.avatar || '',
       text: `Hi, I'd like to get in touch.\n\nName: ${contactName}\nPhone: ${contactPhone}\nEmail: ${contactEmail}${contactAddress ? `\nAddress: ${contactAddress}` : ''}`,
     });
 
@@ -163,7 +186,7 @@ export const LiveChat = () => {
             transition={{ type: 'spring', damping: 20, stiffness: 300 }}
             className="fixed bottom-36 right-4 sm:right-6 z-50 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-xl rounded-2xl rounded-br-sm p-4 max-w-[220px]"
           >
-            <p className="text-xs font-bold text-neutral-800 dark:text-neutral-200 mb-0.5">Hello! 👋</p>
+            <p className="text-xs font-bold text-neutral-800 dark:text-neutral-200 mb-0.5">Hello!</p>
             <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
               Need a car? Chat with us!
             </p>
@@ -191,7 +214,7 @@ export const LiveChat = () => {
             {/* Header */}
             <div className="bg-accent-blue text-white p-4 flex items-center gap-3 shrink-0">
               {view === 'chat' && (
-                <button onClick={() => { setView('contact'); setActiveChat(null); }} className="p-1 cursor-pointer">
+                <button onClick={() => { setView('contact'); setActiveChat(null); persistActiveChat(null); }} className="p-1 cursor-pointer">
                   <User size={18} />
                 </button>
               )}
@@ -211,7 +234,7 @@ export const LiveChat = () => {
               </button>
             </div>
 
-            {/* Contact Form — Default View */}
+            {/* Contact Form */}
             {view === 'contact' && (
               <div className="flex-1 overflow-y-auto p-4">
                 {contactSubmitted ? (
@@ -273,39 +296,40 @@ export const LiveChat = () => {
             {view === 'chat' && (
               <>
                 <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-neutral-50 dark:bg-neutral-800/50">
-                  {currentChat?.messages.length === 0 && (
+                  {!currentChat || currentChat.messages.length === 0 ? (
                     <div className="text-center py-4">
                       <div className="w-12 h-12 bg-accent-blue/10 rounded-full flex items-center justify-center mx-auto mb-3">
                         <MessageCircle size={20} className="text-accent-blue" />
                       </div>
-                      <p className="text-sm font-bold text-neutral-800 dark:text-neutral-200 mb-1">Hello! 👋</p>
+                      <p className="text-sm font-bold text-neutral-800 dark:text-neutral-200 mb-1">Hello!</p>
                       <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed max-w-[240px] mx-auto">
                         Welcome to Apex Ride! Do you need a car? Ask us anything about our fleet, pricing, or bookings.
                       </p>
                     </div>
-                  )}
-                  {currentChat?.messages.map(msg => {
-                    const isMe = msg.senderId === user?.id;
-                    return (
-                      <div key={msg.id} className={`flex gap-2 ${isMe ? 'flex-row-reverse' : ''}`}>
-                        <div className="w-7 h-7 rounded-full bg-accent-blue/10 flex items-center justify-center shrink-0">
-                          {isMe ? <User size={12} className="text-accent-blue" /> : <MessageCircle size={12} className="text-accent-blue" />}
-                        </div>
-                        <div className={`max-w-[70%] ${isMe ? 'text-right' : ''}`}>
-                          <div className={`inline-block px-3 py-2 rounded-2xl text-xs ${
-                            isMe
-                              ? 'bg-accent-blue text-white rounded-br-sm'
-                              : 'bg-white dark:bg-neutral-700 border border-neutral-200 dark:border-neutral-600 text-neutral-800 dark:text-neutral-200 rounded-bl-sm'
-                          }`}>
-                            {msg.text}
+                  ) : (
+                    currentChat.messages.map(msg => {
+                      const isMe = msg.senderId === myId;
+                      return (
+                        <div key={msg.id} className={`flex gap-2 ${isMe ? 'flex-row-reverse' : ''}`}>
+                          <div className="w-7 h-7 rounded-full bg-accent-blue/10 flex items-center justify-center shrink-0">
+                            {isMe ? <User size={12} className="text-accent-blue" /> : <MessageCircle size={12} className="text-accent-blue" />}
                           </div>
-                          <p className="text-[9px] text-neutral-400 mt-1">
-                            {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                          </p>
+                          <div className={`max-w-[70%] ${isMe ? 'text-right' : ''}`}>
+                            <div className={`inline-block px-3 py-2 rounded-2xl text-xs ${
+                              isMe
+                                ? 'bg-accent-blue text-white rounded-br-sm'
+                                : 'bg-white dark:bg-neutral-700 border border-neutral-200 dark:border-neutral-600 text-neutral-800 dark:text-neutral-200 rounded-bl-sm'
+                            }`}>
+                              {msg.text}
+                            </div>
+                            <p className="text-[9px] text-neutral-400 mt-1">
+                              {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })
+                  )}
                   <div ref={messagesEndRef} />
                 </div>
 
@@ -313,7 +337,7 @@ export const LiveChat = () => {
                   <input
                     value={message}
                     onChange={e => setMessage(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && handleSend()}
+                    onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
                     placeholder="Type a message..."
                     className="flex-1 text-xs text-neutral-800 dark:text-neutral-200 px-3 py-2.5 bg-neutral-100 dark:bg-neutral-700 rounded-full outline-none focus:ring-2 focus:ring-accent-blue/20"
                   />
