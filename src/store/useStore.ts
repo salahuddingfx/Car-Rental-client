@@ -89,6 +89,7 @@ export const useStore = create<AppState>()(
         const booking: Booking = {
           ...newBooking,
           id: crypto.randomUUID(),
+          bookingRef: 'AR-' + crypto.randomUUID().slice(0, 5).toUpperCase(),
         };
         set((state) => ({
           bookings: [booking, ...state.bookings]
@@ -100,6 +101,7 @@ export const useStore = create<AppState>()(
         const booking: Booking = {
           ...newBooking,
           id: crypto.randomUUID(),
+          bookingRef: 'AR-' + crypto.randomUUID().slice(0, 5).toUpperCase(),
           userId: 'guest-' + crypto.randomUUID(),
         };
         set((state) => ({
