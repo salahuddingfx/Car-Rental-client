@@ -1,13 +1,17 @@
 import { useState } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { User, Mail, Phone, CreditCard, Shield, Check } from 'lucide-react';
+import { User, Mail, CreditCard, Shield, Check } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { useToastStore } from '../store/useToastStore';
 import { Button } from '../components/ui/Button';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { DatePicker } from '../components/ui/DatePicker';
+import { PhoneInput } from '../components/ui/PhoneInput';
+import { CountrySelect } from '../components/ui/CountrySelect';
+import { LocationSelect } from '../components/ui/LocationSelect';
 import { calculateBookingCost, formatPrice } from '../lib/pricing';
+import { guestBookingSchema } from '../lib/validations';
 
 export const GuestBooking = () => {
   const { carId } = useParams();
@@ -21,12 +25,16 @@ export const GuestBooking = () => {
     fullName: '',
     email: '',
     phone: '',
+    countryCode: '+880',
+    country: '',
+    location: '',
     licenseNumber: '',
     licenseExpiry: '',
     pickupDate: searchParams.get('pickup') || '',
     returnDate: searchParams.get('return') || '',
   });
 
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [createdBookingId, setCreatedBookingId] = useState('');
 
@@ -47,7 +55,17 @@ export const GuestBooking = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.fullName || !form.email || !form.phone || !form.pickupDate || !form.returnDate) return;
+    const result = guestBookingSchema.safeParse(form);
+    if (!result.success) {
+      const fieldErrors: Record<string, string> = {};
+      result.error.issues.forEach(issue => {
+        const key = issue.path[0] as string;
+        fieldErrors[key] = issue.message;
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+    setErrors({});
 
     const booking = addGuestBooking({
       carId: car.id,
@@ -60,7 +78,7 @@ export const GuestBooking = () => {
       driverInfo: {
         fullName: form.fullName,
         email: form.email,
-        phone: form.phone,
+        phone: `${form.countryCode} ${form.phone}`,
         licenseNumber: form.licenseNumber || 'N/A',
         licenseExpiry: form.licenseExpiry || 'N/A',
       },
@@ -104,7 +122,6 @@ export const GuestBooking = () => {
         ]} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Form */}
           <div className="lg:col-span-2">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <h1 className="font-display text-2xl font-extrabold text-neutral-900 dark:text-neutral-100 mb-1">Guest Booking</h1>
@@ -118,8 +135,9 @@ export const GuestBooking = () => {
                       <User size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 dark:text-neutral-500" />
                       <input required value={form.fullName} onChange={e => setForm({ ...form, fullName: e.target.value })}
                         placeholder="e.g. Rahim Uddin"
-                        className="w-full border border-neutral-200 dark:border-neutral-700 text-sm text-neutral-800 dark:text-neutral-200 p-2.5 pl-9 rounded-xl outline-none focus:border-accent-blue transition-colors placeholder:text-neutral-300 dark:placeholder:text-neutral-600 bg-white dark:bg-neutral-800" />
+                        className={`w-full border text-sm text-neutral-800 dark:text-neutral-200 p-2.5 pl-9 rounded-xl outline-none transition-colors placeholder:text-neutral-300 dark:placeholder:text-neutral-600 bg-white dark:bg-neutral-800 ${errors.fullName ? 'border-red-500' : 'border-neutral-200 dark:border-neutral-700 focus:border-accent-blue'}`} />
                     </div>
+                    {errors.fullName && <p className="text-[10px] text-red-500 mt-1">{errors.fullName}</p>}
                   </div>
                   <div>
                     <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Email *</label>
@@ -127,26 +145,50 @@ export const GuestBooking = () => {
                       <Mail size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 dark:text-neutral-500" />
                       <input required type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}
                         placeholder="e.g. rahim@gmail.com"
-                        className="w-full border border-neutral-200 dark:border-neutral-700 text-sm text-neutral-800 dark:text-neutral-200 p-2.5 pl-9 rounded-xl outline-none focus:border-accent-blue transition-colors placeholder:text-neutral-300 dark:placeholder:text-neutral-600 bg-white dark:bg-neutral-800" />
+                        className={`w-full border text-sm text-neutral-800 dark:text-neutral-200 p-2.5 pl-9 rounded-xl outline-none transition-colors placeholder:text-neutral-300 dark:placeholder:text-neutral-600 bg-white dark:bg-neutral-800 ${errors.email ? 'border-red-500' : 'border-neutral-200 dark:border-neutral-700 focus:border-accent-blue'}`} />
                     </div>
+                    {errors.email && <p className="text-[10px] text-red-500 mt-1">{errors.email}</p>}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Phone *</label>
+                  <PhoneInput
+                    value={form.phone}
+                    countryCode={form.countryCode}
+                    onChange={phone => setForm({ ...form, phone })}
+                    onCountryCodeChange={code => setForm({ ...form, countryCode: code })}
+                    error={errors.phone}
+                    placeholder="1XXX XXXXXX"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Country *</label>
+                    <CountrySelect value={form.country} onChange={code => setForm({ ...form, country: code, location: '' })} error={errors.country} />
+                  </div>
+                  <div>
+                    <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">City / Location *</label>
+                    <LocationSelect countryCode={form.country} value={form.location} onChange={loc => setForm({ ...form, location: loc })} error={errors.location} />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Phone *</label>
-                    <div className="relative">
-                      <Phone size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 dark:text-neutral-500" />
-                      <input required value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })}
-                        placeholder="e.g. +880 1700-000000"
-                        className="w-full border border-neutral-200 dark:border-neutral-700 text-sm text-neutral-800 dark:text-neutral-200 p-2.5 pl-9 rounded-xl outline-none focus:border-accent-blue transition-colors placeholder:text-neutral-300 dark:placeholder:text-neutral-600 bg-white dark:bg-neutral-800" />
-                    </div>
-                  </div>
-                  <div>
                     <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">License Number</label>
                     <div className="relative">
                       <CreditCard size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 dark:text-neutral-500" />
                       <input value={form.licenseNumber} onChange={e => setForm({ ...form, licenseNumber: e.target.value })}
+                        placeholder="Optional"
+                        className="w-full border border-neutral-200 dark:border-neutral-700 text-sm text-neutral-800 dark:text-neutral-200 p-2.5 pl-9 rounded-xl outline-none focus:border-accent-blue transition-colors placeholder:text-neutral-300 dark:placeholder:text-neutral-600 bg-white dark:bg-neutral-800" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">License Expiry</label>
+                    <div className="relative">
+                      <CreditCard size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 dark:text-neutral-500" />
+                      <input type="date" value={form.licenseExpiry} onChange={e => setForm({ ...form, licenseExpiry: e.target.value })}
                         placeholder="Optional"
                         className="w-full border border-neutral-200 dark:border-neutral-700 text-sm text-neutral-800 dark:text-neutral-200 p-2.5 pl-9 rounded-xl outline-none focus:border-accent-blue transition-colors placeholder:text-neutral-300 dark:placeholder:text-neutral-600 bg-white dark:bg-neutral-800" />
                     </div>
@@ -157,10 +199,12 @@ export const GuestBooking = () => {
                   <div>
                     <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Pickup Date *</label>
                     <DatePicker value={form.pickupDate} onChange={v => setForm({ ...form, pickupDate: v })} placeholder="Select pickup" />
+                    {errors.pickupDate && <p className="text-[10px] text-red-500 mt-1">{errors.pickupDate}</p>}
                   </div>
                   <div>
                     <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Return Date *</label>
                     <DatePicker value={form.returnDate} onChange={v => setForm({ ...form, returnDate: v })} placeholder="Select return" min={form.pickupDate || undefined} />
+                    {errors.returnDate && <p className="text-[10px] text-red-500 mt-1">{errors.returnDate}</p>}
                   </div>
                 </div>
 
@@ -172,7 +216,6 @@ export const GuestBooking = () => {
             </motion.div>
           </div>
 
-          {/* Sidebar - Car & Price */}
           <div className="lg:col-span-1">
             <div className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 shadow-sm p-5 rounded-2xl sticky top-28">
               <div className="h-36 bg-neutral-100 dark:bg-neutral-800 rounded-xl overflow-hidden mb-4">

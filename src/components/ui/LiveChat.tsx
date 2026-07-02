@@ -3,6 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, User, Phone, Mail, MapPin } from 'lucide-react';
 import { useChatStore } from '../../store/useChatStore';
 import { useStore } from '../../store/useStore';
+import { PhoneInput } from './PhoneInput';
+import { CountrySelect } from './CountrySelect';
+import { liveChatSchema } from '../../lib/validations';
 
 type View = 'contact' | 'chat';
 
@@ -17,9 +20,12 @@ export const LiveChat = () => {
 
   const [contactName, setContactName] = useState('');
   const [contactPhone, setContactPhone] = useState('');
+  const [contactCountryCode, setContactCountryCode] = useState('+880');
+  const [contactCountry, setContactCountry] = useState('');
   const [contactEmail, setContactEmail] = useState('');
   const [contactAddress, setContactAddress] = useState('');
   const [contactSubmitted, setContactSubmitted] = useState(false);
+  const [contactErrors, setContactErrors] = useState<Record<string, string>>({});
 
   const currentChat = activeChat ? getChat(activeChat) : null;
 
@@ -70,7 +76,24 @@ export const LiveChat = () => {
 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!contactName.trim() || !contactPhone.trim() || !contactEmail.trim()) return;
+    const result = liveChatSchema.safeParse({
+      name: contactName,
+      email: contactEmail,
+      phone: contactPhone,
+      countryCode: contactCountryCode,
+      country: contactCountry,
+      address: contactAddress,
+    });
+    if (!result.success) {
+      const fieldErrors: Record<string, string> = {};
+      result.error.issues.forEach(issue => {
+        const key = issue.path[0] as string;
+        fieldErrors[key] = issue.message;
+      });
+      setContactErrors(fieldErrors);
+      return;
+    }
+    setContactErrors({});
     setContactSubmitted(true);
 
     const userId = user?.id || 'guest-' + Date.now();
@@ -111,8 +134,11 @@ export const LiveChat = () => {
       setContactSubmitted(false);
       setContactName('');
       setContactPhone('');
+      setContactCountryCode('+880');
+      setContactCountry('');
       setContactEmail('');
       setContactAddress('');
+      setContactErrors({});
       setView('chat');
     }, 2000);
   };
@@ -201,43 +227,41 @@ export const LiveChat = () => {
                     <p className="text-[10px] text-neutral-400 dark:text-neutral-500 uppercase tracking-wider font-display mb-1">
                       Fill in your details to start chatting *
                     </p>
-                    {[
-                      { icon: User, label: 'Your Name', value: contactName, set: setContactName, ph: 'John Doe' },
-                      { icon: Phone, label: 'Phone Number', value: contactPhone, set: setContactPhone, ph: '+880 1XXX XXXXXX' },
-                      { icon: Mail, label: 'Email Address', value: contactEmail, set: setContactEmail, ph: 'you@example.com' },
-                    ].map(f => (
-                      <div key={f.label}>
-                        <label className="text-[10px] text-neutral-500 dark:text-neutral-400 font-display uppercase tracking-widest mb-1 block">{f.label} *</label>
-                        <div className="flex items-center border border-neutral-200 dark:border-neutral-700 p-2.5 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
-                          <f.icon size={14} className="text-neutral-400 mr-2 shrink-0" />
-                          <input
-                            type="text"
-                            required
-                            placeholder={f.ph}
-                            value={f.value}
-                            onChange={e => f.set(e.target.value)}
-                            className="bg-transparent text-xs text-neutral-800 dark:text-neutral-200 placeholder-neutral-400 outline-none w-full"
-                          />
-                        </div>
+                    <div>
+                      <label className="text-[10px] text-neutral-500 dark:text-neutral-400 font-display uppercase tracking-widest mb-1 block">Your Name *</label>
+                      <div className="flex items-center border border-neutral-200 dark:border-neutral-700 p-2.5 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
+                        <User size={14} className="text-neutral-400 mr-2 shrink-0" />
+                        <input type="text" required placeholder="John Doe" value={contactName} onChange={e => setContactName(e.target.value)}
+                          className="bg-transparent text-xs text-neutral-800 dark:text-neutral-200 placeholder-neutral-400 outline-none w-full" />
                       </div>
-                    ))}
+                      {contactErrors.name && <p className="text-[10px] text-red-500 mt-1">{contactErrors.name}</p>}
+                    </div>
+                    <div>
+                      <label className="text-[10px] text-neutral-500 dark:text-neutral-400 font-display uppercase tracking-widest mb-1 block">Email Address *</label>
+                      <div className="flex items-center border border-neutral-200 dark:border-neutral-700 p-2.5 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
+                        <Mail size={14} className="text-neutral-400 mr-2 shrink-0" />
+                        <input type="text" required placeholder="you@example.com" value={contactEmail} onChange={e => setContactEmail(e.target.value)}
+                          className="bg-transparent text-xs text-neutral-800 dark:text-neutral-200 placeholder-neutral-400 outline-none w-full" />
+                      </div>
+                      {contactErrors.email && <p className="text-[10px] text-red-500 mt-1">{contactErrors.email}</p>}
+                    </div>
+                    <div>
+                      <label className="text-[10px] text-neutral-500 dark:text-neutral-400 font-display uppercase tracking-widest mb-1 block">Phone Number *</label>
+                      <PhoneInput value={contactPhone} countryCode={contactCountryCode} onChange={setContactPhone} onCountryCodeChange={setContactCountryCode} error={contactErrors.phone} placeholder="1XXX XXXXXX" />
+                    </div>
+                    <div>
+                      <label className="text-[10px] text-neutral-500 dark:text-neutral-400 font-display uppercase tracking-widest mb-1 block">Country *</label>
+                      <CountrySelect value={contactCountry} onChange={code => { setContactCountry(code); }} error={contactErrors.country} />
+                    </div>
                     <div>
                       <label className="text-[10px] text-neutral-500 dark:text-neutral-400 font-display uppercase tracking-widest mb-1 block">Address (Optional)</label>
                       <div className="flex items-center border border-neutral-200 dark:border-neutral-700 p-2.5 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
                         <MapPin size={14} className="text-neutral-400 mr-2 shrink-0" />
-                        <input
-                          type="text"
-                          placeholder="Your address"
-                          value={contactAddress}
-                          onChange={e => setContactAddress(e.target.value)}
-                          className="bg-transparent text-xs text-neutral-800 dark:text-neutral-200 placeholder-neutral-400 outline-none w-full"
-                        />
+                        <input type="text" placeholder="Your address" value={contactAddress} onChange={e => setContactAddress(e.target.value)}
+                          className="bg-transparent text-xs text-neutral-800 dark:text-neutral-200 placeholder-neutral-400 outline-none w-full" />
                       </div>
                     </div>
-                    <button
-                      type="submit"
-                      className="w-full py-2.5 bg-accent-blue text-white text-xs font-bold rounded-lg hover:bg-blue-700 transition-colors cursor-pointer"
-                    >
+                    <button type="submit" className="w-full py-2.5 bg-accent-blue text-white text-xs font-bold rounded-lg hover:bg-blue-700 active:scale-[0.98] transition-all cursor-pointer">
                       Start Chat
                     </button>
                   </form>

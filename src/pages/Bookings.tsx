@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { CreditCard, User, Mail, Phone, Check, Upload, FileText } from 'lucide-react';
+import { CreditCard, User, Mail, Check, Upload, FileText } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { Button } from '../components/ui/Button';
 import { Breadcrumbs } from '../components/Breadcrumbs';
+import { PhoneInput } from '../components/ui/PhoneInput';
+import { CountrySelect } from '../components/ui/CountrySelect';
+import { LocationSelect } from '../components/ui/LocationSelect';
 import { calculateBookingCost, formatPrice } from '../lib/pricing';
+import { passengerInfoSchema } from '../lib/validations';
 
 const steps = [
   { num: 1, label: 'Review' },
@@ -14,12 +18,13 @@ const steps = [
   { num: 4, label: 'Confirmation' },
 ];
 
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-interface PassengerErrors {
+interface FormErrors {
   name?: string;
   email?: string;
   phone?: string;
+  countryCode?: string;
+  country?: string;
+  location?: string;
   nid?: string;
 }
 
@@ -37,11 +42,14 @@ export const Bookings: React.FC = () => {
   const [name, setName] = useState(user?.name || '');
   const [email, setEmail] = useState(user?.email || '');
   const [phone, setPhone] = useState('');
+  const [countryCode, setCountryCode] = useState('+880');
+  const [country, setCountry] = useState('');
+  const [location, setLocation] = useState('');
   const [nidFile, setNidFile] = useState<File | null>(null);
   const [nidPreview, setNidPreview] = useState('');
   const [pickup] = useState(searchParams.get('pickup') || today);
   const [returnD] = useState(searchParams.get('return') || tomorrow);
-  const [errors, setErrors] = useState<PassengerErrors>({});
+  const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState(false);
 
   const handleNidUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,18 +61,23 @@ export const Bookings: React.FC = () => {
     setErrors(p => ({ ...p, nid: undefined }));
   };
 
-  const validatePassengerInfo = (): PassengerErrors => {
-    const errs: PassengerErrors = {};
-    if (name.trim().length < 2) errs.name = 'Name must be at least 2 characters';
-    if (!emailRegex.test(email)) errs.email = 'Please enter a valid email';
-    if (phone.trim().length < 8) errs.phone = 'Phone must be at least 8 characters';
-    if (!nidFile) errs.nid = 'NID upload is required for verification';
-    return errs;
+  const validatePassengerInfo = (): FormErrors => {
+    const result = passengerInfoSchema.safeParse({ name, email, phone, countryCode, country, location });
+    if (!result.success) {
+      const fieldErrors: FormErrors = {};
+      result.error.issues.forEach(issue => {
+        const key = issue.path[0] as keyof FormErrors;
+        fieldErrors[key] = issue.message;
+      });
+      return fieldErrors;
+    }
+    return {};
   };
 
   const goToStep3 = () => {
     setTouched(true);
     const errs = validatePassengerInfo();
+    if (!nidFile) errs.nid = 'NID upload is required for verification';
     setErrors(errs);
     if (Object.keys(errs).length === 0) setStep(3);
   };
@@ -90,7 +103,7 @@ export const Bookings: React.FC = () => {
       pickupDate: pickup, returnDate: returnD,
       totalDays: days, totalPrice: total, status: 'Upcoming',
       bookingRef: 'AR-' + Date.now().toString(36).toUpperCase(),
-      driverInfo: { fullName: name, email, phone, licenseNumber: 'N/A - Company Driver', licenseExpiry: '' },
+      driverInfo: { fullName: name, email, phone: `${countryCode} ${phone}`, licenseNumber: 'N/A - Company Driver', licenseExpiry: '' },
     });
     setCreatedBookingId(booking.id);
     setStep(4);
@@ -142,26 +155,49 @@ export const Bookings: React.FC = () => {
                 <h3 className="font-display text-sm font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wider mb-2">Passenger Information</h3>
                 <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-5">Our professional driver will handle the ride. Just provide your details.</p>
                 <div className="space-y-4">
-                  {[
-                    { key: 'name', icon: User, label: 'Full Name', value: name, set: setName, type: 'text', ph: 'Your name' },
-                    { key: 'email', icon: Mail, label: 'Email', value: email, set: setEmail, type: 'email', ph: 'your@email.com' },
-                    { key: 'phone', icon: Phone, label: 'Phone', value: phone, set: setPhone, type: 'tel', ph: '+880 1XXX XXXXXX' },
-                  ].map((f) => {
-                    const fieldKey = f.key as keyof PassengerErrors;
-                    return (
-                      <div key={f.key}>
-                        <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">{f.label}</label>
-                        <div className="flex items-center border border-neutral-200 dark:border-neutral-700 p-3 bg-white dark:bg-neutral-800 rounded-lg">
-                          <f.icon size={15} className="text-neutral-400 dark:text-neutral-500 mr-2 shrink-0" />
-                          <input type={f.type} placeholder={f.ph} value={f.value} onChange={(e) => { f.set(e.target.value); if (touched) setErrors(validatePassengerInfo()); }}
-                            className="bg-transparent text-sm text-neutral-800 dark:text-neutral-200 placeholder-neutral-400 dark:placeholder-neutral-600 outline-none w-full font-sans" />
-                        </div>
-                        {errors[fieldKey] && <p className="text-[10px] text-red-500 mt-1">{errors[fieldKey]}</p>}
-                      </div>
-                    );
-                  })}
+                  <div>
+                    <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Full Name *</label>
+                    <div className="flex items-center border border-neutral-200 dark:border-neutral-700 p-3 bg-white dark:bg-neutral-800 rounded-lg">
+                      <User size={15} className="text-neutral-400 dark:text-neutral-500 mr-2 shrink-0" />
+                      <input type="text" placeholder="Your name" value={name} onChange={e => { setName(e.target.value); if (touched) setErrors(validatePassengerInfo()); }}
+                        className="bg-transparent text-sm text-neutral-800 dark:text-neutral-200 placeholder-neutral-400 dark:placeholder-neutral-600 outline-none w-full font-sans" />
+                    </div>
+                    {errors.name && <p className="text-[10px] text-red-500 mt-1">{errors.name}</p>}
+                  </div>
 
-                  {/* NID Upload */}
+                  <div>
+                    <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Email *</label>
+                    <div className="flex items-center border border-neutral-200 dark:border-neutral-700 p-3 bg-white dark:bg-neutral-800 rounded-lg">
+                      <Mail size={15} className="text-neutral-400 dark:text-neutral-500 mr-2 shrink-0" />
+                      <input type="email" placeholder="your@email.com" value={email} onChange={e => { setEmail(e.target.value); if (touched) setErrors(validatePassengerInfo()); }}
+                        className="bg-transparent text-sm text-neutral-800 dark:text-neutral-200 placeholder-neutral-400 dark:placeholder-neutral-600 outline-none w-full font-sans" />
+                    </div>
+                    {errors.email && <p className="text-[10px] text-red-500 mt-1">{errors.email}</p>}
+                  </div>
+
+                  <div>
+                    <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Phone *</label>
+                    <PhoneInput
+                      value={phone}
+                      countryCode={countryCode}
+                      onChange={v => { setPhone(v); if (touched) setErrors(validatePassengerInfo()); }}
+                      onCountryCodeChange={v => { setCountryCode(v); if (touched) setErrors(validatePassengerInfo()); }}
+                      error={errors.phone}
+                      placeholder="1XXX XXXXXX"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Country *</label>
+                      <CountrySelect value={country} onChange={v => { setCountry(v); setLocation(''); if (touched) setErrors(validatePassengerInfo()); }} error={errors.country} />
+                    </div>
+                    <div>
+                      <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">City / Location *</label>
+                      <LocationSelect countryCode={country} value={location} onChange={v => { setLocation(v); if (touched) setErrors(validatePassengerInfo()); }} error={errors.location} />
+                    </div>
+                  </div>
+
                   <div>
                     <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">National ID (NID) *</label>
                     <label className={`flex items-center justify-center gap-3 p-4 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${nidFile ? 'border-green-400 bg-green-50 dark:bg-green-950/20' : 'border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 hover:border-accent-blue/50'}`}>
@@ -210,6 +246,9 @@ export const Bookings: React.FC = () => {
                   {[
                     { label: 'Passenger', value: name },
                     { label: 'Email', value: email },
+                    { label: 'Phone', value: `${countryCode} ${phone}` },
+                    { label: 'Country', value: country || 'N/A' },
+                    { label: 'Location', value: location || 'N/A' },
                     { label: 'Vehicle', value: `${car.brand} ${car.name}` },
                     { label: 'Duration', value: `${days} day${days > 1 ? 's' : ''}` },
                     { label: 'NID', value: nidFile ? 'Uploaded ✓' : 'Not uploaded' },

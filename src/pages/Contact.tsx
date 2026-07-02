@@ -3,6 +3,10 @@ import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { Button } from '../components/ui/Button';
+import { PhoneInput } from '../components/ui/PhoneInput';
+import { CountrySelect } from '../components/ui/CountrySelect';
+import { LocationSelect } from '../components/ui/LocationSelect';
+import { contactFormSchema } from '../lib/validations';
 
 const contactInfo = [
   { icon: Mail, label: 'Email', value: 'hello@apexride.com' },
@@ -11,14 +15,32 @@ const contactInfo = [
 ];
 
 export const Contact = () => {
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    countryCode: '+880',
+    country: '',
+    location: '',
+    message: '',
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [sent, setSent] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (form.name.trim() && form.email.trim() && form.message.trim()) {
-      setSent(true);
+    const result = contactFormSchema.safeParse(form);
+    if (!result.success) {
+      const fieldErrors: Record<string, string> = {};
+      result.error.issues.forEach(issue => {
+        const key = issue.path[0] as string;
+        fieldErrors[key] = issue.message;
+      });
+      setErrors(fieldErrors);
+      return;
     }
+    setErrors({});
+    setSent(true);
   };
 
   return (
@@ -35,7 +57,6 @@ export const Contact = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {/* Contact Info */}
           <div className="space-y-4">
             {contactInfo.map((info) => (
               <div key={info.label} className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 shadow-sm p-5 rounded-2xl flex items-center gap-4">
@@ -50,7 +71,6 @@ export const Contact = () => {
             ))}
           </div>
 
-          {/* Contact Form */}
           <div className="lg:col-span-2">
             <div className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 shadow-sm p-6 sm:p-8 rounded-2xl">
               {sent ? (
@@ -65,23 +85,50 @@ export const Contact = () => {
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Your Name</label>
+                      <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Your Name *</label>
                       <input required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
                         placeholder="e.g. Rahim Uddin"
-                        className="w-full border border-neutral-200 dark:border-neutral-700 text-sm text-neutral-800 dark:text-neutral-200 p-3 rounded-xl outline-none focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/10 transition-all duration-200 placeholder:text-neutral-300 dark:placeholder:text-neutral-600 bg-white dark:bg-neutral-800" />
+                        className={`w-full border text-sm text-neutral-800 dark:text-neutral-200 p-3 rounded-xl outline-none transition-all duration-200 placeholder:text-neutral-300 dark:placeholder:text-neutral-600 bg-white dark:bg-neutral-800 ${errors.name ? 'border-red-500' : 'border-neutral-200 dark:border-neutral-700 focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/10'}`} />
+                      {errors.name && <p className="text-[10px] text-red-500 mt-1">{errors.name}</p>}
                     </div>
                     <div>
-                      <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Your Email</label>
+                      <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Your Email *</label>
                       <input required type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}
                         placeholder="e.g. rahim@gmail.com"
-                        className="w-full border border-neutral-200 dark:border-neutral-700 text-sm text-neutral-800 dark:text-neutral-200 p-3 rounded-xl outline-none focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/10 transition-all duration-200 placeholder:text-neutral-300 dark:placeholder:text-neutral-600 bg-white dark:bg-neutral-800" />
+                        className={`w-full border text-sm text-neutral-800 dark:text-neutral-200 p-3 rounded-xl outline-none transition-all duration-200 placeholder:text-neutral-300 dark:placeholder:text-neutral-600 bg-white dark:bg-neutral-800 ${errors.email ? 'border-red-500' : 'border-neutral-200 dark:border-neutral-700 focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/10'}`} />
+                      {errors.email && <p className="text-[10px] text-red-500 mt-1">{errors.email}</p>}
                     </div>
                   </div>
+
                   <div>
-                    <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Message</label>
+                    <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Phone Number</label>
+                    <PhoneInput
+                      value={form.phone}
+                      countryCode={form.countryCode}
+                      onChange={phone => setForm({ ...form, phone })}
+                      onCountryCodeChange={code => setForm({ ...form, countryCode: code })}
+                      error={errors.phone}
+                      placeholder="1XXX XXXXXX"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Country</label>
+                      <CountrySelect value={form.country} onChange={code => setForm({ ...form, country: code, location: '' })} error={errors.country} />
+                    </div>
+                    <div>
+                      <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">City / Location</label>
+                      <LocationSelect countryCode={form.country} value={form.location} onChange={loc => setForm({ ...form, location: loc })} error={errors.location} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-[10px] text-neutral-400 dark:text-neutral-500 font-display uppercase tracking-widest mb-1.5 block">Message *</label>
                     <textarea required rows={5} value={form.message} onChange={e => setForm({ ...form, message: e.target.value })}
                       placeholder="Tell us what's on your mind..."
-                      className="w-full border border-neutral-200 dark:border-neutral-700 text-sm text-neutral-800 dark:text-neutral-200 p-3 rounded-xl outline-none focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/10 transition-all duration-200 placeholder:text-neutral-300 dark:placeholder:text-neutral-600 resize-none bg-white dark:bg-neutral-800" />
+                      className={`w-full border text-sm text-neutral-800 dark:text-neutral-200 p-3 rounded-xl outline-none transition-all duration-200 placeholder:text-neutral-300 dark:placeholder:text-neutral-600 resize-none bg-white dark:bg-neutral-800 ${errors.message ? 'border-red-500' : 'border-neutral-200 dark:border-neutral-700 focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/10'}`} />
+                    {errors.message && <p className="text-[10px] text-red-500 mt-1">{errors.message}</p>}
                   </div>
                   <Button type="submit" variant="primary" className="rounded-xl">
                     <Send size={14} className="mr-1.5" /> Send Message
