@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { type Car, type Booking, type User, INITIAL_CARS } from '../data/mockCars';
-import { authApi, carsApi, bookingsApi } from '../lib/api';
+import { authApi, carsApi } from '../lib/api';
 
 interface AppState {
   cars: Car[];
@@ -26,7 +26,7 @@ interface AppState {
 
 export const useStore = create<AppState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       cars: INITIAL_CARS,
       user: null,
       wishlist: [],
