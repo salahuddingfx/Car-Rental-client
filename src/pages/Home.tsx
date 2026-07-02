@@ -9,10 +9,13 @@ import { OfferSection } from '../sections/OfferSection';
 import { FaqSection } from '../sections/FaqSection';
 import { RecentlyViewedSection } from '../components/sections/RecentlyViewedSection';
 import { PopularCarsSection } from '../components/sections/PopularCarsSection';
+import { ContactCTA } from '../components/sections/ContactCTA';
+import { useCMS } from '../hooks/useCMS';
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
   const { cars } = useStore();
+  const cms = useCMS();
 
   const [searchLoc, setSearchLoc] = useState('');
   const [searchPickup, setSearchPickup] = useState('');
@@ -26,6 +29,8 @@ export const Home: React.FC = () => {
     if (searchReturn) qp.push(`return=${searchReturn}`);
     navigate(`/cars${qp.length ? `?${qp.join('&')}` : ''}`);
   };
+
+  const contactCTA = cms?.home?.contactCTA;
 
   return (
     <div className="relative overflow-x-hidden min-h-screen">
@@ -51,6 +56,13 @@ export const Home: React.FC = () => {
         <WhyChooseUsSection />
 
         <OfferSection />
+
+        <ContactCTA
+          title={contactCTA?.title}
+          subtitle={contactCTA?.subtitle}
+          ctaText={contactCTA?.ctaText}
+          ctaLink={contactCTA?.ctaLink}
+        />
 
         <FaqSection />
       </div>
