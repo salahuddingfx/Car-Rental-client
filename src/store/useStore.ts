@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { type Car, type Booking, type User, INITIAL_CARS } from '../data/mockCars';
+import { authApi, carsApi, bookingsApi } from '../lib/api';
 
 interface AppState {
   cars: Car[];
@@ -8,8 +9,10 @@ interface AppState {
   wishlist: string[];
   bookings: Booking[];
   guestBookings: Booking[];
-  login: (email: string, role?: 'user' | 'host' | 'company' | 'driver') => void;
+  login: (email: string, password: string) => Promise<boolean>;
+  register: (name: string, email: string, password: string) => Promise<boolean>;
   logout: () => void;
+  fetchCars: (params?: Record<string, string | number | boolean>) => Promise<void>;
   toggleWishlist: (carId: string) => void;
   addBooking: (booking: Omit<Booking, 'id'>) => Booking;
   addGuestBooking: (booking: Omit<Booking, 'id' | 'userId'>) => Booking;
@@ -23,58 +26,99 @@ interface AppState {
 
 export const useStore = create<AppState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       cars: INITIAL_CARS,
-      user: {
-        id: 'user-123',
-        name: 'James Harrison',
-        email: 'james@luxury.com',
-        avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150',
-        role: 'user',
-        drivingLicense: {
-          licenseNumber: 'DL-9847291-A',
-          expiryDate: '2029-12-31',
-          country: 'United States',
-          verified: true
-        },
-        balance: 12500,
-      },
-      wishlist: ['car-1', 'car-3'],
+      user: null,
+      wishlist: [],
       guestBookings: [],
-      bookings: [
-        {
-          id: 'booking-1',
-          carId: 'car-3',
-          userId: 'user-123',
-          pickupDate: '2026-07-10',
-          returnDate: '2026-07-12',
-          totalDays: 2,
-          totalPrice: 1040,
-          status: 'Upcoming',
-          driverInfo: {
-            fullName: 'James Harrison',
-            email: 'james@luxury.com',
-            phone: '+1 (555) 019-2834',
-            licenseNumber: 'DL-9847291-A',
-            licenseExpiry: '2029-12-31'
-          }
-        }
-      ],
+      bookings: [],
 
-      login: (email, role = 'user') => {
-        set({
-          user: {
-            id: crypto.randomUUID(),
-            name: email.split('@')[0].toUpperCase(),
-            email: email,
-            avatar: `https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150`,
-            role: role,
-            balance: 5000,
-          }
-        });
+      login: async (email, password) => {
+        try {
+          const { data } = await authApi.login(email, password);
+          localStorage.setItem('user_token', data.token);
+          const apiUser = data.user;
+          set({
+            user: {
+              id: String(apiUser.id),
+              name: apiUser.name,
+              email: apiUser.email,
+              avatar: apiUser.avatar || `https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150`,
+              role: apiUser.role as User['role'],
+              balance: Number(apiUser.balance),
+              drivingLicense: apiUser.license_number ? {
+                licenseNumber: apiUser.license_number,
+                expiryDate: apiUser.license_expiry || '',
+                country: apiUser.license_country || '',
+                verified: apiUser.license_verified,
+              } : undefined,
+            },
+          });
+          return true;
+        } catch {
+          return false;
+        }
       },
 
-      logout: () => set({ user: null }),
+      register: async (name, email, password) => {
+        try {
+          const { data } = await authApi.register({ name, email, password, password_confirmation: password });
+          localStorage.setItem('user_token', data.token);
+          const apiUser = data.user;
+          set({
+            user: {
+              id: String(apiUser.id),
+              name: apiUser.name,
+              email: apiUser.email,
+              avatar: apiUser.avatar || `https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150`,
+              role: apiUser.role as User['role'],
+              balance: Number(apiUser.balance),
+            },
+          });
+          return true;
+        } catch {
+          return false;
+        }
+      },
+
+      logout: () => {
+        localStorage.removeItem('user_token');
+        set({ user: null });
+      },
+
+      fetchCars: async (params?) => {
+        try {
+          const { data } = await carsApi.list(params);
+          const mapped: Car[] = data.data.map((c) => ({
+            id: String(c.id),
+            name: c.name,
+            brand: c.brand,
+            category: c.category as Car['category'],
+            price: c.price,
+            seats: c.seats,
+            transmission: c.transmission,
+            fuel: c.fuel,
+            power: c.power || '',
+            speed: c.speed || '',
+            description: c.description || '',
+            features: c.features || [],
+            image: c.image || '',
+            images: c.images || [],
+            location: c.location || '',
+            year: c.year || '',
+            rating: c.rating,
+            reviewsCount: c.reviews_count,
+            reviews: [],
+            ratingBreakdown: { cleanliness: c.rating, communication: c.rating, listingAccuracy: c.rating },
+            hostName: 'Host',
+            hostAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150',
+            hostRating: c.rating,
+          }));
+          set({ cars: mapped });
+        } catch {
+          // Keep local cars as fallback
+        }
+      },
 
       toggleWishlist: (carId) => set((state) => {
         const index = state.wishlist.indexOf(carId);

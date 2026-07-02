@@ -17,7 +17,7 @@ interface AuthErrors {
 
 export const Auth: React.FC = () => {
   const navigate = useNavigate();
-  const { login, user } = useStore();
+  const { login, register, user } = useStore();
 
   useEffect(() => {
     if (user) {
@@ -43,18 +43,25 @@ export const Auth: React.FC = () => {
     return errs;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setTouched(true);
     const errs = validate();
     setErrors(errs);
     if (Object.keys(errs).length > 0) return;
     setLoading(true);
-    setTimeout(() => {
-      login(email);
+    let success: boolean;
+    if (isLogin) {
+      success = await login(email, password);
+    } else {
+      success = await register(name, email, password);
+    }
+    if (success) {
       navigate('/dashboard');
-      setLoading(false);
-    }, 800);
+    } else {
+      setErrors({ email: 'Invalid credentials or server unavailable' });
+    }
+    setLoading(false);
   };
 
   const handleBlur = () => {
