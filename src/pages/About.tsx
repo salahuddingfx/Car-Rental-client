@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Shield, Users, Car, Award, DollarSign, Headphones, Zap, Star } from 'lucide-react';
+import { Shield, Users, Car, Award, DollarSign, Headphones, Zap, Star, Target, Eye } from 'lucide-react';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { Timeline } from '../components/sections/Timeline';
 import { useCMS } from '../hooks/useCMS';
@@ -62,6 +62,33 @@ export const About = () => {
               </motion.div>
             );
           })}
+        </div>
+
+        {/* Mission & Vision */}
+        <div className="mb-20">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+              className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 shadow-sm p-8 rounded-2xl">
+              <div className="w-14 h-14 rounded-2xl bg-accent-blue/10 flex items-center justify-center mb-5">
+                <Target size={26} className="text-accent-blue" />
+              </div>
+              <h3 className="font-display text-lg font-bold text-neutral-800 dark:text-neutral-200 mb-3">Our Mission</h3>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
+                To provide a seamless, trustworthy, and premium car rental experience that empowers every driver to explore with confidence. We bridge the gap between quality vehicles and discerning travelers through innovation and exceptional service.
+              </p>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+              className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 shadow-sm p-8 rounded-2xl">
+              <div className="w-14 h-14 rounded-2xl bg-accent-blue/10 flex items-center justify-center mb-5">
+                <Eye size={26} className="text-accent-blue" />
+              </div>
+              <h3 className="font-display text-lg font-bold text-neutral-800 dark:text-neutral-200 mb-3">Our Vision</h3>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
+                To become the most trusted and preferred car rental platform across Bangladesh and beyond — setting the standard for quality, transparency, and customer satisfaction in the modern mobility landscape.
+              </p>
+            </motion.div>
+          </div>
         </div>
 
         {/* Values */}
