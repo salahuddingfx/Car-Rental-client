@@ -47,7 +47,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({ value, onChange, placeho
   const isPast = (d: number) => {
     const dt = new Date(year, month, d);
     const t = new Date(); t.setHours(0,0,0,0);
-    return dt < t || (minDate && dt < minDate);
+    return dt < t || (minDate !== null && dt < minDate);
   };
 
   const isSelected = (d: number) => {

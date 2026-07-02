@@ -54,17 +54,17 @@ export const IDVerification: React.FC = () => {
         <div className="flex items-center justify-center gap-3 mb-10">
           {steps.map((s, i) => (
             <div key={s.id} className="flex items-center gap-3">
-              <div className={`flex items-center gap-2 ${i < steps.indexOf(step) || step === 'done' ? 'text-green-500' : step === s.id ? 'text-accent-blue' : 'text-neutral-400 dark:text-neutral-500'}`}>
+              <div className={`flex items-center gap-2 ${i < steps.findIndex(st => st.id === step) || step === 'done' ? 'text-green-500' : step === s.id ? 'text-accent-blue' : 'text-neutral-400 dark:text-neutral-500'}`}>
                 <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-colors ${
-                  i < steps.indexOf(step) || step === 'done' ? 'bg-green-500 border-green-500 text-white' :
+                  i < steps.findIndex(st => st.id === step) || step === 'done' ? 'bg-green-500 border-green-500 text-white' :
                   step === s.id ? 'border-accent-blue bg-accent-blue/10' :
                   'border-neutral-200 dark:border-neutral-700'
                 }`}>
-                  {i < steps.indexOf(step) || step === 'done' ? <CheckCircle size={14} /> : i + 1}
+                  {i < steps.findIndex(st => st.id === step) || step === 'done' ? <CheckCircle size={14} /> : i + 1}
                 </span>
                 <span className="text-xs font-medium hidden sm:block">{s.label}</span>
               </div>
-              {i < steps.length - 1 && <div className={`w-8 h-px ${i < steps.indexOf(step) ? 'bg-green-500' : 'bg-neutral-200 dark:bg-neutral-700'}`} />}
+              {i < steps.length - 1 && <div className={`w-8 h-px ${i < steps.findIndex(st => st.id === step) ? 'bg-green-500' : 'bg-neutral-200 dark:bg-neutral-700'}`} />}
             </div>
           ))}
         </div>

@@ -110,8 +110,6 @@ const blogPosts: Record<string, {
   },
 };
 
-const slugify = (title: string) => title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-
 export const BlogPost: React.FC = () => {
   const { slug } = useParams();
   const post = slug ? blogPosts[slug] : null;

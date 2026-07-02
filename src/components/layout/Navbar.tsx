@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Bell, User as UserIcon, Menu, X, Heart, LogOut, Calendar, Sun, Moon } from 'lucide-react';
+import { Search, User as UserIcon, Menu, X, Heart, LogOut, Calendar, Sun, Moon } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import { useThemeStore } from '../../store/useThemeStore';
 import { useLanguageStore } from '../../store/useLanguageStore';
@@ -27,11 +27,11 @@ export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
     useEffect(() => { const h = () => setIsScrolled(window.scrollY > 50); window.addEventListener('scroll', h); return () => window.removeEventListener('scroll', h); }, []);
-  useEffect(() => { setIsMobileMenuOpen(false); setIsSearchOpen(false); setIsNotificationsOpen(false); setIsProfileOpen(false); }, [location.pathname]);
+  useEffect(() => { setIsMobileMenuOpen(false); setIsSearchOpen(false); setIsProfileOpen(false); }, [location.pathname]);
 
   const handleSearchSubmit = (e: React.FormEvent) => { e.preventDefault(); if (searchQuery.trim()) { navigate(`/cars?search=${encodeURIComponent(searchQuery)}`); setIsSearchOpen(false); } };
   const filteredCars = searchQuery.trim() ? cars.filter(c => c.name.toLowerCase().includes(searchQuery.toLowerCase()) || c.brand.toLowerCase().includes(searchQuery.toLowerCase()) || c.location.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 5) : [];

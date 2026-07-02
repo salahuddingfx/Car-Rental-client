@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Rocket, MapPin, Smartphone, Car, Globe, Zap, Search, Calendar, Truck, Map, CheckCircle, Star, Award, Users, Heart, Shield } from 'lucide-react';

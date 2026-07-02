@@ -52,7 +52,6 @@ export const PremiumHeroSection: React.FC = () => {
   const [loaded, setLoaded] = useState<boolean[]>(slides.map(() => false));
   const [progress, setProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [searchLoc, setSearchLoc] = useState('');
   const [searchPickup, setSearchPickup] = useState('');
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -84,13 +83,6 @@ export const PremiumHeroSection: React.FC = () => {
     timerRef.current = interval;
     return () => clearInterval(interval);
   }, [next, isPaused]);
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    const params = new URLSearchParams();
-    if (searchLoc) params.set('search', searchLoc);
-    navigate(`/cars?${params.toString()}`);
-  };
 
   const handleCta = () => {
     if (current === 0) navigate('/cars');

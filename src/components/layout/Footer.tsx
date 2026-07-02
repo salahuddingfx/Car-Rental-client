@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Globe, MessageCircle, ArrowRight, Mail, Phone, MapPin, Heart, Map } from 'lucide-react';
+import { Globe, MessageCircle, ArrowRight, Mail, Phone, MapPin, Heart } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const [email, setEmail] = useState('');

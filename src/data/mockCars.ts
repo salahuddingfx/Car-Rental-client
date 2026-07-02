@@ -11,14 +11,14 @@ export interface Car {
   id: string;
   name: string;
   brand: string;
-  category: 'Sports' | 'Luxury' | 'Supercar' | 'SUV' | 'Electric';
+  category: 'Sports' | 'Luxury' | 'Supercar' | 'SUV' | 'Electric' | 'Sedan' | 'Hatchback' | 'Van';
   price: number;
   rating: number;
   reviewsCount: number;
   image: string;
   images: string[];
   fuel: 'Electric' | 'Petrol' | 'Hybrid' | 'Diesel';
-  transmission: 'Automatic' | 'Manual';
+  transmission: 'Automatic' | 'Manual' | 'Automatic (CVT)';
   seats: number;
   power: string;
   speed: string;

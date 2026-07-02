@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Gift, Copy, CheckCircle, Users, ArrowRight, Share2 } from 'lucide-react';
+import { Gift, Copy, CheckCircle, Users, Share2 } from 'lucide-react';
 import { Breadcrumbs } from '../components/Breadcrumbs';
-import { Button } from '../components/ui/Button';
 import { useToastStore } from '../store/useToastStore';
 import { useStore } from '../store/useStore';
 
@@ -92,7 +91,7 @@ export const ReferralProgram: React.FC = () => {
               { step: '2', title: 'Friend Signs Up', desc: 'They register using your referral code' },
               { step: '3', title: 'They Book a Car', desc: 'Your friend completes their first rental' },
               { step: '4', title: 'You Earn ৳500', desc: 'Credit is added to your account balance' },
-            ].map((item, i) => (
+            ].map((item) => (
               <div key={item.step} className="flex items-start gap-3">
                 <div className="w-7 h-7 rounded-full bg-pink-100 dark:bg-pink-950/30 flex items-center justify-center shrink-0">
                   <span className="text-xs font-bold text-pink-600">{item.step}</span>

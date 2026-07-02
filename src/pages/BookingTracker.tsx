@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { MapPin, Star, Clock, Check, Car, User, Phone, Mail, Shield, AlertTriangle, X, ChevronRight } from 'lucide-react';
+import { MapPin, Star, Check, Car, User, Phone, Mail, AlertTriangle, X, ChevronRight } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { Button } from '../components/ui/Button';
 import { Breadcrumbs } from '../components/Breadcrumbs';
@@ -17,7 +17,7 @@ const statusSteps = [
 export const BookingTracker: React.FC = () => {
   const { bookingId } = useParams();
   const navigate = useNavigate();
-  const { bookings, guestBookings, cars, cancelBooking, user } = useStore();
+  const { bookings, guestBookings, cars, cancelBooking } = useStore();
 
   const allBookings = [...bookings, ...guestBookings];
   const booking = allBookings.find(b => b.id === bookingId);

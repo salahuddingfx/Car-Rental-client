@@ -89,6 +89,7 @@ export const Bookings: React.FC = () => {
       carId: car.id, userId: user.id,
       pickupDate: pickup, returnDate: returnD,
       totalDays: days, totalPrice: total, status: 'Upcoming',
+      bookingRef: 'AR-' + Date.now().toString(36).toUpperCase(),
       driverInfo: { fullName: name, email, phone, licenseNumber: 'N/A - Company Driver', licenseExpiry: '' },
     });
     setCreatedBookingId(booking.id);

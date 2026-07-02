@@ -29,8 +29,8 @@ export const About = () => {
   const stats = cms?.about?.stats?.map(s => ({ ...s, icon: Car })) || defaultStats;
   const values = cms?.about?.values || defaultValues;
   const cta = cms?.about?.cta;
-  const timelineEvents = cms?.timeline?.events || [];
-  const processSteps = cms?.timeline?.processSteps || [];
+  const timelineEvents = (cms?.timeline?.events || []).map((e) => ({ ...e, type: e.type as 'journey' | 'process' }));
+  const processSteps = (cms?.timeline?.processSteps || []).map((s) => ({ ...s }));
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-light-bg to-white dark:from-neutral-950 dark:to-neutral-900 pt-24 pb-16">
@@ -52,7 +52,7 @@ export const About = () => {
           {stats.map((s) => {
             const Icon = typeof s.icon === 'string' ? (iconMap[s.icon] || Car) : s.icon;
             return (
-              <motion.div key={s.id || s.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+              <motion.div key={s.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
                 className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 shadow-sm p-6 rounded-2xl text-center">
                 <div className="w-12 h-12 rounded-xl bg-accent-blue/10 flex items-center justify-center mx-auto mb-3">
                   <Icon size={22} className="text-accent-blue" />
@@ -71,7 +71,7 @@ export const About = () => {
             {values.map((v) => {
               const Icon = iconMap[v.icon] || Star;
               return (
-                <motion.div key={v.id || v.title} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+                <motion.div key={v.title} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
                   className="bg-white dark:bg-neutral-900 border border-neutral-200/60 dark:border-neutral-800 shadow-sm p-6 rounded-2xl">
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-10 h-10 rounded-xl bg-accent-blue/10 flex items-center justify-center">

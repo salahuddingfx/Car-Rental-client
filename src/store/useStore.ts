@@ -96,8 +96,8 @@ export const useStore = create<AppState>()(
             category: c.category as Car['category'],
             price: c.price,
             seats: c.seats,
-            transmission: c.transmission,
-            fuel: c.fuel,
+            transmission: c.transmission as Car['transmission'],
+            fuel: c.fuel as Car['fuel'],
             power: c.power || '',
             speed: c.speed || '',
             description: c.description || '',
@@ -113,6 +113,7 @@ export const useStore = create<AppState>()(
             hostName: 'Host',
             hostAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150',
             hostRating: c.rating,
+            isAvailable: true,
           }));
           set({ cars: mapped });
         } catch {

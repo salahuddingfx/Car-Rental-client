@@ -34,9 +34,9 @@ export const Dashboard = () => {
 
   const [newCar, setNewCar] = useState({
     name: '', brand: '', category: 'Luxury' as const, price: 0, location: 'Dhaka',
-    seats: 4, transmission: 'Automatic' as const, fuelType: 'Petrol' as const, year: 2024,
+    seats: 4, transmission: 'Automatic' as const, fuel: 'Petrol' as const, year: 2024,
     image: 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=800',
-    images: [] as string[], description: '', features: [] as string[], available: true,
+    images: [] as string[], description: '', features: [] as string[], power: '', speed: '', isAvailable: true,
   });
 
   if (!user) {
@@ -64,9 +64,9 @@ export const Dashboard = () => {
     addCar({ ...newCar });
     setNewCar({
       name: '', brand: '', category: 'Luxury', price: 0, location: 'Dhaka',
-      seats: 4, transmission: 'Automatic', fuelType: 'Petrol', year: 2024,
+      seats: 4, transmission: 'Automatic', fuel: 'Petrol', year: 2024,
       image: 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=800',
-      images: [], description: '', features: [], available: true,
+      images: [], description: '', features: [], power: '', speed: '', isAvailable: true,
     });
     switchTab('my-cars');
   };
@@ -312,7 +312,7 @@ export const Dashboard = () => {
                       </div>
                       <div>
                         <label className="text-[10px] text-neutral-400 font-display uppercase tracking-widest mb-1 block">Fuel</label>
-                        <select value={newCar.fuelType} onChange={e => setNewCar(p => ({ ...p, fuelType: e.target.value as any }))}
+                        <select value={newCar.fuel} onChange={e => setNewCar(p => ({ ...p, fuel: e.target.value as any }))}
                           className="w-full border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm text-neutral-800 dark:text-neutral-200 p-2.5 rounded-xl outline-none focus:border-accent-blue transition-colors">
                           <option>Petrol</option><option>Diesel</option><option>Electric</option><option>Hybrid</option>
                         </select>

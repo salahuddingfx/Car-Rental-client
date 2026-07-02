@@ -8,7 +8,7 @@ type View = 'contact' | 'chat';
 
 export const LiveChat = () => {
   const { user } = useStore();
-  const { createChat, sendMessage, getChat, getChatsByUser, markAsRead } = useChatStore();
+  const { createChat, sendMessage, getChat, markAsRead } = useChatStore();
   const [isOpen, setIsOpen] = useState(false);
   const [view, setView] = useState<View>('contact');
   const [activeChat, setActiveChat] = useState<string | null>(null);
@@ -116,8 +116,6 @@ export const LiveChat = () => {
       setView('chat');
     }, 2000);
   };
-
-  const hasExistingChat = user ? getChatsByUser(user.id).length > 0 : false;
 
   const [showGreeting, setShowGreeting] = useState(false);
 

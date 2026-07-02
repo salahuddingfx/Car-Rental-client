@@ -10,13 +10,10 @@ export const BookingLookup: React.FC = () => {
   const { bookings, guestBookings } = useStore();
   const [query, setQuery] = useState('');
   const [error, setError] = useState('');
-  const [searched, setSearched] = useState(false);
-
   const allBookings = [...bookings, ...guestBookings];
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    setSearched(true);
     setError('');
 
     const trimmed = query.trim().toUpperCase();
@@ -52,7 +49,7 @@ export const BookingLookup: React.FC = () => {
               <input
                 type="text"
                 value={query}
-                onChange={e => { setQuery(e.target.value); setError(''); setSearched(false); }}
+                onChange={e => { setQuery(e.target.value); setError(''); }}
                 placeholder="e.g. AR-X7K2M"
                 className="w-full border border-neutral-200 dark:border-neutral-700 text-sm text-neutral-800 dark:text-neutral-200 p-3 pl-9 rounded-xl outline-none focus:border-accent-blue transition-colors placeholder:text-neutral-300 dark:placeholder:text-neutral-600 bg-white dark:bg-neutral-800 font-mono uppercase"
               />

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bell, Check, Calendar, Car, MessageCircle, X } from 'lucide-react';
+import { Bell, Calendar, Car, MessageCircle } from 'lucide-react';
 import { pushService, type PushNotification } from '../../services/pushService';
 
 export const NotificationBell = ({ className = '' }: { className?: string }) => {

@@ -29,7 +29,6 @@ export const GuestBooking = () => {
 
   const [submitted, setSubmitted] = useState(false);
   const [createdBookingId, setCreatedBookingId] = useState('');
-  const [createdBookingId, setCreatedBookingId] = useState('');
 
   if (!car) {
     return (
@@ -57,6 +56,7 @@ export const GuestBooking = () => {
       totalDays: days,
       totalPrice: pricing?.total || 0,
       status: 'Upcoming',
+      bookingRef: 'AR-' + Date.now().toString(36).toUpperCase(),
       driverInfo: {
         fullName: form.fullName,
         email: form.email,
